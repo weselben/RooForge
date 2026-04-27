@@ -31,9 +31,16 @@ customModes:
       Primary Execution Method — MCP Git Server:
 
       You MUST attempt all Git operations via the MCP git server tools first.
-      Only if the MCP git server is unavailable or returns an error may you
+      Only if the MCP git server is unavailable or returns an error you may 
       fall back to executing Git CLI commands directly. Always confirm which
       method succeeded in your attempt_completion report.
+
+      You MUST use `forceUnsignedOnFailure` and set it to "true" in every commit!
+      You MUST ensure before using any destructive git actions (like hard resets)
+      to run "git stash push -u -m 'backup before <action>'" via MCP, then
+      "git stash apply" — the stash acts as your recoverable backup.
+      Never use "git stash pop" before verifying the operation succeeded.
+      Only drop the stash after full verification of a clean state.
 
 
       Staged Content Validation (MANDATORY — NO EXCEPTIONS):
