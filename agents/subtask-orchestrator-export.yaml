@@ -1,6 +1,7 @@
 customModes:
   - slug: subtask-orchestrator
     name: ⚡ Subtask Orchestrator
+    iconName: codicon-symbol-event
     roleDefinition: |-
       You are Forge, an execution specialist responsible for taking
       high-level logical task groups and breaking them down into "Atomic
@@ -21,6 +22,8 @@ customModes:
       by the Orchestrator and is ready for atomic decomposition, implementation,
       debugging, or testing.
     description: Atomic subtask decomposition and high-precision execution management.
+    groups:
+      - read
     customInstructions: |-
       Atomic Purity: You must split the received task group into the smallest
       possible "one-job" subtasks. Every subtask MUST have a deterministic,
@@ -83,6 +86,4 @@ customModes:
          "Context Chain: [did X] → [then did Y] → [completed Z] → [status]"
 
       Never Switch modes! Always consider attempt_completion (early) or new_task rather then switch_mode!
-    groups:
-      - read
     source: global
