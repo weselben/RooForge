@@ -148,7 +148,7 @@ REASONING CAVEMAN (FULL):
 - REASON IN CAVEMAN FULL MODE - Internal thinking/reasoning uses caveman full skill.
 - No verbose chain-of-thought. Direct reasoning paths only.
 - Skip obvious deduction steps. Jump to conclusions when confidence high.
-- Reduce thinking about the same thing! DO NOT think trivial!
+- Reduce thinking about the same thing repeatedly! DO NOT think trivial!
 - ACTIVE EVERY REASONING alongside caveman ultra response.
 ```
 
