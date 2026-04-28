@@ -135,7 +135,7 @@ To understand what each mode is expected to do, here is a complete walkthrough o
 1. Searches the codebase for existing API route definitions (e.g., `routes/`, `controllers/`)
 2. Identifies the framework in use (e.g., Express, Fastify, Hono)
 3. Searches the web for best practices and the framework's latest API patterns
-4. Checks `.docs/` for any previously cached intel
+4. Checks `.memory/` for any previously cached intel
 5. Examines existing authentication middleware and database models
 
 **Output - "State of Intel" Report:**
@@ -166,67 +166,94 @@ Sources: codebase analysis, Express.js docs (https://expressjs.com/en/4x/api.htm
 **What Architect does:**
 1. Analyzes the intel to understand the existing architecture
 2. Designs the new endpoint following established patterns
-3. Breaks the work into 3-5 Atomic Task Groups
-4. Defines verification criteria for each group
+3. Breaks the work into phases with individual tasks using /blueprint
+4. Defines verification criteria and checkpoints for each phase
 
 **Output - "Blueprint":**
 ```
 BLUEPRINT - User Preferences API Endpoint
 ==========================================
 
-Task Group 1 (TG-1): Database Schema & Migration
-  Objective: Create the Preferences model and migration
-  Scope: prisma/schema.prisma, migration file
-  Dependencies: None
-  Verification: Prisma migrate succeeds, model is queryable
+Phase 1: MVP — Database & Core API
+  Checkpoint: Preferences model exists, API responds to GET requests
 
-Task Group 2 (TG-2): API Route & Controller
-  Objective: Implement GET/PUT /api/v1/user/preferences
-  Scope: src/routes/preferences.js, src/controllers/preferencesController.js
-  Dependencies: TG-1 (model must exist)
-  Verification: Route responds to requests, auth middleware applied
+  Task 1.1: Database Schema & Migration
+    Description: Create the Preferences model and migration
+    Acceptance criteria:
+      - Prisma model defines all required fields
+      - Migration runs without errors
+    Verification: Prisma migrate succeeds, model is queryable
+    Dependencies: None
+    Files likely touched: prisma/schema.prisma, migration file
+    Scope: S
 
-Task Group 3 (TG-3): Input Validation & Error Handling
-  Objective: Add validation middleware and error responses
-  Scope: src/middleware/validatePreferences.js
-  Dependencies: TG-2 (route must exist)
-  Verification: Invalid input returns 400, valid input passes through
+  Task 1.2: API Route & Controller
+    Description: Implement GET/PUT /api/v1/user/preferences
+    Acceptance criteria:
+      - GET returns user preferences
+      - PUT updates user preferences
+      - Auth middleware applied
+    Verification: Route responds to requests, auth middleware applied
+    Dependencies: Task 1.1 (model must exist)
+    Files likely touched: src/routes/preferences.js, src/controllers/preferencesController.js
+    Scope: M
 
-Task Group 4 (TG-4): Tests & Documentation
-  Objective: Write integration tests and update API docs
-  Scope: tests/preferences.test.js, docs/api.md
-  Dependencies: TG-3 (full flow must work)
-  Verification: Tests pass, docs reflect new endpoint
+Phase 2: Robustness — Validation & Error Handling
+  Checkpoint: Invalid input is properly rejected, errors are handled
+
+  Task 2.1: Input Validation & Error Handling
+    Description: Add validation middleware and error responses
+    Acceptance criteria:
+      - Invalid input returns 400 with descriptive message
+      - Valid input passes through
+    Verification: Invalid input returns 400, valid input passes through
+    Dependencies: Task 1.2 (route must exist)
+    Files likely touched: src/middleware/validatePreferences.js
+    Scope: S
+
+Phase 3: Quality — Tests & Documentation
+  Checkpoint: All tests pass, docs are up to date
+
+  Task 3.1: Tests & Documentation
+    Description: Write integration tests and update API docs
+    Acceptance criteria:
+      - Integration tests cover GET and PUT
+      - API docs reflect new endpoint
+    Verification: Tests pass, docs reflect new endpoint
+    Dependencies: Task 2.1 (full flow must work)
+    Files likely touched: tests/preferences.test.js, docs/api.md
+    Scope: M
 ```
 
-#### Phase 3 - Task Group Decomposition (Orchestrator)
+#### Phase 3 - Phase-Based Execution (Orchestrator)
 
 **What the Orchestrator does:**
 1. Receives the Blueprint from Architect
-2. Writes out ALL task groups fully before dispatching any
-3. For each group, builds a "Context Envelope" containing:
-   - The group's objective and scope boundary
+2. Writes out ALL phases and tasks fully before dispatching any
+3. For each task, builds a "Context Envelope" containing:
+   - The task's objective and scope boundary
    - The relevant Blueprint excerpt
    - The relevant State of Intel slice
    - Current project state
    - Known blockers/risks
-4. Dispatches TG-1 to Subtask Orchestrator via `new_task`
+4. Dispatches Task 1.1 to Subtask Orchestrator via `new_task`
+5. Verifies phase checkpoints between phases
 
 #### Phase 4 - Atomic Execution (Subtask Orchestrator + Specialists)
 
-**For TG-1 (Database Schema & Migration):**
+**For Task 1.1 (Database Schema & Migration):**
 
 The Subtask Orchestrator further decomposes into atomic subtasks:
 
 | Subtask | Specialist | Job |
 |---------|-----------|-----|
-| ST-1.1 | Code | Add `Preferences` model to `prisma/schema.prisma` |
-| ST-1.2 | Code | Run `npx prisma migrate dev --name add-preferences` |
-| ST-1.3 | Code | Verify model is queryable with a quick test query |
+| ST-1.1a | Code | Add `Preferences` model to `prisma/schema.prisma` |
+| ST-1.1b | Code | Run `npx prisma migrate dev --name add-preferences` |
+| ST-1.1c | Code | Verify model is queryable with a quick test query |
 
 **What happens step by step:**
 
-1. **Subtask Orchestrator** dispatches ST-1.1 to **Code** mode with full context:
+1. **Subtask Orchestrator** dispatches ST-1.1a to **Code** mode with full context:
    - The exact model fields needed (from Blueprint)
    - The existing schema location (from State of Intel)
    - The instruction: "Add a Preferences model to prisma/schema.prisma with fields: id, userId, theme, notifications, language. Follow existing model patterns."
@@ -234,15 +261,15 @@ The Subtask Orchestrator further decomposes into atomic subtasks:
 2. **Code** mode implements the change and returns via `attempt_completion`:
    - "Added Preferences model to prisma/schema.prisma (line 45). Fields: id (Int, autoincrement), userId (Int, relation to User), theme (String, default 'system'), notifications (Boolean, default true), language (String, default 'en')."
 
-3. **Subtask Orchestrator** verifies the output matches expectations, then dispatches ST-1.2.
+3. **Subtask Orchestrator** verifies the output matches expectations, then dispatches ST-1.1b.
 
 4. After all subtasks complete, **Subtask Orchestrator** returns to **Orchestrator** with an exhaustive state report.
 
-5. **Orchestrator** evaluates the result (Step D), then dispatches **Git** mode to commit TG-1.
+5. **Orchestrator** evaluates the result, then dispatches **Git** mode to commit Task 1.1.
 
 6. **Git** mode validates staged content, generates commit: `feat(db): add Preferences model and migration`, and returns the commit hash.
 
-7. **Orchestrator** proceeds to TG-2, and the cycle repeats.
+7. **Orchestrator** proceeds to Task 1.2, and the cycle repeats. After all tasks in Phase 1 complete, the phase checkpoint is verified before starting Phase 2.
 
 #### Final Flow Summary
 
@@ -250,12 +277,13 @@ The Subtask Orchestrator further decomposes into atomic subtasks:
 User Request
   → Orchestrator receives and evaluates
     → Ask researches (State of Intel)
-    → Architect designs (Blueprint with TG-1..TG-4)
-    → Orchestrator decomposes and dispatches sequentially:
-        TG-1 → Subtask-Orchestrator → Code → Git commit
-        TG-2 → Subtask-Orchestrator → Code → Git commit
-        TG-3 → Subtask-Orchestrator → Code → Git commit
-        TG-4 → Subtask-Orchestrator → Code → Git commit
+    → Architect designs (Blueprint with phases and tasks)
+    → Orchestrator navigates phases and dispatches tasks sequentially:
+        Phase 1: Task 1.1 → Subtask-Orchestrator → Code → Git commit
+                 Task 1.2 → Subtask-Orchestrator → Code → Git commit
+                 [Phase 1 checkpoint verified]
+        Phase 2: Task 2.1 → Subtask-Orchestrator → Code → Git commit
+                 ...
   → Orchestrator returns final result to User
 ```
 
@@ -266,8 +294,8 @@ User Request
 | **No mode switches** | Every mode returns via `attempt_completion`; the Orchestrator controls all delegation via `new_task` |
 | **Atomic purity** | Each subtask has exactly one verifiable output; no specialist is overloaded |
 | **Explicit context** | Every delegation includes the full relevant context - no mode assumes prior knowledge |
-| **Sequential execution** | Task groups execute one at a time; each is committed before the next begins |
-| **Deterministic exits** | Every mode has an error protocol - no infinite loops or retries |
+| **Sequential execution** | Tasks execute one at a time; each is committed before the next begins |
+| **Phase checkpoints** | System is verified in a working state between phases |
 | **Pipeline enforcement** | Ask → Architect → Subtask-Orchestrator order is non-negotiable |
 
 ---

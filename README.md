@@ -4,7 +4,7 @@
 
 **A structured multi-agent orchestration system for [Roo Code](https://github.com/RooCodeInc/Roo-Code)**
 
-A hierarchical pipeline of specialized AI modes - from strategic planning to atomic execution.
+A hierarchical pipeline of specialized AI modes — from strategic planning to atomic execution.
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![GitHub release](https://img.shields.io/github/v/release/weselben/RooForge?include_prereleases)](../../releases/latest)
@@ -16,31 +16,39 @@ A hierarchical pipeline of specialized AI modes - from strategic planning to ato
 
 ## 📋 Overview
 
-This project provides a curated set of **custom mode export files** that define a disciplined, multi-layered agent orchestration workflow for Roo Code. Each mode is a specialist with a clearly defined role, and together they form a strict pipeline that ensures every task is properly researched, planned, decomposed, executed, and committed.
+This project provides a curated set of **custom mode export files**, **slash commands**, and a **Forge skill** that together define a disciplined, multi-layered agent orchestration workflow for Roo Code. Each mode is a specialist with a clearly defined role, connected by standardized commands that cascade into each other to eliminate duplication.
 
 ## 🔄 The Pipeline
 
 ```mermaid
 flowchart TD
-    User["👤 User Request"] --> Orchestrator
-    Orchestrator["🎯 Orchestrator<br/><i>Strategic planning & task bounding</i>"] --> Ask
-    Ask["🔍 Ask<br/><i>Intel acquisition & research</i>"] --> Architect
-    Architect["🏗️ Architect<br/><i>Technical design & blueprints</i>"] --> Orchestrator
-    Orchestrator --> SubtaskOrchestrator
-    SubtaskOrchestrator["⚙️ Subtask Orchestrator<br/><i>Atomic task decomposition</i>"] --> Code
-    SubtaskOrchestrator --> Debug["🪲 Debug"]
-    SubtaskOrchestrator --> Git
-    Code["💻 Code<br/><i>Implementation</i>"] --> SubtaskOrchestrator
-    Debug --> SubtaskOrchestrator
-    Git["📦 Git<br/><i>Conventional commits & version control</i>"] --> SubtaskOrchestrator
+    User["👤 User Request"] --> O
+    O["🎯 Orchestrator"] -->|"/research"| A
+    A["🔍 Ask<br/><i>/web → search + read</i>"] -->|"State of Intel"| O
+    O -->|"/plan"| AR
+    AR["🏗️ Architect<br/><i>/clarify → /blueprint → /memory</i>"] -->|"Phased Blueprint"| O
+    O -->|"/execute"| SO
+    SO["⚙️ Subtask Orchestrator"] -->|"/delegate"| C
+    SO -->|"/delegate"| D["🪲 Debug"]
+    SO -->|"/delegate"| G
+    C["💻 Code<br/><i>Implementation</i>"] -->|"result"| SO
+    C -->|"on error → /debug"| D
+    D --> SO
+    G["📦 Git<br/><i>/git → commit</i>"] --> SO
+    SO -->|"/memory"| M["💾 .memory/"]
+    SO -->|"task result"| O
+    O -->|"/finalize"| User2["👤 User<br/><i>Final result</i>"]
 
-    style Orchestrator fill:#4A90D9,color:#fff,stroke:#2C5F8A
-    style Ask fill:#7B68EE,color:#fff,stroke:#4B3F8A
-    style Architect fill:#E67E22,color:#fff,stroke:#A05A15
-    style SubtaskOrchestrator fill:#27AE60,color:#fff,stroke:#1A7A42
-    style Code fill:#8E44AD,color:#fff,stroke:#5B2D6E
-    style Debug fill:#C0392B,color:#fff,stroke:#8A2520
-    style Git fill:#F39C12,color:#fff,stroke:#B8750E
+    style O fill:#4A90D9,color:#fff,stroke:#2C5F8A
+    style A fill:#7B68EE,color:#fff,stroke:#4B3F8A
+    style AR fill:#E67E22,color:#fff,stroke:#A05A15
+    style SO fill:#27AE60,color:#fff,stroke:#1A7A42
+    style C fill:#8E44AD,color:#fff,stroke:#5B2D6E
+    style D fill:#C0392B,color:#fff,stroke:#8A2520
+    style G fill:#F39C12,color:#fff,stroke:#B8750E
+    style M fill:#2C3E50,color:#fff,stroke:#1A252F
+    style User fill:#95A5A6,color:#fff,stroke:#7F8C8D
+    style User2 fill:#95A5A6,color:#fff,stroke:#7F8C8D
 ```
 
 ### Pipeline Phases
@@ -48,9 +56,9 @@ flowchart TD
 | Phase | Mode | Purpose |
 |-------|------|---------|
 | **1 - Intel** | Ask | Eliminate unknowns via web research & codebase analysis |
-| **2 - Design** | Architect | Produce a detailed technical blueprint |
-| **3 - Plan** | Orchestrator | Decompose blueprint into bounded task groups |
-| **4 - Execute** | Subtask Orchestrator | Break task groups into atomic subtasks |
+| **2 - Design** | Architect | Produce a phased Blueprint with individual tasks |
+| **3 - Execute** | Orchestrator | Navigate Blueprint phases, delegate tasks sequentially |
+| **4 - Atomize** | Subtask Orchestrator | Break tasks into atomic subtasks |
 | **5 - Implement** | Code / Debug | Write or fix code |
 | **6 - Commit** | Git | Validate, stage, and commit with conventional messages |
 
@@ -61,25 +69,77 @@ flowchart TD
 | **Orchestrator** | [`agents/orchestrator-export.yaml`](agents/orchestrator-export.yaml) | Strategic entry point. Performs high-level task bounding, enforces the pipeline, and delegates to specialized modes. |
 | **Ask** | [`agents/ask-export.yaml`](agents/ask-export.yaml) | Intelligence specialist. Performs web research, codebase analysis, and generates "State of Intel" reports. |
 | **Architect** | [`agents/architect-export.yaml`](agents/architect-export.yaml) | Technical leader. Creates detailed blueprints, system designs, and structured plans from gathered intelligence. |
-| **Subtask Orchestrator** | [`agents/subtask-orchestrator-export.yaml`](agents/subtask-orchestrator-export.yaml) | Execution manager. Decomposes task groups into the smallest atomic units and delegates to implementation specialists. |
+| **Subtask Orchestrator** | [`agents/subtask-orchestrator-export.yaml`](agents/subtask-orchestrator-export.yaml) | Execution manager. Decomposes tasks into the smallest atomic units and delegates to implementation specialists. |
+| **Code** | [`agents/code-export.yaml`](agents/code-export.yaml) | Implementation specialist. Writes, modifies, and refactors code. Delegates errors to Debug mode. |
 | **Git** | [`agents/git-export.yaml`](agents/git-export.yaml) | Version control specialist. Handles conventional commits, branch management, and repository integrity. |
+
+## ⚡ Slash Commands
+
+Standardized tool call formats that cascade into each other, eliminating duplication across agent files.
+
+### Base Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/complete` | `attempt_completion` format — run when work is done |
+| `/delegate` | `new_task` format — run before delegating to any mode |
+
+### Flow Commands
+
+| Command | Purpose | Used By |
+|---------|---------|---------|
+| `/clarify` | User clarification via `ask_followup_question` | Architect |
+| `/blueprint` | Phased planning methodology — phases with individual tasks | Architect |
+| `/finalize` | Human-readable final output | Orchestrator |
+
+### Tool Commands
+
+| Command | Purpose | Used By |
+|---------|---------|---------|
+| `/web` | Web search + URL reader via SearXNG MCP | Ask |
+| `/git` | Git operations (MCP-first, CLI fallback) | Git |
+
+### Delegation Commands (cascade to `/delegate`)
+
+| Command | Target Mode | Purpose |
+|---------|-------------|---------|
+| `/research` | `ask` | Intel gathering |
+| `/plan` | `architect` | Blueprint creation |
+| `/execute` | `subtask-orchestrator` | Phase-based task execution |
+| `/debug` | `debug` | Error resolution |
+| `/memory` | `code` | Blueprint persistence |
+| `/forge-init` | `code` | Project initialization |
+
+See the **Slash Commands** section above for the command tables and cascading architecture.
+
+## 🧠 Forge Skill + Caveman
+
+All modes load two skills on startup:
+
+1. **[`skills/forge/SKILL.md`](skills/forge/SKILL.md)** — Pipeline orientation: flow, command registry, mode roles, conventions
+2. **[`skills/caveman/SKILL.md`](skills/caveman/SKILL.md)** — Token-efficient communication (auto-loaded by forge skill, full intensity)
+
+Additional skill: **[`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md)** — Loaded by architect during `/blueprint` for structured planning methodology.
 
 ## 🧩 Mode Interaction Flow
 
 ```mermaid
 flowchart TD
-    U["👤 User"] -->|"Submit request"| O1["🎯 Orchestrator<br/><i>Evaluate ambiguity</i>"]
-    O1 -->|"Phase 1 - Gather intel"| A["🔍 Ask<br/><i>Web research & codebase analysis</i>"]
-    A -->|"State of Intel report"| O2["🎯 Orchestrator<br/><i>Assemble Master Context</i>"]
-    O2 -->|"Phase 2 - Design blueprint"| AR["🏗️ Architect<br/><i>Technical reasoning & planning</i>"]
-    AR -->|"Technical blueprint"| O3["🎯 Orchestrator<br/><i>Decompose into TG-1, TG-2...</i>"]
-    O3 -->|"Phase 4 - Execute task group"| SO["⚙️ Subtask Orchestrator<br/><i>Atomic decomposition</i>"]
-    SO -->|"Implement / Fix"| C["💻 Code / Debug<br/><i>Write or fix code</i>"]
-    C -->|"Result"| SO
-    SO -->|"Commit changes"| G["📦 Git<br/><i>Conventional commit</i>"]
-    G -->|"Commit hash"| SO
-    SO -->|"Task group result"| O4["🎯 Orchestrator<br/><i>Evaluate & next group</i>"]
-    O4 -->|"All groups done"| U2["👤 User<br/><i>Final result</i>"]
+    U["👤 User"] -->|"Submit request"| O1["🎯 Orchestrator"]
+    O1 -->|"/forge-init"| INIT["💻 Code<br/><i>Init workspace</i>"]
+    INIT -->|"initialized"| O1
+    O1 -->|"/research → /delegate"| A["🔍 Ask<br/><i>/web for search + read</i>"]
+    A -->|"State of Intel"| O2["🎯 Orchestrator<br/><i>Assemble Master Context</i>"]
+    O2 -->|"/plan → /delegate"| AR["🏗️ Architect<br/><i>/clarify → /blueprint → /memory</i>"]
+    AR -->|"Phased Blueprint"| O3["🎯 Orchestrator"]
+    O3 -->|"/execute → /delegate"| SO["⚙️ Subtask Orchestrator"]
+    SO -->|"/delegate"| C["💻 Code / Debug"]
+    C -->|"result"| SO
+    SO -->|"/memory"| M["💾 .memory/"]
+    SO -->|"/delegate"| G["📦 Git<br/><i>/git for commit</i>"]
+    G -->|"committed"| SO
+    SO -->|"task result"| O4["🎯 Orchestrator<br/><i>Evaluate & next task</i>"]
+    O4 -->|"/finalize"| U2["👤 User<br/><i>Final result</i>"]
 
     style U fill:#95A5A6,color:#fff,stroke:#7F8C8D
     style U2 fill:#95A5A6,color:#fff,stroke:#7F8C8D
@@ -87,14 +147,18 @@ flowchart TD
     style O2 fill:#4A90D9,color:#fff,stroke:#2C5F8A
     style O3 fill:#4A90D9,color:#fff,stroke:#2C5F8A
     style O4 fill:#4A90D9,color:#fff,stroke:#2C5F8A
+    style INIT fill:#8E44AD,color:#fff,stroke:#5B2D6E
     style A fill:#7B68EE,color:#fff,stroke:#4B3F8A
     style AR fill:#E67E22,color:#fff,stroke:#A05A15
     style SO fill:#27AE60,color:#fff,stroke:#1A7A42
     style C fill:#8E44AD,color:#fff,stroke:#5B2D6E
     style G fill:#F39C12,color:#fff,stroke:#B8750E
+    style M fill:#2C3E50,color:#fff,stroke:#1A252F
 ```
 
 ## 🚀 Installation
+
+### 1. Install Agent Modes
 
 1. **Download** the export YAML files from the [latest release](../../releases/latest).
 2. Open **Roo Code** in VS Code.
@@ -102,7 +166,32 @@ flowchart TD
 4. Click **Import** and select the downloaded `.yaml` file(s).
 5. The modes will appear in your mode selector.
 
-> **Tip:** Import all five modes for the full orchestration pipeline experience.
+> **Tip:** Import all six modes for the full orchestration pipeline experience.
+
+### 2. Install Slash Commands
+
+Copy the commands to your Roo Code commands directory:
+
+```bash
+cp -r commands/ ~/.roo/commands/
+```
+
+### 3. Install Skills
+
+Copy all skills to your Roo Code skills directory:
+
+```bash
+cp -r skills/ ~/.roo/skills/
+```
+
+This installs three skills:
+- **forge** — Pipeline orientation (loaded by all modes on startup)
+- **caveman** — Token-efficient communication (auto-loaded by forge skill)
+- **planning-and-task-breakdown** — Planning methodology (loaded by `/blueprint`)
+
+### 4. Configure MCP Servers
+
+See [**MCP Servers**](#-mcp-servers) below for required server setup.
 
 ## 🔄 Automated Releases
 
@@ -128,19 +217,17 @@ flowchart LR
 | `refactor:` | None | `refactor: simplify subtask logic` |
 | `test:` | None | `test: add validation for exports` |
 
-## 🧪 Optional Addons
+## 🪨 Caveman — Token-Efficient Communication
 
-### Caveman - Token-Efficient Communication
+[Caveman](https://github.com/JuliusBrussee/caveman) enforces ultra-terse communication across the entire orchestration stack. Cuts ~65% of output tokens while keeping full technical accuracy. **Auto-loaded** by the Forge skill on startup** — installed as part of the skills directory (see Installation step 3).
 
-An optional [Caveman](https://github.com/JuliusBrussee/caveman) addon that enforces ultra-terse communication across the entire orchestration stack. Cuts ~65% of output tokens while keeping full technical accuracy.
-
-**Quick install:**
+**Manual install (if not using the skills directory):**
 ```bash
 npx skills add JuliusBrussee/caveman
 # Select "Roo Code" when prompted
 ```
 
-For full setup instructions, Global Custom Instructions block, compression levels, and the experimental cavereason mode - see the complete guide at **[`addons/caveman.md`](addons/caveman.md)**.
+Caveman defaults to **full** intensity. Switch levels anytime: "caveman ultra", "caveman lite", "stop caveman".
 
 ## 🔌 MCP Servers
 
@@ -162,17 +249,35 @@ The orchestration pipeline requires two MCP (Model Context Protocol) servers for
 │   │   └── release.yml              # Auto-versioning & release workflow
 │   └── ISSUE_TEMPLATE/              # Bug reports, features, questions
 ├── agents/
-│   ├── README.md                    # Agent modes directory overview
 │   ├── orchestrator-export.yaml     # Orchestrator mode
 │   ├── subtask-orchestrator-export.yaml  # Subtask Orchestrator mode
 │   ├── architect-export.yaml        # Architect mode
 │   ├── ask-export.yaml              # Ask (research) mode
+│   ├── code-export.yaml             # Code (implementation) mode
 │   └── git-export.yaml              # Git mode
-├── addons/
-│   ├── README.md                    # Addons directory overview
-│   └── caveman.md                   # Caveman addon setup guide
+├── commands/
+│   ├── complete.md                  # /complete — attempt_completion format (includes blocked variant)
+│   ├── delegate.md                  # /delegate — new_task format
+│   ├── clarify.md                   # /clarify — user clarification protocol
+│   ├── blueprint.md                 # /blueprint — phased planning methodology
+│   ├── finalize.md                  # /finalize — human-readable output
+│   ├── web.md                       # /web — web search + URL reader
+│   ├── git.md                       # /git — git operations (MCP + CLI)
+│   ├── research.md                  # /research — intel delegation
+│   ├── plan.md                      # /plan — architectural grounding
+│   ├── execute.md                   # /execute — phase-based task execution
+│   ├── debug.md                     # /debug — error resolution
+│   ├── memory.md                    # /memory — blueprint persistence
+│   └── forge-init.md                # /forge-init — project initialization
+├── skills/
+│   ├── forge/
+│   │   ├── README.md                # Forge skill overview
+│   │   └── SKILL.md                 # Pipeline orientation skill
+│   ├── caveman/
+│   │   └── SKILL.md                 # Token-efficient communication skill
+│   └── planning-and-task-breakdown/
+│       └── SKILL.md                 # Planning methodology skill
 ├── mcp/
-│   ├── README.md                    # MCP servers directory overview
 │   ├── searxng.md                   # SearXNG MCP server setup (Ask mode)
 │   └── git-mcp-server.md            # Git MCP server setup (Git mode)
 ├── CONTRIBUTING.md                  # Contribution guidelines

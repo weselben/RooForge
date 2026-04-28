@@ -198,7 +198,7 @@ If you want to enable `git_push` in `alwaysAllow`, add it to the array — but u
 
 | Mode | Role | Access |
 |------|------|--------|
-| 🎯 **Orchestrator** | Delegates to Git mode after all task groups complete | Indirect (via Git) |
+| 🎯 **Orchestrator** | Delegates to Git mode after each task completes | Indirect (via Git) |
 | 🔍 **Ask** | Intel gathering, no git operations | None |
 | 🏗️ **Architect** | Blueprint authoring, no git operations | None |
 | ⚙️ **Subtask Orchestrator** | Executes tasks, no git operations | None |
