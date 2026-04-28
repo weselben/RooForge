@@ -50,7 +50,7 @@ Each file in `agents/` follows: `customModes` array with `slug`, `name`, `iconNa
 
 ## Pipeline Enforcement
 
-Strict order: ask → architect → orchestrator → subtask-orchestrator → code/debug → git. No mode switching — all delegation via `new_task`, all returns via `attempt_completion`. Architect restricted to `.md$` file edits only.
+Strict order: ask → architect → orchestrator → subtask-orchestrator → code/debug → git. No mode switching — all delegation via `new_task`, all returns via `attempt_completion`. Architect restricted to `.md$` and `.memory/` file edits only.
 
 ## Key Docs
 

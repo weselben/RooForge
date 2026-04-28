@@ -26,10 +26,8 @@ Strict order non-negotiable. No mode skips phases or executes out of sequence.
 
 All modes share `.memory/` as working memory — gitignored, local only.
 - **Read**: all modes — use `codebase_search` with query in `.memory/`, or read files directly
-- **Write**: `architect` (`.md$`), `ask` (`.memory/` only), `code` (full edit), `debug` (built-in), `git` (`.memory/` only)
-- **Delegate only**: `orchestrator` + `subtask-orchestrator` — never write directly, always delegate
-- **Persist**: use `/memory` command to create indexed memory files
-- **Naming**: `.memory/{topic}-{YYYY-MM-DD}-{HHMM}.md`
+- **Write**: all modes — use `run_slash_command` with command `memory` to write to `.memory/`
+- **Structure**: `.memory/phase-{N}-{name}.md` (one per phase), `.memory/blocker-{desc}.md` (one per blocker), `.memory/research-{topic}-{date}.md` (one per research run), `.memory/memory.md` (general fallback)
 
 ## Mode Roles
 
@@ -37,7 +35,7 @@ All modes share `.memory/` as working memory — gitignored, local only.
 |------|------|-------------|
 | `orchestrator` | Strategic planning, task bounding, pipeline enforcement | `ask`, `architect`, `subtask-orchestrator`, `git` |
 | `subtask-orchestrator` | Atomic task decomposition, specialist coordination | `code`, `debug`, `git`, `ask`, `architect` |
-| `architect` | Technical reasoning, Blueprint creation, planning | `ask` (via /research), `code` (via /memory) |
+| `architect` | Technical reasoning, Blueprint creation, planning | `ask` (via /research) |
 | `ask` | Intel acquisition, web research, codebase analysis | None — leaf mode |
 | `code` | Implementation, file creation, code modification | `debug` (via /debug on error) |
 | `debug` | Error diagnosis and resolution | None — leaf mode |
@@ -77,17 +75,17 @@ All commands run via `run_slash_command` with command name as `command` paramete
 | `/plan` | Send Master Context to architect | `orchestrator` | `architect` |
 | `/execute` | Execute tasks phase by phase | `orchestrator` | `subtask-orchestrator` |
 | `/debug` | Delegate error resolution | `code` | `debug` |
-| `/memory` | Persist Blueprint to memory files | `*` | `code` |
+| `/memory` | Append context to phase memory files | `*` | self (direct edit) |
 | `/forge-init` | Initialize project workspace | `orchestrator` (first run) | `code` |
 
 ### Cascading Behavior
 
 Commands reference each other to avoid duplication:
 - `/research` → runs `/delegate` with mode `ask`
-- `/plan` → runs `/delegate` with mode `architect` (who runs `/clarify` → `/blueprint` → `/memory` → `/complete`)
+- `/plan` → runs `/delegate` with mode `architect` (who runs `/clarify` → `/blueprint` → `/complete`)
 - `/execute` → runs `/delegate` with mode `subtask-orchestrator`, then `/delegate` with mode `git`
 - `/debug` → runs `/delegate` with mode `debug`
-- `/memory` → runs `/delegate` with mode `code`
+- `/memory` → direct edit by current mode (no delegation)
 - `/forge-init` → runs `/delegate` with mode `code`
 - `/finalize` → formats `attempt_completion` for human consumption (no cascade)
 - `/web` → direct MCP tool calls (no cascade)
@@ -135,7 +133,7 @@ Need to execute:      run /execute → (cascades to /delegate with subtask-orche
 Hit an error (code):  run /debug → (cascades to /delegate with debug)
 Git operations:       run /git → MCP-first, CLI fallback
 Need to commit:       run /delegate with git mode
-Persist knowledge:    run /memory → (cascades to /delegate with code)
+Persist knowledge:    run /memory → direct edit to phase memory file
 Blocked:              run /complete with Blocked Variant → attempt_completion
 Done with work:       run /complete → format attempt_completion
 Final user output:    run /finalize → human-readable result

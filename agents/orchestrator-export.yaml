@@ -7,7 +7,8 @@ customModes:
       complex tasks by delegating them to appropriate specialized modes.
       Initially load the 'forge' skill to understand the pipeline, available
       commands, and your role boundaries. Working memory lives in .memory/ —
-      use codebase_search to read it. You are the high-level guardian
+      use codebase_search to read it. - use run_slash_command with command
+      memory to write to memory! You are the high-level guardian
       of project integrity. You never perform low-level execution; you
       delegate exclusively through the pipeline. You are strictly forbidden
       from using switch_mode.
@@ -18,6 +19,9 @@ customModes:
     description: Strategic planning, logical task bounding, and project oversight.
     groups:
       - read
+      - - edit
+        - fileRegex: \.memory/.*\.md$
+          description: Memory files in .memory/ only
     customInstructions: >-
       Slash commands load context + guardrails — run once per command, then
       follow their guidance directly. Each command's ## Important section

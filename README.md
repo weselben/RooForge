@@ -26,7 +26,7 @@ flowchart TD
     O["🎯 Orchestrator"] -->|"/research"| A
     A["🔍 Ask<br/><i>/web → search + read</i>"] -->|"State of Intel"| O
     O -->|"/plan"| AR
-    AR["🏗️ Architect<br/><i>/clarify → /blueprint → /memory</i>"] -->|"Phased Blueprint"| O
+    AR["🏗️ Architect<br/><i>/clarify → /blueprint</i>"] -->|"Phased Blueprint"| O
     O -->|"/execute"| SO
     SO["⚙️ Subtask Orchestrator"] -->|"/delegate"| C
     SO -->|"/delegate"| D["🪲 Debug"]
@@ -61,6 +61,18 @@ flowchart TD
 | **4 - Atomize** | Subtask Orchestrator | Break tasks into atomic subtasks |
 | **5 - Implement** | Code / Debug | Write or fix code |
 | **6 - Commit** | Git | Validate, stage, and commit with conventional messages |
+
+### Working Memory
+
+All modes share `.memory/` as working memory — gitignored, local only. Read via `codebase_search`, write via `/memory`.
+
+| File Pattern | Purpose | Behavior |
+|-------------|---------|----------|
+| `.memory/phase-{N}-{name}.md` | One file per Blueprint phase | Append only — never duplicate |
+| `.memory/research-{topic}-{date}.md` | One file per research run (ask mode) | New file per topic |
+| `.memory/blocker-{desc}.md` | One file per blocker | Standalone, resolvable |
+| `.memory/memory.md` | General fallback (no phase context) | Append only |
+| `.memory/blueprint-{date}.md` | Auto-created by `/blueprint` | Overwrite if same date |
 
 ## 🤖 Modes
 
@@ -107,7 +119,7 @@ Standardized tool call formats that cascade into each other, eliminating duplica
 | `/plan` | `architect` | Blueprint creation |
 | `/execute` | `subtask-orchestrator` | Phase-based task execution |
 | `/debug` | `debug` | Error resolution |
-| `/memory` | `code` | Blueprint persistence |
+| `/memory` | self (direct edit) | Phase-based memory persistence |
 | `/forge-init` | `code` | Project initialization |
 
 See the **Slash Commands** section above for the command tables and cascading architecture.
@@ -130,7 +142,7 @@ flowchart TD
     INIT -->|"initialized"| O1
     O1 -->|"/research → /delegate"| A["🔍 Ask<br/><i>/web for search + read</i>"]
     A -->|"State of Intel"| O2["🎯 Orchestrator<br/><i>Assemble Master Context</i>"]
-    O2 -->|"/plan → /delegate"| AR["🏗️ Architect<br/><i>/clarify → /blueprint → /memory</i>"]
+    O2 -->|"/plan → /delegate"| AR["🏗️ Architect<br/><i>/clarify → /blueprint</i>"]
     AR -->|"Phased Blueprint"| O3["🎯 Orchestrator"]
     O3 -->|"/execute → /delegate"| SO["⚙️ Subtask Orchestrator"]
     SO -->|"/delegate"| C["💻 Code / Debug"]
@@ -267,7 +279,7 @@ The orchestration pipeline requires two MCP (Model Context Protocol) servers for
 │   ├── plan.md                      # /plan — architectural grounding
 │   ├── execute.md                   # /execute — phase-based task execution
 │   ├── debug.md                     # /debug — error resolution
-│   ├── memory.md                    # /memory — blueprint persistence
+│   ├── memory.md                    # /memory — phase-based memory persistence
 │   └── forge-init.md                # /forge-init — project initialization
 ├── skills/
 │   ├── forge/
