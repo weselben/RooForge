@@ -50,12 +50,14 @@ jobs:
             | `subtask-orchestrator-export.yaml` | Atomic subtask decomposition |
             | `architect-export.yaml` | Technical design & planning |
             | `ask-export.yaml` | Research & intelligence gathering |
+            | `code-export.yaml` | Implementation & code modification |
             | `git-export.yaml` | Conventional commits & version control |
           files: |
             agents/orchestrator-export.yaml
             agents/subtask-orchestrator-export.yaml
             agents/architect-export.yaml
             agents/ask-export.yaml
+            agents/code-export.yaml
             agents/git-export.yaml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
