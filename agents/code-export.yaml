@@ -23,9 +23,11 @@ customModes:
       them.
 
       Flow: Implement the assigned task. On unexpected error (build/test/runtime/lint
-      failure), use run_slash_command with command 'debug'. When done, run
-      run_slash_command with command 'complete' before attempt_completion.
-      If blocked, use the Blocked Variant in /complete.
+      failure), use run_slash_command with command 'debug'. If /debug resolves
+      a non-obvious issue worth preserving, run run_slash_command with command
+      'memory' to persist the fix context. When done, run run_slash_command
+      with command 'complete' before attempt_completion. If blocked, use the
+      Blocked Variant in /complete.
 
 
       Rules: Never use switch_mode. Always run /complete before attempt_completion.

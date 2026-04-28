@@ -23,7 +23,7 @@ Use mode: `code`
 Objective section must instruct code mode to create ALL of following:
 
 ### `.memory/` Directory
-Create working memory directory. Pipeline memory files live here. All modes read via `codebase_search` or direct file access. Modes with edit permissions (`architect`, `code`, `debug`) write directly; `ask` delegates writes to `code` via `/delegate`.
+Create working memory directory. Pipeline memory files live here. All modes read via `codebase_search` or direct file access. All modes write directly via `/memory` — no delegation needed.
 
 ### `.gitignore`
 Create or append to `.gitignore`:

@@ -126,6 +126,20 @@ Phase 2: [Core Feature Name]
 [Continue for as many phases as needed]
 ```
 
+## Step 5: Persist Blueprint
+
+Write the complete Blueprint to a single file in `.memory/`:
+
+```
+.memory/blueprint-{YYYY-MM-DD}.md
+```
+
+Use `write_to_file` to create `.memory/blueprint-{YYYY-MM-DD}.md` containing the full Blueprint output from the format above. This is mandatory — downstream modes (orchestrator, subtask-orchestrator) reference this file.
+
+If a blueprint file already exists for today, overwrite it with the updated version.
+
+Do NOT call `/memory` — the Blueprint file IS the memory artifact. No separate memory step needed.
+
 ## Rules
 - No limit on phases or tasks — use as many as needed
 - Every task must have all elements (Description, Acceptance criteria, Verification, Dependencies, Files, Scope)
@@ -134,6 +148,8 @@ Phase 2: [Core Feature Name]
 - Task is scope L or XL → split before finalizing
 - Phase 1 MUST deliver MVP — working, testable, valuable
 - Every phase ends with checkpoint confirming working state
+- Blueprint MUST be persisted to `.memory/blueprint-{YYYY-MM-DD}.md` — no exceptions
+- Do NOT call /memory from /blueprint — the blueprint file is self-contained
 
 ## Important
-Run `run_slash_command` ('blueprint') once to load this context → apply methodology directly.
+Run `run_slash_command` ('blueprint') once to load this context → apply methodology directly. Blueprint self-persists to `.memory/` — no additional memory step required.
