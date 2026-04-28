@@ -34,7 +34,7 @@ Breaking: `feat!:` or `BREAKING CHANGE:` footer → major version bump.
 
 ## Release Pipeline
 
-Push to `main` with changes under `agents/**` triggers auto semantic versioning + GitHub Release via `.github/workflows/release.yml`. All 6 YAML files are attached as release assets.
+Push to `main` with changes under `agents/**`, `commands/**`, or `skills/**` triggers auto semantic versioning + GitHub Release via `.github/workflows/release.yml`. All 6 YAML files are attached as individual release assets, plus `commands.zip` and `skills.zip` archives.
 
 ## Branch Naming
 

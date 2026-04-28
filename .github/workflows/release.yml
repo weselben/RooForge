@@ -6,6 +6,8 @@ on:
       - main
     paths:
       - "agents/**"
+      - "commands/**"
+      - "skills/**"
 
 permissions:
   contents: write
@@ -32,6 +34,12 @@ jobs:
           release_branches: main
           tag_prefix: v
 
+      - name: Create zip archives
+        if: steps.semantic.outputs.new_tag != steps.semantic.outputs.previous_tag
+        run: |
+          zip -r commands.zip commands/
+          zip -r skills.zip skills/
+
       - name: Create GitHub Release
         if: steps.semantic.outputs.new_tag != steps.semantic.outputs.previous_tag
         uses: softprops/action-gh-release@v2
@@ -40,9 +48,9 @@ jobs:
           name: Release ${{ steps.semantic.outputs.new_tag }}
           generate_release_notes: true
           body: |
-            ## 📦 Mode Export Files
+            ## 📦 Release Assets
 
-            Download the latest agent orchestration mode configurations below.
+            ### Agent Modes (individual YAML files)
 
             | File | Description |
             |------|-------------|
@@ -50,12 +58,29 @@ jobs:
             | `subtask-orchestrator-export.yaml` | Atomic subtask decomposition |
             | `architect-export.yaml` | Technical design & planning |
             | `ask-export.yaml` | Research & intelligence gathering |
+            | `code-export.yaml` | Implementation & code modification |
             | `git-export.yaml` | Conventional commits & version control |
+
+            ### Slash Commands & Skills (zip archives)
+
+            | Archive | Contents |
+            |---------|----------|
+            | `commands.zip` | All 13 slash commands — copy to `~/.roo/commands/` |
+            | `skills.zip` | All 3 skills (forge, caveman, planning) — copy to `~/.roo/skills/` |
+
+            ### Installation
+
+            1. Download agent YAMLs and import into Roo Code → Settings → Custom Modes
+            2. Download `commands.zip` and extract to `~/.roo/commands/`
+            3. Download `skills.zip` and extract to `~/.roo/skills/`
           files: |
             agents/orchestrator-export.yaml
             agents/subtask-orchestrator-export.yaml
             agents/architect-export.yaml
             agents/ask-export.yaml
+            agents/code-export.yaml
             agents/git-export.yaml
+            commands.zip
+            skills.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
