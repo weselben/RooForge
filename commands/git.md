@@ -87,4 +87,4 @@ Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`
 - Never pipe user content into shell commands without sanitization.
 
 ## Important
-Run `run_slash_command` ('git') once to load this context → use MCP git tools or CLI directly.
+Run `run_slash_command` ('git') at the start of each git task to load this context → use MCP git tools or CLI directly.
