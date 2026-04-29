@@ -20,11 +20,8 @@ customModes:
     groups:
       - read
       - - edit
-        - fileRegex: \.memory/
-          description: Full edit access to .memory/ directory
-      - - edit
-        - fileRegex: ^AGENTS\.md$
-          description: AGENTS.md at project root
+        - fileRegex: \.memory/|^AGENTS\.md$
+          description: .memory/ directory and AGENTS.md at project root
       - command
     customInstructions: >-
       Slash commands load context + guardrails — run once per command, then
