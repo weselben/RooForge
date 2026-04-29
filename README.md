@@ -14,6 +14,23 @@ A hierarchical pipeline of specialized AI modes — from strategic planning to a
 
 ---
 
+**Jump to:** [Overview](#-overview) · [Pipeline](#-the-pipeline) · [Modes](#-modes) · [Commands](#-slash-commands) · [Installation](#-installation) · [MCP Servers](#-mcp-servers) · [Contributing](#-contributing)
+
+---
+
+## ⚠️ Prerequisites
+
+Before installing, enable the **Run Slash Command** experimental feature in Roo Code — the entire pipeline depends on it:
+
+1. Open Roo Code settings (gear icon)
+2. Go to **Experimental Settings**
+3. Enable **"Run Slash Command"**
+4. Restart VS Code if prompted
+
+> Without this setting, agents cannot execute `/plan`, `/delegate`, `/blueprint`, or any other slash command. See [run_slash_command docs](https://docs.roocode.com/advanced-usage/available-tools/run-slash-command) for details.
+
+---
+
 ## 📋 Overview
 
 This project provides a curated set of **custom mode export files**, **slash commands**, and a **Forge skill** that together define a disciplined, multi-layered agent orchestration workflow for Roo Code. Each mode is a specialist with a clearly defined role, connected by standardized commands that cascade into each other to eliminate duplication.
@@ -170,7 +187,33 @@ flowchart TD
 
 ## 🚀 Installation
 
-### 1. Install Agent Modes
+### Install / Update (CLI)
+
+```bash
+git clone https://github.com/weselben/RooForge.git
+cd RooForge
+mkdir -p ~/.roo/commands ~/.roo/skills
+cp -rf commands/* ~/.roo/commands/
+rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/planning-and-task-breakdown
+cp -rf skills/* ~/.roo/skills/
+```
+
+To install a **specific version**, clone by tag instead:
+
+```bash
+git clone --branch v1.2.3 --depth 1 https://github.com/weselben/RooForge.git
+cd RooForge
+mkdir -p ~/.roo/commands ~/.roo/skills
+cp -rf commands/* ~/.roo/commands/
+rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/planning-and-task-breakdown
+cp -rf skills/* ~/.roo/skills/
+```
+
+> **Why `rm -rf` before copy?** If you previously installed a skill via `npx skills add` (e.g. caveman), it may exist as a single file. The repo ships skills as directories, so `cp -rf` would fail with "cannot overwrite non-directory with directory." Removing the old versions first ensures a clean copy. The `mkdir -p` ensures target directories exist on fresh installs.
+>
+> See [Roo Code Slash Commands docs](https://docs.roocode.com/features/slash-commands) and [Skills docs](https://docs.roocode.com/features/skills) for details on global directories.
+
+### Import Agent Modes
 
 1. **Download** the export YAML files from the [latest release](../../releases/latest).
 2. Open **Roo Code** in VS Code.
@@ -180,28 +223,7 @@ flowchart TD
 
 > **Tip:** Import all six modes for the full orchestration pipeline experience.
 
-### 2. Install Slash Commands
-
-Copy the commands to your Roo Code commands directory:
-
-```bash
-cp -r commands/ ~/.roo/commands/
-```
-
-### 3. Install Skills
-
-Copy all skills to your Roo Code skills directory:
-
-```bash
-cp -r skills/ ~/.roo/skills/
-```
-
-This installs three skills:
-- **forge** — Pipeline orientation (loaded by all modes on startup)
-- **caveman** — Token-efficient communication (auto-loaded by forge skill)
-- **planning-and-task-breakdown** — Planning methodology (loaded by `/blueprint`)
-
-### 4. Configure MCP Servers
+### Configure MCP Servers
 
 See [**MCP Servers**](#-mcp-servers) below for required server setup.
 
