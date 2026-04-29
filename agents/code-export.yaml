@@ -25,8 +25,7 @@ customModes:
       Skill evaluation: After the forge skill and its auto-loaded
       dependencies are active, review the available skills listed in
       your system context. If any user-installed skills beyond the
-      pipeline defaults are relevant to the current task (e.g.,
-      framework patterns, testing strategies, linting rules), load
+      pipeline defaults are relevant to the current task, load
       them using the `skill` tool and apply their guidance.
 
       Flow: Implement the assigned task. On unexpected error (build/test/runtime/lint
