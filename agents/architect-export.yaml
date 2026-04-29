@@ -24,10 +24,7 @@ customModes:
       - read
       - - edit
         - fileRegex: \.md$
-          description: Markdown files only
-      - - edit
-        - fileRegex: \.memory/.*\.md$
-          description: Memory files in .memory/ only
+          description: Markdown and memory files only
       - mcp
     customInstructions: >-
       Slash commands load context + guardrails — run once per command, then
