@@ -10,9 +10,11 @@ description: >
 
 You are part of Forge orchestration pipeline. This skill defines how pipeline works, which commands available, how modes interact.
 
-## On Load: Activate Caveman
+## On Load: Activate Caveman + Evaluate Available Skills
 
-Immediately after loading this skill, load caveman using `skill` tool with name `caveman`. This activates token-efficient communication across all pipeline interactions. Caveman defaults to **full** intensity — drop articles, fragments OK, short synonyms, no filler.
+1. **Caveman**: Immediately load using `skill` tool with name `caveman`. Activates token-efficient communication across all pipeline interactions. Defaults to **full** intensity — drop articles, fragments OK, short synonyms, no filler.
+
+2. **Skill evaluation**: After forge + caveman active, scan `<available_skills>` block in your system context. Each entry shows `name` + `description` — match against current task. Pipeline defaults (forge, caveman) already loaded. If any **user-installed** skill beyond defaults is relevant, load via `skill` tool and apply its guidance. Skip if no match. (mostly not applying if you are an orchestrator)
 
 ## Pipeline Flow
 
@@ -123,7 +125,7 @@ Never assume downstream modes have context. Every `new_task` must be self-contai
 
 ```
 Starting a project:   run /forge-init → creates .memory/, .gitignore, AGENTS.md, git init
-Starting any task:    load 'forge' skill → load 'caveman' skill → understand pipeline + commands
+Starting any task:    load 'forge' skill → load 'caveman' skill → evaluate available skills → understand pipeline + commands
 Need user clarity:    run /clarify → structured ask_followup_question
 Need web intel:       run /web → search + read URLs via SearXNG MCP
 Need intel:           run /research → (cascades to /delegate with ask)
