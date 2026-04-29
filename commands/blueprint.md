@@ -140,6 +140,30 @@ If a blueprint file already exists for today, overwrite it with the updated vers
 
 Do NOT call `/memory` — the Blueprint file IS the memory artifact. No separate memory step needed.
 
+## Step 6: Return via attempt_completion
+
+Blueprint persisted. Return directly via `attempt_completion` — do NOT call `/complete`. Use this format:
+
+```
+## Output
+Blueprint: `.memory/blueprint-{YYYY-MM-DD}.md`
+Phases: [N] | MVP: Phase 1 | Tasks: [total count]
+Scope: [one-line summary of what was planned]
+
+## Blockers
+[planning gaps that could not be resolved, or "No blockers"]
+
+## Proof
+- Blueprint file: `.memory/blueprint-{YYYY-MM-DD}.md`
+- [N] phases, [N] total tasks
+- All tasks sized XS/S/M (no L/XL remaining)
+
+## Context Chain
+[clarified MVP scope] → [clarified full scope] → [mapped dependencies] → [produced Blueprint] → [completed]
+```
+
+Do NOT call `/complete` after `/blueprint` — this format IS the completion output for architect mode.
+
 ## Rules
 - No limit on phases or tasks — use as many as needed
 - Every task must have all elements (Description, Acceptance criteria, Verification, Dependencies, Files, Scope)
@@ -152,4 +176,4 @@ Do NOT call `/memory` — the Blueprint file IS the memory artifact. No separate
 - Do NOT call /memory from /blueprint — the blueprint file is self-contained
 
 ## Important
-Run `run_slash_command` ('blueprint') once to load this context → apply methodology directly. Blueprint self-persists to `.memory/` — no additional memory step required.
+Run `run_slash_command` ('blueprint') once to load this context → apply methodology directly. Blueprint self-persists to `.memory/`. Step 6 covers `attempt_completion` — do NOT call `/complete` after `/blueprint`.

@@ -75,7 +75,7 @@ Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`
 
 ## Branch Naming
 
-`feature/<desc>`, `fix/<desc>`, `chore/<desc>`, `hotfix/<desc>`, `release/<version>`. Lowercase, hyphen-separated. Never commit directly to `main` unless explicitly instructed.
+`feat/<desc>`, `fix/<desc>`, `docs/<desc>`, `refactor/<desc>`, `chore/<desc>`. Lowercase, hyphen-separated. Never commit directly to `main` unless explicitly instructed.
 
 ## Rules
 
@@ -87,4 +87,4 @@ Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`
 - Never pipe user content into shell commands without sanitization.
 
 ## Important
-Run `run_slash_command` ('git') once to load this context → use MCP git tools or CLI directly.
+Run `run_slash_command` ('git') at the start of each git task to load this context → use MCP git tools or CLI directly.

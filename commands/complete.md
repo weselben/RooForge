@@ -112,6 +112,10 @@ Run `run_slash_command` with command `memory` → persist key insights to `.memo
 
 Ensures working memory stays current across tasks. Then proceed with `attempt_completion`.
 
+**Exceptions — skip `/memory` step:**
+- **git mode**: Git operations only — no implementation insights to persist
+- **architect mode after `/blueprint`**: `/blueprint` self-persists to `.memory/` — no additional memory step needed
+
 ## Rules
 - Do NOT summarize vaguely — specificity mandatory
 - Do NOT skip sections — every section must be present
