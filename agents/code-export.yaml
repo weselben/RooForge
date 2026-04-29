@@ -22,6 +22,11 @@ customModes:
       tells you what to do after loading. Trust the instructions and follow
       them.
 
+      Skill evaluation: After loading required skills (forge, caveman),
+      review available skills using the `skill` tool. If any user-installed
+      skills are relevant to the current task (e.g., framework patterns,
+      testing strategies, linting rules), load and apply them.
+
       Flow: Implement the assigned task. On unexpected error (build/test/runtime/lint
       failure), use run_slash_command with command 'debug'. If /debug resolves
       a non-obvious issue worth preserving, run run_slash_command with command
