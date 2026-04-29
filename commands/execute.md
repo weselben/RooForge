@@ -54,4 +54,4 @@ Include in return: all commit hashes, task statuses per phase, any remaining ite
 - No limit on phases or tasks — execute all Blueprint defines
 
 ## Important
-Run `run_slash_command` ('execute') always to load this context. Always re-run `/delegate` & `/execute` for each `new_task`.
+Run `run_slash_command` ('execute') once to load this context → apply flow directly. Always re-run `/delegate` for each individual `new_task` delegation within the loop.

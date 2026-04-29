@@ -75,7 +75,7 @@ Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`
 
 ## Branch Naming
 
-`feature/<desc>`, `fix/<desc>`, `chore/<desc>`, `hotfix/<desc>`, `release/<version>`. Lowercase, hyphen-separated. Never commit directly to `main` unless explicitly instructed.
+`feat/<desc>`, `fix/<desc>`, `docs/<desc>`, `refactor/<desc>`, `chore/<desc>`. Lowercase, hyphen-separated. Never commit directly to `main` unless explicitly instructed.
 
 ## Rules
 
