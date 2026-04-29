@@ -20,8 +20,12 @@ customModes:
     groups:
       - read
       - - edit
-        - fileRegex: \.memory/.*\.md$
-          description: Memory files in .memory/ only
+        - fileRegex: \.memory/
+          description: Full edit access to .memory/ directory
+      - - edit
+        - fileRegex: ^AGENTS\.md$
+          description: AGENTS.md at project root
+      - command
     customInstructions: >-
       Slash commands load context + guardrails — run once per command, then
       follow their guidance directly. Each command's ## Important section
@@ -44,5 +48,7 @@ customModes:
       Always run /finalize before attempt_completion. Evaluate each task
       result before proceeding to the next. Verify phase checkpoints. If
       blocked, use run_slash_command with command 'plan' with failure details
-      and full state.
+      and full state. execute_command is STRICTLY limited to 'rm -rf
+      .memory/*' during /finalize cleanup — using it for ANY other command
+      is a protocol violation.
     source: global

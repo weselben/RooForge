@@ -10,6 +10,32 @@ description: >
 
 All phases complete. Produce final output for human user. NOT a technical report — clear, readable summary of what was accomplished.
 
+## Pre-Flight: Memory Reconciliation
+
+Before formatting `attempt_completion`, perform these steps **in order**:
+
+### 1. Read All Memory Context
+Read every file in `.memory/` — phase files, blocker files, research files, and `memory.md`. Use `list_files` on `.memory/` to discover all files, then `read_file` each one.
+
+### 2. Verify Completeness
+Cross-reference all memory content against subtask output:
+- Every task recorded in phase files → confirmed done in output
+- Every blocker file → confirmed resolved or documented as known limitation
+- Every research finding → incorporated or explicitly scoped out
+- If gaps found → state them honestly in Known Limitations, do NOT silently skip
+
+### 3. Consolidate AGENTS.md
+Merge existing `AGENTS.md` with all `.memory/` content into one comprehensive, pipeline-agnostic `AGENTS.md`:
+- Preserve all existing sections from `AGENTS.md`
+- Incorporate relevant decisions, findings, and context from memory files
+- Remove pipeline-specific jargon — make it usable by any agent, not just Forge pipeline
+- Write the consolidated file to `AGENTS.md` at project root
+
+### 4. Clean Up Memory
+Remove all files from `.memory/` directory. The consolidated `AGENTS.md` now holds all persistent context. Use `execute_command` with `rm -rf .memory/*` to clean up.
+
+Once all four steps are done, proceed to `attempt_completion` using the Format below.
+
 ## Format
 
 `attempt_completion` result must be structured for human consumption:
