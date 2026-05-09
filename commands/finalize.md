@@ -25,16 +25,18 @@ Cross-reference all memory content against subtask output:
 - If gaps found → state them honestly in Known Limitations, do NOT silently skip
 
 ### 3. Consolidate AGENTS.md
-Merge existing `AGENTS.md` with all `.memory/` content into one comprehensive, pipeline-agnostic `AGENTS.md`:
-- Preserve all existing sections from `AGENTS.md`
-- Incorporate relevant decisions, findings, and context from memory files
+Read all `.memory/` files — internalize every decision, finding, blocker, and
+web source referenced during execution. Then run `run_slash_command` with
+command `init` to produce a consolidated, pipeline-agnostic `AGENTS.md`:
+- Distill memory, chat context, and web sources into dense, high-signal entries
+- Decisions and findings over narration — no padding, no restating the obvious, still adhering to /init and the previous mandate!
 - Remove pipeline-specific jargon — make it usable by any agent, not just Forge pipeline
-- Write the consolidated file to `AGENTS.md` at project root
+- Write the consolidated file to `AGENTS.md` at project root — keep it tight
 
 ### 4. Clean Up Memory
 Remove all files from `.memory/` directory. The consolidated `AGENTS.md` now holds all persistent context. Use `execute_command` with `rm -rf .memory/*` to clean up.
 
-Once all four steps are done, proceed to `attempt_completion` using the Format below.
+Once all four steps are done, proceed to `attempt_completion` using the Format below (/finalize).
 
 ## Format
 
