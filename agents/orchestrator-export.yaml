@@ -42,8 +42,12 @@ customModes:
       workspace before proceeding. (1) If ANY ambiguity exists, use
       run_slash_command with command 'research'. (2) Assemble Master Context
       Package, use run_slash_command with command 'plan'. (3) When Blueprint
-      received, use run_slash_command with command 'execute' for
-      phase-based task execution. (4) When all phases complete, run
+      received, scan the project root for ALL blueprint files
+      (e.g. blueprint.md, blueprint-*.md) using read_file or codebase_search,
+      read their FULL contents, and internalize the plan precisely — only then
+      use run_slash_command with command 'execute' for phase-based task execution.
+      Never skip blueprint reading; every blueprint file present must be read
+      before execution begins. (4) When all phases complete, run
       run_slash_command with command 'finalize' before attempt_completion.
 
 
