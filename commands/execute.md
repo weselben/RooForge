@@ -1,18 +1,19 @@
 ---
 name: execute
 description: >
-  Phase-based task execution command. Navigate Blueprint phases, delegate
-  individual tasks sequentially to subtask-orchestrator. Used by orchestrator
+  Phase-based execution command. Navigate Blueprint phases, delegate
+  each WHOLE phase to subtask-orchestrator (which internally decomposes it
+  into individual new_task delegations to code/debug). Used by orchestrator
   mode. Cascades to /delegate with subtask-orchestrator + /delegate with git.
 ---
 
-# /execute — Phase-Based Task Execution
+# /execute — Phase-Based Execution
 
-Finalized Blueprint with phases + individual tasks ready. Do NOT execute tasks yourself (unless subtask-orchestrator). Navigate phases → delegate each task one at a time.
+Finalized Blueprint with phases + internal task definitions ready. Do NOT execute phases yourself (unless subtask-orchestrator). Navigate phases → delegate each WHOLE phase to subtask-orchestrator.
 
 ## Step 1: Plan All Phases
 
-Write ALL phases + tasks fully BEFORE starting execution. For each task define:
+Write ALL phases + their internal tasks fully BEFORE starting execution. For each task define:
 
 - **ID**: Phase.Task number (e.g., 1.1, 1.2, 2.1)
 - **Objective**: single, clear outcome from Blueprint
@@ -22,36 +23,34 @@ Write ALL phases + tasks fully BEFORE starting execution. For each task define:
 - **Blueprint Excerpt**: exact governing section from Blueprint
 - **Context Slice**: exact portion of State of Intel + Constraints relevant to this task
 
-## Step 2: Execute Phase by Phase, Task by Task
+## Step 2: Execute Phase by Phase
 
-Execute ONE task at a time. Do NOT batch-dispatch.
+Delegate ONE WHOLE phase at a time to subtask-orchestrator. Do NOT batch-dispatch phases.
 
 For each phase:
 
 1. **Phase checkpoint** — Verify prior phase checkpoint passed before starting this phase
-2. **For each task in this phase:**
-   a. **Delegate** — Run `/delegate` with mode `subtask-orchestrator`. Send SINGLE task with full Context Envelope per `/delegate` format.
-   b. **Evaluate** — Task completes → check: matched Expected Output? New info changed plan? Incorporate feedback before proceeding.
-   c. **Commit** — Run `/delegate` with mode `git`. Include: task context, files changed, commit scope.
-   d. **Memory** — subtask-orchestrator handles memory updates internally after each specialist result. No additional action needed here.
-   e. **Next task** — Proceed to next task in this phase.
-3. **Phase complete** — Verify phase checkpoint criteria from Blueprint. Confirm system in working state before next phase.
+2. **Delegate phase** — Run `/delegate` with mode `subtask-orchestrator`. Send WHOLE phase (all internal tasks + full Context Envelope) per `/delegate` format. subtask-orchestrator owns task-by-task breakdown internally via `new_task` calls to `code` / `debug` / `git`.
+3. **Evaluate phase** — Phase completes → check: all internal tasks met Expected Output? New info changed plan? Incorporate feedback before proceeding.
+4. **Commit** — Run `/delegate` with mode `git`. Include: phase context, files changed, commit scope.
+5. **Memory** — subtask-orchestrator handles memory updates internally after each specialist result. No additional action needed here.
+6. **Next phase** — Proceed to next phase.
 
 Blocked or failed → re-run `/plan` with failure details + full state. Await updated Blueprint before continuing.
 
 ## Step 3: Finalize
 
-All phases + tasks complete → return results for finalization. orchestrator's own flow handles `/finalize` — do NOT call `/complete` here.
+All phases + internal tasks complete → return results for finalization. orchestrator's own flow handles `/finalize` — do NOT call `/complete` here.
 
 Include in return: all commit hashes, task statuses per phase, any remaining items.
 
 ## Rules
 - subtask-orchestrator must NOT call /execute
-- Do NOT dispatch next task without completing evaluation
-- Do NOT call subtask-orchestrator without complete Context Envelope
-- Do NOT skip git commit — every task gets committed before next starts
+- Do NOT dispatch next phase without completing evaluation
+- Do NOT call subtask-orchestrator without complete Context Envelope (whole phase, not single task)
+- Do NOT skip git commit — every phase gets committed before next starts
 - Do NOT skip phase checkpoints — verify working state between phases
 - No limit on phases or tasks — execute all Blueprint defines
 
 ## Important
-Run `run_slash_command` ('execute') once to load this context → apply flow directly. Always re-run `/delegate` for each individual `new_task` delegation within the loop.
+Run `run_slash_command` ('execute') once to load this context → apply flow directly. Always re-run `/delegate` for each `new_task` delegation within the phase loop.
