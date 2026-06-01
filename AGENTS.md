@@ -13,7 +13,7 @@ Config-only repo — no build system, no package manager, no runtime code. Conta
 The pipeline uses a **cascading command architecture**:
 - **Agent YAML files** (`agents/*.yaml`) — contain only flow logic (which commands to run when)
 - **Slash commands** (`commands/*.md`) — contain all format specifics, tool call structures, and behavioral details
-- **Forge skill** (`skills/forge/SKILL.md`) — pipeline orientation loaded by all modes on startup
+- **Skills** (`skills/*/SKILL.md`) — loaded on-demand by modes via `skill` tool (see Skills section below)
 
 Commands cascade into each other: `/plan` → `/delegate`, `/debug` → `/delegate`, etc. This eliminates duplication and makes updates easy — change a command once, all modes benefit.
 
@@ -52,12 +52,31 @@ Each file in `agents/` follows: `customModes` array with `slug`, `name`, `iconNa
 
 Strict order: ask → architect → orchestrator → subtask-orchestrator → code/debug → git. No mode switching — all delegation via `new_task`, all returns via `attempt_completion`. Architect restricted to `.md$` and `.memory/` file edits only.
 
+## Skills
+
+All skills live in `skills/` and are loaded via the `skill` tool. Two load on startup (forge → caveman). Others load on-demand when triggered by specific commands.
+
+| Skill | Load Timing | Purpose | Source |
+|-------|-------------|---------|--------|
+| [`skills/forge/SKILL.md`](skills/forge/SKILL.md) | **Startup** (all modes) | Pipeline orientation — flow, command registry, mode roles, conventions | Project-owned |
+| [`skills/caveman/SKILL.md`](skills/caveman/SKILL.md) | **Startup** (auto-loaded by forge) | Token-efficient communication (full intensity default) | Project-owned |
+| [`skills/grill-me/SKILL.md`](skills/grill-me/SKILL.md) | **Mandatory on `/clarify`** | Relentless user interview — stress-test every design decision until shared understanding | [mattpocock/skills](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) |
+| [`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md) | **On `/blueprint`** | Structured planning methodology for phased task breakdown | Project-owned |
+
+### Skill Loading Rules
+
+- Forge + caveman: always loaded first (non-negotiable)
+- grill-me: **mandatory** on every `/clarify` invocation — do not skip
+- planning-and-task-breakdown: loaded by architect during `/blueprint`
+- Other user-installed skills: evaluated per forge skill's "Skill evaluation" step
+
 ## Key Docs
 
 - `README.md` — Pipeline Mermaid diagrams, mode descriptions, install instructions
 - `CONTRIBUTING.md` — Full simulated agent flow walkthrough (lines 124-303), commit conventions, PR process
 - `skills/forge/SKILL.md` — Pipeline orientation, command registry, conventions
 - `skills/caveman/SKILL.md` — Token-efficient communication (auto-loaded by forge skill)
+- `skills/grill-me/SKILL.md` — Relentless interview protocol (mandatory on `/clarify`)
 - `mcp.md` — MCP server configuration (SearXNG + Git MCP)
 
 ## Directory Structure

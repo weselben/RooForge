@@ -148,7 +148,12 @@ All modes load two skills on startup:
 1. **[`skills/forge/SKILL.md`](skills/forge/SKILL.md)** — Pipeline orientation: flow, command registry, mode roles, conventions
 2. **[`skills/caveman/SKILL.md`](skills/caveman/SKILL.md)** — Token-efficient communication (auto-loaded by forge skill, full intensity)
 
-Additional skill: **[`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md)** — Loaded by architect during `/blueprint` for structured planning methodology.
+### Context-Triggered Skills
+
+| Skill | Trigger | Purpose |
+|-------|---------|---------|
+| **[`skills/grill-me/SKILL.md`](skills/grill-me/SKILL.md)** | `/clarify` command | Relentless user interview — stress-test every design decision until shared understanding reached. **Mandatory** on every `/clarify` invocation. ([source](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md)) |
+| **[`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md)** | `/blueprint` command | Structured planning methodology for phased task breakdown. |
 
 ## 🧩 Mode Interaction Flow
 
@@ -194,7 +199,8 @@ git clone https://github.com/weselben/RooForge.git
 cd RooForge
 mkdir -p ~/.roo/commands ~/.roo/skills
 cp -rf commands/* ~/.roo/commands/
-rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/planning-and-task-breakdown
+# Only remove known RooForge skills — never rm -rf ~/.roo/skills/* to protect user-installed skills
+rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown
 cp -rf skills/* ~/.roo/skills/
 ```
 
@@ -205,11 +211,12 @@ git clone --branch v1.2.3 --depth 1 https://github.com/weselben/RooForge.git
 cd RooForge
 mkdir -p ~/.roo/commands ~/.roo/skills
 cp -rf commands/* ~/.roo/commands/
-rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/planning-and-task-breakdown
+# Only remove known RooForge skills — never rm -rf ~/.roo/skills/* to protect user-installed skills
+rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown
 cp -rf skills/* ~/.roo/skills/
 ```
 
-> **Why `rm -rf` before copy?** If you previously installed a skill via `npx skills add` (e.g. caveman), it may exist as a single file. The repo ships skills as directories, so `cp -rf` would fail with "cannot overwrite non-directory with directory." Removing the old versions first ensures a clean copy. The `mkdir -p` ensures target directories exist on fresh installs.
+> **Why remove specific skills, not all?** The `rm -rf` targets only known RooForge skills (`caveman`, `forge`, `grill-me`, `planning-and-task-breakdown`). This prevents accidental deletion of user-installed skills (e.g. via `npx skills add` or manual installs). If you add a new skill to this repo, **you must add it to the `rm -rf` line** in both install commands above.
 >
 > See [Roo Code Slash Commands docs](https://docs.roocode.com/features/slash-commands) and [Skills docs](https://docs.roocode.com/features/skills) for details on global directories.
 

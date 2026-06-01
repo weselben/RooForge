@@ -3,11 +3,24 @@ name: clarify
 description: >
   User clarification protocol. Run before finalizing any plan or Blueprint
   to resolve ambiguity + gather user preferences. Used by architect mode.
+  Mandatory skill: grill-me is loaded on every /clarify invocation.
 ---
 
 # /clarify — User Clarification Protocol
 
 Before finalizing plan or Blueprint, resolve ambiguity by gathering user preferences. Use `ask_followup_question` following these rules.
+
+## Mandatory Skill Load
+
+**On every `/clarify` invocation, load `skills/grill-me/SKILL.md` via `skill` tool with name `grill-me` before proceeding.** This skill provides the structured grilling protocol — interview the user relentlessly about every aspect of the plan until shared understanding is reached. Apply its guidance throughout the clarification process.
+
+## Grilling Protocol
+
+After loading grill-me, combine its relentless questioning approach with the clarification rules below:
+- Walk down each branch of the design tree, resolving dependencies between decisions one-by-one
+- For each question, provide your recommended answer
+- Ask questions one at a time
+- If a question can be answered by exploring the codebase, explore instead of asking
 
 ## When to Clarify
 
