@@ -199,7 +199,8 @@ git clone https://github.com/weselben/RooForge.git
 cd RooForge
 mkdir -p ~/.roo/commands ~/.roo/skills
 cp -rf commands/* ~/.roo/commands/
-rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/planning-and-task-breakdown
+# Only remove known RooForge skills — never rm -rf ~/.roo/skills/* to protect user-installed skills
+rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown
 cp -rf skills/* ~/.roo/skills/
 ```
 
@@ -210,11 +211,12 @@ git clone --branch v1.2.3 --depth 1 https://github.com/weselben/RooForge.git
 cd RooForge
 mkdir -p ~/.roo/commands ~/.roo/skills
 cp -rf commands/* ~/.roo/commands/
-rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/planning-and-task-breakdown
+# Only remove known RooForge skills — never rm -rf ~/.roo/skills/* to protect user-installed skills
+rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown
 cp -rf skills/* ~/.roo/skills/
 ```
 
-> **Why `rm -rf` before copy?** If you previously installed a skill via `npx skills add` (e.g. caveman), it may exist as a single file. The repo ships skills as directories, so `cp -rf` would fail with "cannot overwrite non-directory with directory." Removing the old versions first ensures a clean copy. The `mkdir -p` ensures target directories exist on fresh installs.
+> **Why remove specific skills, not all?** The `rm -rf` targets only known RooForge skills (`caveman`, `forge`, `grill-me`, `planning-and-task-breakdown`). This prevents accidental deletion of user-installed skills (e.g. via `npx skills add` or manual installs). If you add a new skill to this repo, **you must add it to the `rm -rf` line** in both install commands above.
 >
 > See [Roo Code Slash Commands docs](https://docs.roocode.com/features/slash-commands) and [Skills docs](https://docs.roocode.com/features/skills) for details on global directories.
 
