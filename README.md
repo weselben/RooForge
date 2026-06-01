@@ -267,12 +267,12 @@ Caveman defaults to **full** intensity. Switch levels anytime: "caveman ultra", 
 
 The orchestration pipeline requires two MCP (Model Context Protocol) servers for full functionality. These servers extend the capabilities of specific modes in the pipeline.
 
-| Server | File | Required By | Purpose |
-|--------|------|-------------|---------|
-| **SearXNG** | [`mcp/searxng.md`](mcp/searxng.md) | Ask | Web search & URL reading |
-| **Git MCP** | [`mcp/git-mcp-server.md`](mcp/git-mcp-server.md) | Git | Git operations (CLI fallback) |
+| Server | Required By | Purpose |
+|--------|-------------|---------|
+| **SearXNG** | Ask | Web search & URL reading |
+| **Git MCP** | Git | Git operations (CLI fallback) |
 
-> 💡 See each server's documentation for full setup instructions, configuration details, and usage examples.
+> 💡 See [`mcp.md`](mcp.md) for full setup instructions, configuration details, and usage examples.
 
 ## 📁 Repository Structure
 
@@ -311,9 +311,7 @@ The orchestration pipeline requires two MCP (Model Context Protocol) servers for
 │   │   └── SKILL.md                 # Token-efficient communication skill
 │   └── planning-and-task-breakdown/
 │       └── SKILL.md                 # Planning methodology skill
-├── mcp/
-│   ├── searxng.md                   # SearXNG MCP server setup (Ask mode)
-│   └── git-mcp-server.md            # Git MCP server setup (Git mode)
+├── mcp.md                          # MCP server configuration (SearXNG + Git MCP)
 ├── CONTRIBUTING.md                  # Contribution guidelines
 ├── LICENSE                          # Apache License 2.0
 └── README.md                        # This file

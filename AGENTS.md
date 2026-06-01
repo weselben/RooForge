@@ -58,9 +58,8 @@ Strict order: ask → architect → orchestrator → subtask-orchestrator → co
 - `CONTRIBUTING.md` — Full simulated agent flow walkthrough (lines 124-303), commit conventions, PR process
 - `skills/forge/SKILL.md` — Pipeline orientation, command registry, conventions
 - `skills/caveman/SKILL.md` — Token-efficient communication (auto-loaded by forge skill)
-- `mcp/searxng.md` — SearXNG MCP server setup (Ask mode web search)
-- `mcp/git-mcp-server.md` — Git MCP server setup (Git mode operations)
+- `mcp.md` — MCP server configuration (SearXNG + Git MCP)
 
 ## Directory Structure
 
-All directory contents are documented in the root `README.md` repository structure tree. When adding new files to `agents/`, `commands/`, `mcp/`, or `skills/`, update the root `README.md` accordingly.
+All directory contents are documented in the root `README.md` repository structure tree. When adding new files to `agents/`, `commands/`, or `skills/`, update the root `README.md` accordingly.
