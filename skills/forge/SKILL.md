@@ -56,11 +56,11 @@ All commands run via `run_slash_command` with command name as `command` paramete
 
 ### Flow Commands (mode-specific behavior)
 
-| Command | Purpose | Used By |
-|---------|---------|---------|
-| `/clarify` | User clarification via `ask_followup_question` | `architect` |
-| `/blueprint` | Phased planning methodology — break task into phases with individual tasks | `architect` |
-| `/finalize` | Human-readable final output | `orchestrator` |
+| Command | Purpose | Used By | Mandatory Skills |
+|---------|---------|---------|-----------------|
+| `/clarify` | User clarification via `ask_followup_question` | `architect` | **grill-me** |
+| `/blueprint` | Phased planning methodology — break task into phases with individual tasks | `architect` | planning-and-task-breakdown |
+| `/finalize` | Human-readable final output | `orchestrator` | — |
 
 ### Tool Commands (tool parameters + usage)
 
@@ -84,7 +84,7 @@ All commands run via `run_slash_command` with command name as `command` paramete
 
 Commands reference each other to avoid duplication:
 - `/research` → runs `/delegate` with mode `ask`
-- `/plan` → runs `/delegate` with mode `architect` (who runs `/clarify` → `/blueprint` → `/complete`)
+- `/plan` → runs `/delegate` with mode `architect` (who loads **grill-me** → runs `/clarify` → `/blueprint` → `/complete`)
 - `/execute` → runs `/delegate` with mode `subtask-orchestrator`, then `/delegate` with mode `git`
 - `/debug` → runs `/delegate` with mode `debug`
 - `/memory` → direct edit by current mode (no delegation)
@@ -126,7 +126,7 @@ Never assume downstream modes have context. Every `new_task` must be self-contai
 ```
 Starting a project:   run /forge-init → creates .memory/, .gitignore, AGENTS.md, git init
 Starting any task:    load 'forge' skill → load 'caveman' skill → evaluate available skills → understand pipeline + commands
-Need user clarity:    run /clarify → structured ask_followup_question
+Need user clarity:    run /clarify → loads 'grill-me' skill → structured ask_followup_question
 Need web intel:       run /web → search + read URLs via SearXNG MCP
 Need intel:           run /research → (cascades to /delegate with ask)
 Need a Blueprint:     run /plan → (cascades to /delegate with architect)

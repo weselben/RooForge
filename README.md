@@ -148,7 +148,12 @@ All modes load two skills on startup:
 1. **[`skills/forge/SKILL.md`](skills/forge/SKILL.md)** — Pipeline orientation: flow, command registry, mode roles, conventions
 2. **[`skills/caveman/SKILL.md`](skills/caveman/SKILL.md)** — Token-efficient communication (auto-loaded by forge skill, full intensity)
 
-Additional skill: **[`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md)** — Loaded by architect during `/blueprint` for structured planning methodology.
+### Context-Triggered Skills
+
+| Skill | Trigger | Purpose |
+|-------|---------|---------|
+| **[`skills/grill-me/SKILL.md`](skills/grill-me/SKILL.md)** | `/clarify` command | Relentless user interview — stress-test every design decision until shared understanding reached. **Mandatory** on every `/clarify` invocation. ([source](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md)) |
+| **[`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md)** | `/blueprint` command | Structured planning methodology for phased task breakdown. |
 
 ## 🧩 Mode Interaction Flow
 
