@@ -19,7 +19,7 @@ customModes:
       [PLAN] prefix → you are running the planning lifecycle. If task has
       [EXEC] prefix or no prefix → you are decomposing a Blueprint phase into
       atomic subtasks for implementation.
-    description: Dual-mode specialist: planning coordination + atomic subtask decomposition.
+    description: "Dual-mode specialist: planning coordination + atomic subtask decomposition."
     groups:
       - read
       - - edit
