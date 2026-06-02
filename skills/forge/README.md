@@ -12,7 +12,7 @@
 
 The Forge skill is loaded by all Forge modes on startup. It provides:
 
-- Pipeline flow overview (ask → architect → orchestrator → subtask-orchestrator → code/debug → git)
+- Pipeline flow overview (orchestrator → subtask-orchestrator planning → orchestrator → subtask-orchestrator execution → git)
 - Available slash commands and their cascading relationships
 - Mode role boundaries and delegation targets
 - Tool-use-first language conventions

@@ -2,8 +2,9 @@
 name: clarify
 description: >
   User clarification protocol. Run before finalizing any plan or Blueprint
-  to resolve ambiguity + gather user preferences. Used by architect mode.
-  Mandatory skill: grill-me is loaded on every /clarify invocation.
+  to resolve ambiguity + gather user preferences. Used by architect mode
+  and subtask-orchestrator (during planning phase). Mandatory skill:
+  grill-me is loaded on every /clarify invocation.
 ---
 
 # /clarify — User Clarification Protocol

@@ -19,10 +19,10 @@ You are part of Forge orchestration pipeline. This skill defines how pipeline wo
 ## Pipeline Flow
 
 ```
-ask → architect → orchestrator → subtask-orchestrator → code/debug → git
+orchestrator → subtask-orchestrator (planning: clarify → research → architect) → orchestrator → subtask-orchestrator (execution: code/debug) → orchestrator → git → orchestrator
 ```
 
-Strict order non-negotiable. No mode skips phases or executes out of sequence.
+Two distinct phases: (1) Planning — orchestrator delegates to SO who coordinates clarify, research, and architect to produce Blueprint. (2) Execution — orchestrator navigates Blueprint phases, delegates each to SO for atomic decomposition, commits after each phase via git. Strict order non-negotiable. No mode skips phases or executes out of sequence.
 
 ## Working Memory
 
@@ -35,8 +35,8 @@ All modes share `.memory/` as working memory — gitignored, local only.
 
 | Slug | Role | Delegates To |
 |------|------|-------------|
-| `orchestrator` | Strategic planning, task bounding, pipeline enforcement | `ask`, `architect`, `subtask-orchestrator`, `git` |
-| `subtask-orchestrator` | Atomic task decomposition, specialist coordination | `code`, `debug`, `git`, `ask`, `architect` |
+| `orchestrator` | Strategic planning, phase navigation, git commit after each phase | `subtask-orchestrator`, `git` |
+| `subtask-orchestrator` | Planning coordination (clarify → research → architect) + atomic task decomposition | `code`, `debug`, `ask`, `architect` |
 | `architect` | Technical reasoning, Blueprint creation, planning | `ask` (via /research) |
 | `ask` | Intel acquisition, web research, codebase analysis | None — leaf mode |
 | `code` | Implementation, file creation, code modification | `debug` (via /debug on error) |
@@ -84,14 +84,15 @@ All commands run via `run_slash_command` with command name as `command` paramete
 
 Commands reference each other to avoid duplication:
 - `/research` → runs `/delegate` with mode `ask`
-- `/plan` → runs `/delegate` with mode `architect` (who loads **grill-me** → runs `/clarify` → `/blueprint` → `/complete`)
-- `/execute` → runs `/delegate` with mode `subtask-orchestrator`, then `/delegate` with mode `git`
+- `/plan` → runs `/delegate` with mode `subtask-orchestrator` (who runs `/planning` internally)
+- `/planning` → SO lifecycle: `/clarify` → `/research` → `/clarify` → delegate to architect → `/blueprint` → review → summarize
+- `/execute` → runs `/delegate` with mode `subtask-orchestrator` (no git — orchestrator delegates git separately after each phase)
 - `/debug` → runs `/delegate` with mode `debug`
 - `/memory` → direct edit by current mode (no delegation)
 - `/forge-init` → runs `/delegate` with mode `code`
 - `/finalize` → formats `attempt_completion` for human consumption (no cascade)
 - `/web` → direct MCP tool calls (no cascade)
-- `/git` → MCP-first, CLI fallback (no cascade)
+- `/git` → MCP-first, CLI fallback with branch setup (no cascade)
 
 ## Conventions
 
@@ -129,11 +130,12 @@ Starting any task:    load 'forge' skill → load 'caveman' skill → evaluate a
 Need user clarity:    run /clarify → loads 'grill-me' skill → structured ask_followup_question
 Need web intel:       run /web → search + read URLs via SearXNG MCP
 Need intel:           run /research → (cascades to /delegate with ask)
-Need a Blueprint:     run /plan → (cascades to /delegate with architect)
-Planning a Blueprint: run /blueprint → phased tasks with MVP-first ordering
+Plan a Blueprint:     run /plan → (cascades to /delegate with subtask-orchestrator)
+Planning lifecycle:   run /planning → clarify → research → architect → Blueprint (SO internal)
+Need a Blueprint:     run /blueprint → phased tasks with MVP-first ordering (architect internal)
 Need to execute:      run /execute → (cascades to /delegate with subtask-orchestrator)
 Hit an error (code):  run /debug → (cascades to /delegate with debug)
-Git operations:       run /git → MCP-first, CLI fallback
+Git operations:       run /git → MCP-first, CLI fallback (branch setup + pull/sync on main)
 Need to commit:       run /delegate with git mode
 Persist knowledge:    run /memory → direct edit to phase memory file
 Blocked:              run /complete with Blocked Variant → attempt_completion

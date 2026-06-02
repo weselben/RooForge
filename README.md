@@ -39,45 +39,58 @@ This project provides a curated set of **custom mode export files**, **slash com
 
 ```mermaid
 flowchart TD
-    User["👤 User Request"] --> O
-    O["🎯 Orchestrator"] -->|"/research"| A
-    A["🔍 Ask<br/><i>/web → search + read</i>"] -->|"State of Intel"| O
-    O -->|"/plan"| AR
-    AR["🏗️ Architect<br/><i>/clarify → /blueprint</i>"] -->|"Phased Blueprint"| O
-    O -->|"/execute"| SO
-    SO["⚙️ Subtask Orchestrator"] -->|"/delegate"| C
-    SO -->|"/delegate"| D["🪲 Debug"]
-    SO -->|"/delegate"| G
-    C["💻 Code<br/><i>Implementation</i>"] -->|"result"| SO
-    C -->|"on error → /debug"| D
-    D --> SO
-    G["📦 Git<br/><i>/git → commit</i>"] --> SO
-    SO -->|"/memory"| M["💾 .memory/"]
-    SO -->|"task result"| O
-    O -->|"/finalize"| User2["👤 User<br/><i>Final result</i>"]
+    User["👤 User Request"] --> O["🎯 Orchestrator"]
+
+    subgraph Planning["📋 Planning Phase"]
+        O -->|"/plan"| SO_P["⚙️ Subtask Orchestrator"]
+        SO_P -->|"/clarify"| User
+        User -->|"answers"| SO_P
+        SO_P -->|"/research"| A["🔍 Ask"]
+        A -->|"State of Intel"| SO_P
+        SO_P -->|"delegate"| AR["🏗️ Architect"]
+        AR -->|"Blueprint"| SO_P
+        SO_P -->|"Blueprint + Summary"| O
+    end
+
+    subgraph Execution["⚡ Execution Phase"]
+        O -->|"/execute"| SO_E["⚙️ Subtask Orchestrator"]
+        SO_E -->|"/delegate"| C["💻 Code"]
+        SO_E -->|"/delegate"| D["🪲 Debug"]
+        C -->|"result"| SO_E
+        C -->|"on error"| D
+        D --> SO_E
+        SO_E -->|"phase result"| O
+    end
+
+    subgraph Version Control["🔀 Git Phase"]
+        O -->|"/delegate"| G["📦 Git"]
+        G -->|"branch + commit"| O
+    end
+
+    O -->|"/finalize"| User2["👤 User<br/>Final result"]
 
     style O fill:#4A90D9,color:#fff,stroke:#2C5F8A
+    style SO_P fill:#27AE60,color:#fff,stroke:#1A7A42
+    style SO_E fill:#27AE60,color:#fff,stroke:#1A7A42
     style A fill:#7B68EE,color:#fff,stroke:#4B3F8A
     style AR fill:#E67E22,color:#fff,stroke:#A05A15
-    style SO fill:#27AE60,color:#fff,stroke:#1A7A42
     style C fill:#8E44AD,color:#fff,stroke:#5B2D6E
     style D fill:#C0392B,color:#fff,stroke:#8A2520
     style G fill:#F39C12,color:#fff,stroke:#B8750E
-    style M fill:#2C3E50,color:#fff,stroke:#1A252F
     style User fill:#95A5A6,color:#fff,stroke:#7F8C8D
     style User2 fill:#95A5A6,color:#fff,stroke:#7F8C8D
+    style Planning fill:#f0f7ff,stroke:#4A90D9,stroke-width:1px,color:#333
+    style Execution fill:#f0fff4,stroke:#27AE60,stroke-width:1px,color:#333
+    style Version Control fill:#fff8f0,stroke:#F39C12,stroke-width:1px,color:#333
 ```
 
 ### Pipeline Phases
 
 | Phase | Mode | Purpose |
 |-------|------|---------|
-| **1 - Intel** | Ask | Eliminate unknowns via web research & codebase analysis |
-| **2 - Design** | Architect | Produce a phased Blueprint with individual tasks |
-| **3 - Execute** | Orchestrator | Navigate Blueprint phases, delegate tasks sequentially |
-| **4 - Atomize** | Subtask Orchestrator | Break tasks into atomic subtasks |
-| **5 - Implement** | Code / Debug | Write or fix code |
-| **6 - Commit** | Git | Validate, stage, and commit with conventional messages |
+| **1 - Plan** | Subtask Orchestrator | Clarify scope, research intel, delegate to architect for Blueprint |
+| **2 - Execute** | Subtask Orchestrator | Decompose Blueprint tasks into atomic subtasks for Code/Debug |
+| **3 - Commit** | Git | Branch setup (if on main), pull/sync, conventional commit |
 
 ### Working Memory
 
@@ -95,12 +108,12 @@ All modes share `.memory/` as working memory — gitignored, local only. Read vi
 
 | Mode | File | Description |
 |------|------|-------------|
-| **Orchestrator** | [`agents/orchestrator-export.yaml`](agents/orchestrator-export.yaml) | Strategic entry point. Performs high-level task bounding, enforces the pipeline, and delegates to specialized modes. |
+| **Orchestrator** | [`agents/orchestrator-export.yaml`](agents/orchestrator-export.yaml) | Strategic entry point. Navigates Blueprint phases, delegates to subtask-orchestrator, and commits after each phase via Git. |
 | **Ask** | [`agents/ask-export.yaml`](agents/ask-export.yaml) | Intelligence specialist. Performs web research, codebase analysis, and generates "State of Intel" reports. |
 | **Architect** | [`agents/architect-export.yaml`](agents/architect-export.yaml) | Technical leader. Creates detailed blueprints, system designs, and structured plans from gathered intelligence. |
-| **Subtask Orchestrator** | [`agents/subtask-orchestrator-export.yaml`](agents/subtask-orchestrator-export.yaml) | Execution manager. Decomposes tasks into the smallest atomic units and delegates to implementation specialists. |
+| **Subtask Orchestrator** | [`agents/subtask-orchestrator-export.yaml`](agents/subtask-orchestrator-export.yaml) | Dual-role specialist. (1) Planning: coordinates clarify → research → architect to produce Blueprint. (2) Execution: decomposes tasks into atomic subtasks for Code/Debug. |
 | **Code** | [`agents/code-export.yaml`](agents/code-export.yaml) | Implementation specialist. Writes, modifies, and refactors code. Delegates errors to Debug mode. |
-| **Git** | [`agents/git-export.yaml`](agents/git-export.yaml) | Version control specialist. Handles conventional commits, branch management, and repository integrity. |
+| **Git** | [`agents/git-export.yaml`](agents/git-export.yaml) | Version control specialist. Handles branch creation (on main), pull/sync, conventional commits with user identity. |
 
 ## ⚡ Slash Commands
 
@@ -117,8 +130,9 @@ Standardized tool call formats that cascade into each other, eliminating duplica
 
 | Command | Purpose | Used By |
 |---------|---------|---------|
-| `/clarify` | User clarification via `ask_followup_question` | Architect |
+| `/clarify` | User clarification via `ask_followup_question` (loads grill-me) | Architect, Subtask Orchestrator |
 | `/blueprint` | Phased planning methodology — phases with individual tasks | Architect |
+| `/planning` | Full planning lifecycle — clarify, research, architect, Blueprint | Subtask Orchestrator |
 | `/finalize` | Human-readable final output | Orchestrator |
 
 ### Tool Commands
@@ -133,7 +147,7 @@ Standardized tool call formats that cascade into each other, eliminating duplica
 | Command | Target Mode | Purpose |
 |---------|-------------|---------|
 | `/research` | `ask` | Intel gathering |
-| `/plan` | `architect` | Blueprint creation |
+| `/plan` | `subtask-orchestrator` | Planning lifecycle (clarify → research → architect → Blueprint) |
 | `/execute` | `subtask-orchestrator` | Phase-based task execution |
 | `/debug` | `debug` | Error resolution |
 | `/memory` | self (direct edit) | Phase-based memory persistence |
@@ -160,20 +174,38 @@ All modes load two skills on startup:
 ```mermaid
 flowchart TD
     U["👤 User"] -->|"Submit request"| O1["🎯 Orchestrator"]
-    O1 -->|"/forge-init"| INIT["💻 Code<br/><i>Init workspace</i>"]
+
+    O1 -->|"/forge-init"| INIT["💻 Code<br/>Init workspace"]
     INIT -->|"initialized"| O1
-    O1 -->|"/research → /delegate"| A["🔍 Ask<br/><i>/web for search + read</i>"]
-    A -->|"State of Intel"| O2["🎯 Orchestrator<br/><i>Assemble Master Context</i>"]
-    O2 -->|"/plan → /delegate"| AR["🏗️ Architect<br/><i>/clarify → /blueprint</i>"]
-    AR -->|"Phased Blueprint"| O3["🎯 Orchestrator"]
-    O3 -->|"/execute → /delegate"| SO["⚙️ Subtask Orchestrator"]
-    SO -->|"/delegate"| C["💻 Code / Debug"]
-    C -->|"result"| SO
-    SO -->|"/memory"| M["💾 .memory/"]
-    SO -->|"/delegate"| G["📦 Git<br/><i>/git for commit</i>"]
-    G -->|"committed"| SO
-    SO -->|"task result"| O4["🎯 Orchestrator<br/><i>Evaluate & next task</i>"]
-    O4 -->|"/finalize"| U2["👤 User<br/><i>Final result</i>"]
+
+    subgraph Planning["📋 Planning via /plan"]
+        O1 -->|"/plan → /delegate"| SO_P["⚙️ Subtask Orchestrator"]
+        SO_P -->|"/clarify"| U
+        U -->|"answers"| SO_P
+        SO_P -->|"/research → /delegate"| A["🔍 Ask<br/>/web for search + read"]
+        A -->|"State of Intel"| SO_P
+        SO_P -->|"delegate"| AR["🏗️ Architect<br/>/clarify → /blueprint"]
+        AR -->|"Blueprint"| SO_P
+        SO_P -->|"Blueprint + Summary"| O2["🎯 Orchestrator"]
+    end
+
+    subgraph Execution["⚡ Execution via /execute"]
+        O2 -->|"/execute → /delegate"| SO_E["⚙️ Subtask Orchestrator"]
+        SO_E -->|"/delegate"| C["💻 Code"]
+        SO_E -->|"/delegate"| D["🪲 Debug"]
+        C -->|"result"| SO_E
+        C -->|"on error → /debug"| D
+        D --> SO_E
+        SO_E -->|"/memory"| M["💾 .memory/"]
+        SO_E -->|"phase result"| O3["🎯 Orchestrator"]
+    end
+
+    subgraph Git["🔀 Git Commit"]
+        O3 -->|"/delegate"| G["📦 Git<br/>branch + commit"]
+        G -->|"committed"| O4["🎯 Orchestrator"]
+    end
+
+    O4 -->|"/finalize"| U2["👤 User<br/>Final result"]
 
     style U fill:#95A5A6,color:#fff,stroke:#7F8C8D
     style U2 fill:#95A5A6,color:#fff,stroke:#7F8C8D
@@ -182,12 +214,17 @@ flowchart TD
     style O3 fill:#4A90D9,color:#fff,stroke:#2C5F8A
     style O4 fill:#4A90D9,color:#fff,stroke:#2C5F8A
     style INIT fill:#8E44AD,color:#fff,stroke:#5B2D6E
+    style SO_P fill:#27AE60,color:#fff,stroke:#1A7A42
+    style SO_E fill:#27AE60,color:#fff,stroke:#1A7A42
     style A fill:#7B68EE,color:#fff,stroke:#4B3F8A
     style AR fill:#E67E22,color:#fff,stroke:#A05A15
-    style SO fill:#27AE60,color:#fff,stroke:#1A7A42
     style C fill:#8E44AD,color:#fff,stroke:#5B2D6E
+    style D fill:#C0392B,color:#fff,stroke:#8A2520
     style G fill:#F39C12,color:#fff,stroke:#B8750E
     style M fill:#2C3E50,color:#fff,stroke:#1A252F
+    style Planning fill:#f0f7ff,stroke:#4A90D9,stroke-width:1px,color:#333
+    style Execution fill:#f0fff4,stroke:#27AE60,stroke-width:1px,color:#333
+    style Git fill:#fff8f0,stroke:#F39C12,stroke-width:1px,color:#333
 ```
 
 ## 🚀 Installation
@@ -240,10 +277,16 @@ This repository uses **automated semantic versioning** powered by [Conventional 
 
 ```mermaid
 flowchart LR
-    P["Push to main"] --> W["GitHub Actions Workflow"]
-    W --> V["Compute next version<br/>from commit messages"]
-    V --> T["Create git tag<br/>(e.g. v1.2.3)"]
-    T --> R["Publish GitHub Release<br/>with YAML assets"]
+    P["⬆️ Push to main"] --> W["⚙️ GitHub Actions Workflow"]
+    W --> V["🔢 Compute next version<br/>from commit messages"]
+    V --> T["🏷️ Create git tag<br/>(e.g. v1.2.3)"]
+    T --> R["🚀 Publish GitHub Release<br/>with YAML assets"]
+
+    style P fill:#95A5A6,color:#fff,stroke:#7F8C8D
+    style W fill:#4A90D9,color:#fff,stroke:#2C5F8A
+    style V fill:#E67E22,color:#fff,stroke:#A05A15
+    style T fill:#27AE60,color:#fff,stroke:#1A7A42
+    style R fill:#8E44AD,color:#fff,stroke:#5B2D6E
 ```
 
 ### Commit Convention
@@ -301,11 +344,12 @@ The orchestration pipeline requires two MCP (Model Context Protocol) servers for
 │   ├── delegate.md                  # /delegate — new_task format
 │   ├── clarify.md                   # /clarify — user clarification protocol
 │   ├── blueprint.md                 # /blueprint — phased planning methodology
+│   ├── planning.md                  # /planning — SO planning lifecycle (clarify → research → architect)
 │   ├── finalize.md                  # /finalize — human-readable output
 │   ├── web.md                       # /web — web search + URL reader
-│   ├── git.md                       # /git — git operations (MCP + CLI)
+│   ├── git.md                       # /git — git operations (MCP + CLI + branch setup)
 │   ├── research.md                  # /research — intel delegation
-│   ├── plan.md                      # /plan — architectural grounding
+│   ├── plan.md                      # /plan — routing to SO for planning
 │   ├── execute.md                   # /execute — phase-based task execution
 │   ├── debug.md                     # /debug — error resolution
 │   ├── memory.md                    # /memory — phase-based memory persistence
