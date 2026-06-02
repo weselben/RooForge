@@ -16,8 +16,8 @@ customModes:
     whenToUse: Use this mode as the primary entry point for all complex requests.
       It is the brain that decides which specialized intelligence is required,
       how to bound the work for safe execution, and enforces the strict
-      ask → architect → subtask-orchestrator pipeline.
-    description: Strategic planning, logical task bounding, and project oversight.
+      planning → execution → git commit pipeline.
+    description: Strategic planning, phase navigation, and project oversight.
     groups:
       - read
       - - edit
@@ -39,24 +39,28 @@ customModes:
 
       Pipeline (strict order): (0) Check if .memory/ directory exists. If not,
       use run_slash_command with command 'forge-init' to initialize the
-      workspace before proceeding. (1) If ANY ambiguity exists, use
-      run_slash_command with command 'research'. (2) Assemble Master Context
-      Package, use run_slash_command with command 'plan'. (3) When Blueprint
+      workspace before proceeding. (1) use run_slash_command with command
+      'plan' — this delegates to subtask-orchestrator who runs /planning
+      (clarify → research → architect → Blueprint). (2) When Blueprint
       received, scan the project root for ALL blueprint files
       (e.g. blueprint.md, blueprint-*.md) using read_file or codebase_search,
       read their FULL contents, and internalize the plan precisely — only then
       use run_slash_command with command 'execute' for phase-based task execution.
       Never skip blueprint reading; every blueprint file present must be read
-      before execution begins. (4) When all phases complete, run
-      run_slash_command with command 'finalize' before attempt_completion.
+      before execution begins. (3) After each phase completes, MANDATORY:
+      run run_slash_command with command 'delegate' with mode 'git' to commit
+      phase results. Git mode handles branch creation (if on main), pull/sync,
+      and conventional commits. Every phase gets committed before next starts.
+      (4) When all phases complete, run run_slash_command with command
+      'finalize' before attempt_completion.
 
 
       Rules: Never skip phases. Never trim the State of Intel. Never dispatch
       via new_task without a complete Context Envelope. Never use switch_mode.
       Always run /finalize before attempt_completion. Evaluate each task
-      result before proceeding to the next. Verify phase checkpoints. If
-      blocked, use run_slash_command with command 'plan' with failure details
-      and full state. execute_command is STRICTLY limited to 'rm -rf
-      .memory/*' during /finalize cleanup — using it for ANY other command
-      is a protocol violation.
+      result before proceeding to the next. Verify phase checkpoints. Git
+      commit is MANDATORY after every phase — never skip. If blocked, use
+      run_slash_command with command 'plan' with failure details and full state.
+      execute_command is STRICTLY limited to 'rm -rf .memory/*' during
+      /finalize cleanup — using it for ANY other command is a protocol violation.
     source: global

@@ -275,16 +275,20 @@ The Subtask Orchestrator further decomposes into atomic subtasks:
 
 ```
 User Request
-  → Orchestrator receives and evaluates
-    → Ask researches (State of Intel)
-    → Architect designs (Blueprint with phases and tasks)
-    → Orchestrator navigates phases and dispatches tasks sequentially:
-        Phase 1: Task 1.1 → Subtask-Orchestrator → Code → Git commit
-                 Task 1.2 → Subtask-Orchestrator → Code → Git commit
-                 [Phase 1 checkpoint verified]
-        Phase 2: Task 2.1 → Subtask-Orchestrator → Code → Git commit
-                 ...
-  → Orchestrator returns final result to User
+  → Orchestrator receives
+    → /plan → Subtask-Orchestrator (planning)
+      → /clarify → grill user on scope
+      → /research → Ask (State of Intel)
+      → /clarify → verify findings
+      → Delegate to Architect → Blueprint
+      → Review + summarize for Orchestrator
+    → /execute → Subtask-Orchestrator (per phase)
+      → Phase 1: Task 1.1 → Code → Task 1.2 → Code
+      → /delegate → Git (branch + pull/sync on main, conventional commit)
+      → Phase 2: Task 2.1 → Code
+      → /delegate → Git (conventional commit)
+      → ...
+    → /finalize → Final result to User
 ```
 
 ### Key Principles Illustrated
@@ -294,9 +298,10 @@ User Request
 | **No mode switches** | Every mode returns via `attempt_completion`; the Orchestrator controls all delegation via `new_task` |
 | **Atomic purity** | Each subtask has exactly one verifiable output; no specialist is overloaded |
 | **Explicit context** | Every delegation includes the full relevant context - no mode assumes prior knowledge |
-| **Sequential execution** | Tasks execute one at a time; each is committed before the next begins |
+| **Sequential execution** | Tasks execute one at a time; each phase is committed before the next begins |
 | **Phase checkpoints** | System is verified in a working state between phases |
-| **Pipeline enforcement** | Ask → Architect → Subtask-Orchestrator order is non-negotiable |
+| **Planning ownership** | Subtask-Orchestrator owns the full planning lifecycle (clarify → research → architect) |
+| **Git per phase** | Orchestrator delegates Git after every phase — branch setup on main, pull/sync, conventional commit |
 
 ---
 

@@ -2,8 +2,8 @@
 name: git
 description: >
   Git operations. MCP-first with CLI fallback. Contains commit workflow,
-  tool reference, conventional commit format, and CLI temp file pattern.
-  Used by git mode.
+  branch management, pull/sync, tool reference, conventional commit format,
+  and CLI temp file pattern. Used by git mode.
 ---
 
 # /git — Git Operations (MCP + CLI)
@@ -12,9 +12,21 @@ MCP-first for structured git ops. CLI fallback when MCP unavailable.
 
 ## Commit Workflow
 
+### First Commit of a Blueprint (Branch Setup)
+
+On the FIRST git delegation of a new blueprint, before committing:
+
+1. `git_branch show-current` — check current branch
+2. If on `main` or `master`:
+   - `git_branch create` with name `feat/<short-description>` (or `fix/<short-description>` if task is a fix)
+   - `git_pull` — sync with remote before first commit
+3. If already on a feature branch → skip branch creation, proceed to commit
+
+### Standard Commit Workflow
+
 1. `git_diff staged: true` — inspect staged changes. Mismatch with expected scope → return "Staging Mismatch" via `attempt_completion`.
 2. `git_status` — verify working tree state.
-3. `git_commit` — create commit with conventional message.
+3. `git_commit` — create commit with conventional message. Always commit with user identity (not agent identity).
 
 ## MCP Tools
 

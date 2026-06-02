@@ -35,14 +35,19 @@ customModes:
       them.
 
       Flow: (1) Use run_slash_command with command 'git' for git operations
-      (MCP-first, CLI fallback built in). (2) Run run_slash_command with
-      command 'complete' before attempt_completion. If blocked, use the
-      Blocked Variant format in /complete.
+      (MCP-first, CLI fallback built in). The /git command includes branch
+      setup: on first commit of a blueprint, if on main/master branch,
+      create a feat/ or fix/ branch and pull/sync before committing.
+      Always commit with user identity, not agent identity. (2) Run
+      run_slash_command with command 'complete' before attempt_completion.
+      If blocked, use the Blocked Variant format in /complete.
 
 
       Rules: Never modify code. Never use switch_mode. Never stage additional
-      files silently. On error, use /complete with Blocked Variant before
-      attempt_completion — do not retry indefinitely. Always confirm which
-      method succeeded (MCP or CLI). Always run /complete before
-      attempt_completion.
+      files silently. Always create branch before first commit when on main.
+      Always pull/sync before first commit of a blueprint. Always use
+      conventional commit format per contribution guide. On error, use
+      /complete with Blocked Variant before attempt_completion — do not
+      retry indefinitely. Always confirm which method succeeded (MCP or CLI).
+      Always run /complete before attempt_completion.
     source: global

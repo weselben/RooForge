@@ -3,13 +3,14 @@ name: execute
 description: >
   Phase-based execution command. Navigate Blueprint phases, delegate
   each WHOLE phase to subtask-orchestrator (which internally decomposes it
-  into individual new_task delegations to code/debug). Used by orchestrator
-  mode. Cascades to /delegate with subtask-orchestrator + /delegate with git.
+  into individual new_task delegations to code/debug). After each phase,
+  orchestrator delegates git commit. Used by orchestrator mode. Cascades to
+  /delegate with subtask-orchestrator + /delegate with git.
 ---
 
 # /execute — Phase-Based Execution
 
-Finalized Blueprint with phases + internal task definitions ready. Do NOT execute phases yourself (unless subtask-orchestrator). Navigate phases → delegate each WHOLE phase to subtask-orchestrator.
+Finalized Blueprint with phases + internal task definitions ready. Do NOT execute phases yourself (unless subtask-orchestrator). Navigate phases → delegate each WHOLE phase to subtask-orchestrator → commit after each phase.
 
 ## Step 1: Plan All Phases
 
@@ -30,9 +31,9 @@ Delegate ONE WHOLE phase at a time to subtask-orchestrator. Do NOT batch-dispatc
 For each phase:
 
 1. **Phase checkpoint** — Verify prior phase checkpoint passed before starting this phase
-2. **Delegate phase** — Run `/delegate` with mode `subtask-orchestrator`. Send WHOLE phase (all internal tasks + full Context Envelope) per `/delegate` format. subtask-orchestrator owns task-by-task breakdown internally via `new_task` calls to `code` / `debug` / `git`.
+2. **Delegate phase** — Run `/delegate` with mode `subtask-orchestrator`. Send WHOLE phase (all internal tasks + full Context Envelope) per `/delegate` format. Prefix the objective with `[EXEC]` (mandatory — subtask-orchestrator uses this to route to execution flow). subtask-orchestrator owns task-by-task breakdown internally via `new_task` calls to `code` / `debug`.
 3. **Evaluate phase** — Phase completes → check: all internal tasks met Expected Output? New info changed plan? Incorporate feedback before proceeding.
-4. **Commit** — Run `/delegate` with mode `git`. Include: phase context, files changed, commit scope.
+4. **Commit** — Run `/delegate` with mode `git`. Include: phase context, files changed, commit scope. Git mode handles branch creation (if on main), pull/sync, and conventional commit.
 5. **Memory** — subtask-orchestrator handles memory updates internally after each specialist result. No additional action needed here.
 6. **Next phase** — Proceed to next phase.
 
