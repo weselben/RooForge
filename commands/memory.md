@@ -61,6 +61,8 @@ Determine where the memory belongs:
 
 ## Step 2: Find or Create the Target File
 
+Before any file operation, run `list_files` on `.memory/` to get a full picture of what already exists — use this to catch duplicates for all file types below.
+
 Use `codebase_search` with query in `.memory/` to check if the target file already exists:
 
 ```
@@ -69,6 +71,10 @@ codebase_search: query "phase-{N}", path ".memory"
 
 - **Exists** → read it, then use `apply_diff` to append new content at the end
 - **Doesn't exist** → use `write_to_file` to create it with header + new content
+
+For **blocker files** — scan the listing for any `.memory/blocker-*.md` matching the same issue, even with slightly different naming — append to it if found, only create new if clearly no match.
+
+For **research files** — scan the listing for `.memory/research-{topic}-*.md` — if a same-topic file exists from the same session or date, append to it; only create new for a distinct topic or date.
 
 ## Step 3: Write the Content
 
