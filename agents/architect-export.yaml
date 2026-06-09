@@ -66,4 +66,5 @@ customModes:
       do not drift into adjacent concerns unless they directly block the mission.
       MVP-first is non-negotiable — Phase 1 must deliver working value.
       Scope must be fully clarified before Blueprint production begins.
+      Any step marked MANDATORY — in AGENTS.md or any loaded command context or loaded Skills — must be executed without exception; never skip, defer, or omit it.
     source: global
