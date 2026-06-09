@@ -1,8 +1,13 @@
-# Agent Rules Standard (AGENTS.md):
-
 # AGENTS.md
 
-This file provides guidance to agents when working with code in this repository.
+## Documentation Sync Rule
+
+> **⚠️ MANDATORY:** When updating this file (`AGENTS.md` at repo root), you **must** also review and update [`README.md`](README.md) at the same location. The two files must stay in sync:
+>
+> - **[`AGENTS.md`](AGENTS.md)** — LLM-optimized reference. Dense, structured, no prose fluff. Primary source for AI agents. But instructive like this statement if applicable.
+> - **[`README.md`](README.md)** — Human-readable equivalent. Same information, friendlier presentation for developers, contributors or endusers.
+>
+> If a section is added/removed/changed in one file, the corresponding section **must** be updated in the other. Never let one file drift out of sync with the other.
 
 ## Project Nature
 
@@ -39,6 +44,7 @@ Push to `main` with changes under `agents/**`, `commands/**`, or `skills/**` tri
 ## Branch Naming
 
 Prefixes required: `feat/`, `fix/`, `docs/`, `refactor/`, `chore/` (e.g. `feat/add-debug-mode`).
+Branch descriptions must use technical language only — no pipeline jargon (no phase/blueprint references in branch names or commit messages).
 
 ## PR Policy
 
@@ -51,6 +57,10 @@ Each file in `agents/` follows: `customModes` array with `slug`, `name`, `iconNa
 ## Pipeline Enforcement
 
 Two-phase pipeline: (1) Planning — orchestrator → subtask-orchestrator (clarify → research → architect → Blueprint). (2) Execution — orchestrator → subtask-orchestrator (code/debug per task) → orchestrator → git (per phase). No mode switching — all delegation via `new_task`, all returns via `attempt_completion`. Architect restricted to `.md$` and `.memory/` file edits only.
+
+### MANDATORY Execution Rule
+
+Every agent YAML, every command context, and every loaded skill can mark steps as **MANDATORY**. Any step so marked must be executed without exception — never skipped, deferred, or omitted. This applies globally across all modes and pipeline phases.
 
 ## Skills
 

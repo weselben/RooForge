@@ -37,6 +37,8 @@ Use descriptive feature branches with a conventional prefix:
 | `refactor/` | Code/mode refactoring | `refactor/simplify-ask-mode` |
 | `chore/` | Maintenance tasks | `chore/update-workflow` |
 
+> Branch descriptions must use **technical language only** — no pipeline jargon (no "phase", "blueprint", or other pipeline-specific terms in branch names or commit messages).
+
 ### 3. Make Your Changes
 
 - Edit the relevant `agents/*.yaml` file(s)

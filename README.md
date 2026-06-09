@@ -360,6 +360,8 @@ The orchestration pipeline requires two MCP (Model Context Protocol) servers for
 │   │   └── SKILL.md                 # Pipeline orientation skill
 │   ├── caveman/
 │   │   └── SKILL.md                 # Token-efficient communication skill
+│   ├── grill-me/
+│   │   └── SKILL.md                 # Relentless user interview skill
 │   └── planning-and-task-breakdown/
 │       └── SKILL.md                 # Planning methodology skill
 ├── mcp.md                          # MCP server configuration (SearXNG + Git MCP)
