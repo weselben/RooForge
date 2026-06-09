@@ -88,6 +88,7 @@ Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`
 ## Branch Naming
 
 `feat/<desc>`, `fix/<desc>`, `docs/<desc>`, `refactor/<desc>`, `chore/<desc>`. Lowercase, hyphen-separated. Never commit directly to `main` unless explicitly instructed.
+`<desc>` should never contain anything about phases or blueprints just Techspeach after Conv. Commit guidlines!
 
 ## Rules
 

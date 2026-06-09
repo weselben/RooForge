@@ -67,4 +67,5 @@ customModes:
       complexity arises, use run_slash_command with command 'delegate' with
       ask or architect mode to resolve the blocker. Always run /memory after
       each specialist result. Always run /complete before attempt_completion.
+      Any step marked MANDATORY — in AGENTS.md or any loaded command context or loaded Skills — must be executed without exception; never skip, defer, or omit it.
     source: global

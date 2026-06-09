@@ -37,6 +37,15 @@ Create with initial structure:
 ```markdown
 # AGENTS.md
 
+## Documentation Sync Rule
+
+> **⚠️ MANDATORY:** When updating this file (`AGENTS.md` at repo root), you **must** also review and update [`README.md`](README.md) at the same location. The two files must stay in sync:
+>
+> - **[`AGENTS.md`](AGENTS.md)** — LLM-optimized reference. Dense, structured, no prose fluff. Primary source for AI agents. But instructive like this statement if applicable.
+> - **[`README.md`](README.md)** — Human-readable equivalent. Same information, friendlier presentation for developers, contributors or endusers.
+>
+> If a section is added/removed/changed in one file, the corresponding section **must** be updated in the other. Never let one file drift out of sync with the other.
+
 ## Project Nature
 [Brief description based on user input — to be filled by architect]
 

@@ -63,4 +63,5 @@ customModes:
       run_slash_command with command 'plan' with failure details and full state.
       execute_command is STRICTLY limited to 'rm -rf .memory/*' during
       /finalize cleanup — using it for ANY other command is a protocol violation.
+      Any step marked MANDATORY — in AGENTS.md or any loaded command context or loaded Skills — must be executed without exception; never skip, defer, or omit it.
     source: global

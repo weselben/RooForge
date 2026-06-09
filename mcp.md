@@ -15,7 +15,7 @@
 
 ## Overview
 
-The Forge pipeline requires two MCP servers for full functionality. Add the entire block below to your Roo Code MCP settings (`~/.config/Code - OSS/User/globalStorage/rooveterinaryinc.roo-cline/settings/mcp_settings.json`):
+The Forge pipeline requires two MCP servers for full functionality. Add the entire block below to your Zoo Code MCP settings using the MCP settings view (**Edit Global MCP**). If editing manually, use the global `mcp_settings.json` file for your Zoo Code extension ID (`ZooCodeOrganization.zoo-code`).
 
 ```json
 {
@@ -96,14 +96,14 @@ docker run -d \
   searxng/searxng:latest
 ```
 
-**Step 2:** The MCP config block above connects Roo Code to your SearXNG instance. Update `SEARXNG_URL` if your instance runs on a different port or host.
+**Step 2:** The MCP config block above connects Zoo Code to your SearXNG instance. Update `SEARXNG_URL` if your instance runs on a different port or host.
 
-**Step 3:** Restart Roo Code → switch to Ask mode → ask a question requiring web search → confirm `searxng_web_search` appears.
+**Step 3:** Restart Zoo Code → switch to Ask mode → ask a question requiring web search → confirm `searxng_web_search` appears.
 
 <details>
 <summary>📖 What does <code>alwaysAllow</code> do?</summary>
 
-By default, Roo Code asks for confirmation before each MCP tool call. Adding tool names to `alwaysAllow` skips confirmation. Recommended for `searxng_web_search` and `web_url_read` since Ask mode relies on frequent search/read cycles.
+By default, Zoo Code asks for confirmation before each MCP tool call. Adding tool names to `alwaysAllow` skips confirmation. Recommended for `searxng_web_search` and `web_url_read` since Ask mode relies on frequent search/read cycles.
 </details>
 
 ---
@@ -155,9 +155,9 @@ Git mode uses [`@cyanheads/git-mcp-server`](https://github.com/cyanheads/git-mcp
 
 ### Setup
 
-The MCP config block above connects Roo Code to the git-mcp-server. `GIT_SIGN_COMMITS` defaults to `false` — set to `true` if you want GPG-signed commits.
+The MCP config block above connects Zoo Code to the git-mcp-server. `GIT_SIGN_COMMITS` defaults to `false` — set to `true` if you want GPG-signed commits.
 
-**Verify:** Restart Roo Code → switch to Git mode → run `git_status` → confirm structured response.
+**Verify:** Restart Zoo Code → switch to Git mode → run `git_status` → confirm structured response.
 
 <details>
 <summary>📖 Why is <code>git_push</code> disabled?</summary>
