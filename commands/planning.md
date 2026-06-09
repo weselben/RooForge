@@ -4,7 +4,7 @@ description: >
   Planning phase command. Used by subtask-orchestrator when orchestrator
   delegates a planning task. Guides the full planning lifecycle: clarify
   scope, research intel, delegate to architect for blueprint, review and
-  summarize for orchestrator. Loads grill-me on every /clarify invocation.
+  summarize for orchestrator.
 ---
 
 # /planning — Planning Phase (subtask-orchestrator)
@@ -69,11 +69,11 @@ Return this summary + Blueprint reference via `attempt_completion`.
 
 ## When to Use /clarify
 
-- Before research: scope the request with user
-- After research: verify findings match intent
-- After architect returns Blueprint: check completeness
+- **Before research (MANDATORY):** scope the request — do not begin research until direction is clear
+- **After research (optional):** verify findings match intent — skip if research was clear and sufficient  
+- **After architect returns Blueprint (MANDATORY):** verify full scope and intent with user before finalizing
 
-Use your judgment — enough clarification when direction is clear. Too much clarification = bloat. Trust the LLM.
+Use your judgment — enough clarification when direction is clear. Too much clarification = bloat. Still do all MANDATORY clarifications.
 
 ## Rules
 - Do NOT implement code — you are planning only
