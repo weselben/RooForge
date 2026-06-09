@@ -2,7 +2,7 @@
 
 # 🎯 RooForge
 
-**A structured multi-agent orchestration system for [Roo Code](https://github.com/RooCodeInc/Roo-Code)**
+**A structured multi-agent orchestration system for [Zoo Code](https://github.com/Zoo-Code-Org/Zoo-Code)**
 
 A hierarchical pipeline of specialized AI modes — from strategic planning to atomic execution.
 
@@ -20,77 +20,103 @@ A hierarchical pipeline of specialized AI modes — from strategic planning to a
 
 ## ⚠️ Prerequisites
 
-Before installing, enable the **Run Slash Command** experimental feature in Roo Code — the entire pipeline depends on it:
+Before installing, enable the **Run Slash Command** experimental feature in Zoo Code — the entire pipeline depends on it:
 
-1. Open Roo Code settings (gear icon)
+1. Open Zoo Code settings (gear icon)
 2. Go to **Experimental Settings**
 3. Enable **"Run Slash Command"**
 4. Restart VS Code if prompted
 
-> Without this setting, agents cannot execute `/plan`, `/delegate`, `/blueprint`, or any other slash command. See [run_slash_command docs](https://docs.roocode.com/advanced-usage/available-tools/run-slash-command) for details.
+> Without this setting, agents cannot execute `/plan`, `/delegate`, `/blueprint`, or any other slash command. See [run_slash_command docs](https://docs.zoocode.dev/advanced-usage/available-tools/run-slash-command) for details.
 
 ---
 
 ## 📋 Overview
 
-This project provides a curated set of **custom mode export files**, **slash commands**, and a **Forge skill** that together define a disciplined, multi-layered agent orchestration workflow for Roo Code. Each mode is a specialist with a clearly defined role, connected by standardized commands that cascade into each other to eliminate duplication.
+This project provides a curated set of **custom mode export files**, **slash commands**, and a **Forge skill** that together define a disciplined, multi-layered agent orchestration workflow for Zoo Code. Each mode is a specialist with a clearly defined role, connected by standardized commands that cascade into each other to eliminate duplication.
 
 ## 🔄 The Pipeline
 
+#### 1. Top-Level Orchestration Tree
+
 ```mermaid
 flowchart TD
-    User["👤 User Request"] --> O["🎯 Orchestrator"]
+    U["👤 User"] -->|"request"| O["🎯 Orchestrator"]
 
-    subgraph Planning["📋 Planning Phase"]
-        O -->|"/plan"| SO_P["⚙️ Subtask Orchestrator"]
-        SO_P -->|"/clarify"| User
-        User -->|"answers"| SO_P
-        SO_P -->|"/research"| A["🔍 Ask"]
-        A -->|"State of Intel"| SO_P
-        SO_P -->|"delegate"| AR["🏗️ Architect"]
-        AR -->|"Blueprint"| SO_P
-        SO_P -->|"Blueprint + Summary"| O
-    end
+    O -->|"/forge-init"| INIT["💻 Code<br/>init"]
+    INIT -->|"workspace ready"| O
 
-    subgraph Execution["⚡ Execution Phase"]
-        O -->|"/execute"| SO_E["⚙️ Subtask Orchestrator"]
-        SO_E -->|"/delegate"| C["💻 Code"]
-        SO_E -->|"/delegate"| D["🪲 Debug"]
-        C -->|"result"| SO_E
-        C -->|"on error"| D
-        D --> SO_E
-        SO_E -->|"phase result"| O
-    end
+    O -->|"/plan"| SO_P["⚙️ Subtask Orchestrator<br/>planning"]
+    SO_P -->|"Blueprint"| O
 
-    subgraph Version Control["🔀 Git Phase"]
-        O -->|"/delegate"| G["📦 Git"]
-        G -->|"branch + commit"| O
-    end
+    O -->|"/execute"| SO_E["⚙️ Subtask Orchestrator<br/>execution"]
+    SO_E -->|"phase result"| O
+    O -->|"/delegate"| G["📦 Git<br/>commit phase"]
+    G -->|"committed"| O
 
-    O -->|"/finalize"| User2["👤 User<br/>Final result"]
+    O -->|"all phases done"| F["🎯 Orchestrator<br/>finalize"]
+    F -->|"result"| U
 
+    style U fill:#95A5A6,color:#fff,stroke:#7F8C8D
     style O fill:#4A90D9,color:#fff,stroke:#2C5F8A
+    style F fill:#4A90D9,color:#fff,stroke:#2C5F8A
+    style INIT fill:#8E44AD,color:#fff,stroke:#5B2D6E
     style SO_P fill:#27AE60,color:#fff,stroke:#1A7A42
     style SO_E fill:#27AE60,color:#fff,stroke:#1A7A42
+    style G fill:#F39C12,color:#fff,stroke:#B8750E
+```
+
+#### 2. Planning Phase Detail
+
+```mermaid
+flowchart TD
+    SO["⚙️ Subtask Orchestrator"] -->|"/clarify"| U["👤 User"]
+    U -->|"answers"| SO
+    SO -->|"/research"| A["🔍 Ask"]
+    A -->|"State of Intel"| SO
+    SO -->|"/delegate"| AR["🏗️ Architect"]
+    AR -->|"/clarify"| U
+    U -->|"scope"| AR
+    AR -->|"/blueprint"| B["📄 Blueprint"]
+    B -->|"summary"| SO
+
+    style U fill:#95A5A6,color:#fff,stroke:#7F8C8D
+    style SO fill:#27AE60,color:#fff,stroke:#1A7A42
     style A fill:#7B68EE,color:#fff,stroke:#4B3F8A
     style AR fill:#E67E22,color:#fff,stroke:#A05A15
+    style B fill:#2C3E50,color:#fff,stroke:#1A252F
+```
+
+#### 3. Execution Phase Detail
+
+```mermaid
+flowchart TB
+    O["🎯 Orchestrator"] -->|"/execute"| SO["⚙️ Subtask Orchestrator"]
+    SO -->|"/delegate"| C["💻 Code"]
+    C -->|"/debug"| D["🪲 Debug"]
+    D -->|"fix"| C
+    C -->|"done"| SO
+    SO -->|"phase result"| O
+    O -->|"/delegate"| G["📦 Git"]
+    G -->|"committed"| O
+    SO -->|"/debug"| D
+    D -->|"bugfix result"| SO
+
+    style O fill:#4A90D9,color:#fff,stroke:#2C5F8A
+    style SO fill:#27AE60,color:#fff,stroke:#1A7A42
     style C fill:#8E44AD,color:#fff,stroke:#5B2D6E
     style D fill:#C0392B,color:#fff,stroke:#8A2520
     style G fill:#F39C12,color:#fff,stroke:#B8750E
-    style User fill:#95A5A6,color:#fff,stroke:#7F8C8D
-    style User2 fill:#95A5A6,color:#fff,stroke:#7F8C8D
-    style Planning fill:#f0f7ff,stroke:#4A90D9,stroke-width:1px,color:#333
-    style Execution fill:#f0fff4,stroke:#27AE60,stroke-width:1px,color:#333
-    style Version Control fill:#fff8f0,stroke:#F39C12,stroke-width:1px,color:#333
 ```
 
 ### Pipeline Phases
 
-| Phase | Mode | Purpose |
-|-------|------|---------|
-| **1 - Plan** | Subtask Orchestrator | Clarify scope, research intel, delegate to architect for Blueprint |
-| **2 - Execute** | Subtask Orchestrator | Decompose Blueprint tasks into atomic subtasks for Code/Debug |
-| **3 - Commit** | Git | Branch setup (if on main), pull/sync, conventional commit |
+| Phase | Owner | Purpose |
+|-------|-------|---------|
+| **0 - Init** | Code | Create `.memory/`, `.gitignore`, `AGENTS.md`, and initialize git if missing |
+| **1 - Plan** | Subtask Orchestrator | Clarify scope, research intel, delegate to Architect, return Blueprint |
+| **2 - Execute** | Subtask Orchestrator | Decompose Blueprint tasks and delegate to Code/Debug |
+| **3 - Commit** | Git | Commit each completed execution phase before the next phase starts |
 
 ### Working Memory
 
@@ -155,77 +181,16 @@ Standardized tool call formats that cascade into each other, eliminating duplica
 
 See the **Slash Commands** section above for the command tables and cascading architecture.
 
-## 🧠 Forge Skill + Caveman
+## 🧠 Skills
 
-All modes load two skills on startup:
-
-1. **[`skills/forge/SKILL.md`](skills/forge/SKILL.md)** — Pipeline orientation: flow, command registry, mode roles, conventions
-2. **[`skills/caveman/SKILL.md`](skills/caveman/SKILL.md)** — Token-efficient communication (auto-loaded by forge skill, full intensity)
-
-### Context-Triggered Skills
+All modes load **[`skills/forge/SKILL.md`](skills/forge/SKILL.md)** on startup. It immediately loads **[`skills/caveman/SKILL.md`](skills/caveman/SKILL.md)** for token-efficient communication.
 
 | Skill | Trigger | Purpose |
 |-------|---------|---------|
+| **[`skills/forge/SKILL.md`](skills/forge/SKILL.md)** | Startup, all modes | Pipeline orientation: flow, command registry, mode roles, conventions |
+| **[`skills/caveman/SKILL.md`](skills/caveman/SKILL.md)** | Auto-loaded by forge | Token-efficient communication (full intensity default) |
 | **[`skills/grill-me/SKILL.md`](skills/grill-me/SKILL.md)** | `/clarify` command | Relentless user interview — stress-test every design decision until shared understanding reached. **Mandatory** on every `/clarify` invocation. ([source](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md)) |
 | **[`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md)** | `/blueprint` command | Structured planning methodology for phased task breakdown. |
-
-## 🧩 Mode Interaction Flow
-
-```mermaid
-flowchart TD
-    U["👤 User"] -->|"Submit request"| O1["🎯 Orchestrator"]
-
-    O1 -->|"/forge-init"| INIT["💻 Code<br/>Init workspace"]
-    INIT -->|"initialized"| O1
-
-    subgraph Planning["📋 Planning via /plan"]
-        O1 -->|"/plan → /delegate"| SO_P["⚙️ Subtask Orchestrator"]
-        SO_P -->|"/clarify"| U
-        U -->|"answers"| SO_P
-        SO_P -->|"/research → /delegate"| A["🔍 Ask<br/>/web for search + read"]
-        A -->|"State of Intel"| SO_P
-        SO_P -->|"delegate"| AR["🏗️ Architect<br/>/clarify → /blueprint"]
-        AR -->|"Blueprint"| SO_P
-        SO_P -->|"Blueprint + Summary"| O2["🎯 Orchestrator"]
-    end
-
-    subgraph Execution["⚡ Execution via /execute"]
-        O2 -->|"/execute → /delegate"| SO_E["⚙️ Subtask Orchestrator"]
-        SO_E -->|"/delegate"| C["💻 Code"]
-        SO_E -->|"/delegate"| D["🪲 Debug"]
-        C -->|"result"| SO_E
-        C -->|"on error → /debug"| D
-        D --> SO_E
-        SO_E -->|"/memory"| M["💾 .memory/"]
-        SO_E -->|"phase result"| O3["🎯 Orchestrator"]
-    end
-
-    subgraph Git["🔀 Git Commit"]
-        O3 -->|"/delegate"| G["📦 Git<br/>branch + commit"]
-        G -->|"committed"| O4["🎯 Orchestrator"]
-    end
-
-    O4 -->|"/finalize"| U2["👤 User<br/>Final result"]
-
-    style U fill:#95A5A6,color:#fff,stroke:#7F8C8D
-    style U2 fill:#95A5A6,color:#fff,stroke:#7F8C8D
-    style O1 fill:#4A90D9,color:#fff,stroke:#2C5F8A
-    style O2 fill:#4A90D9,color:#fff,stroke:#2C5F8A
-    style O3 fill:#4A90D9,color:#fff,stroke:#2C5F8A
-    style O4 fill:#4A90D9,color:#fff,stroke:#2C5F8A
-    style INIT fill:#8E44AD,color:#fff,stroke:#5B2D6E
-    style SO_P fill:#27AE60,color:#fff,stroke:#1A7A42
-    style SO_E fill:#27AE60,color:#fff,stroke:#1A7A42
-    style A fill:#7B68EE,color:#fff,stroke:#4B3F8A
-    style AR fill:#E67E22,color:#fff,stroke:#A05A15
-    style C fill:#8E44AD,color:#fff,stroke:#5B2D6E
-    style D fill:#C0392B,color:#fff,stroke:#8A2520
-    style G fill:#F39C12,color:#fff,stroke:#B8750E
-    style M fill:#2C3E50,color:#fff,stroke:#1A252F
-    style Planning fill:#f0f7ff,stroke:#4A90D9,stroke-width:1px,color:#333
-    style Execution fill:#f0fff4,stroke:#27AE60,stroke-width:1px,color:#333
-    style Git fill:#fff8f0,stroke:#F39C12,stroke-width:1px,color:#333
-```
 
 ## 🚀 Installation
 
@@ -255,13 +220,13 @@ cp -rf skills/* ~/.roo/skills/
 
 > **Why remove specific skills, not all?** The `rm -rf` targets only known RooForge skills (`caveman`, `forge`, `grill-me`, `planning-and-task-breakdown`). This prevents accidental deletion of user-installed skills (e.g. via `npx skills add` or manual installs). If you add a new skill to this repo, **you must add it to the `rm -rf` line** in both install commands above.
 >
-> See [Roo Code Slash Commands docs](https://docs.roocode.com/features/slash-commands) and [Skills docs](https://docs.roocode.com/features/skills) for details on global directories.
+> See [Zoo Code Slash Commands docs](https://docs.zoocode.dev/features/slash-commands) and [Skills docs](https://docs.zoocode.dev/features/skills) for details on global directories.
 
 ### Import Agent Modes
 
 1. **Download** the export YAML files from the [latest release](../../releases/latest).
-2. Open **Roo Code** in VS Code.
-3. Navigate to **Roo Code Settings → Custom Modes**.
+2. Open **Zoo Code** in VS Code.
+3. Navigate to **Zoo Code Settings → Custom Modes**.
 4. Click **Import** and select the downloaded `.yaml` file(s).
 5. The modes will appear in your mode selector.
 
@@ -295,23 +260,16 @@ flowchart LR
 |--------|-------------|---------|
 | `feat:` | **Minor** | `feat: add debug mode export` |
 | `fix:` | **Patch** | `fix: correct orchestrator role definition` |
-| `feat!:` or `BREAKING CHANGE` | **Major** | `feat!: redesign pipeline architecture` |
+| `feat!:` or `BREAKING CHANGE:` | **Major** | `feat!: redesign pipeline architecture` |
 | `docs:` | None | `docs: update README` |
-| `chore:` | None | `chore: update workflow` |
+| `style:` | None | `style: fix indentation in agent yaml` |
 | `refactor:` | None | `refactor: simplify subtask logic` |
+| `perf:` | None | `perf: optimize memory search` |
 | `test:` | None | `test: add validation for exports` |
-
-## 🪨 Caveman — Token-Efficient Communication
-
-[Caveman](https://github.com/JuliusBrussee/caveman) enforces ultra-terse communication across the entire orchestration stack. Cuts ~65% of output tokens while keeping full technical accuracy. **Auto-loaded** by the Forge skill on startup** — installed as part of the skills directory (see Installation step 3).
-
-**Manual install (if not using the skills directory):**
-```bash
-npx skills add JuliusBrussee/caveman
-# Select "Roo Code" when prompted
-```
-
-Caveman defaults to **full** intensity. Switch levels anytime: "caveman ultra", "caveman lite", "stop caveman".
+| `build:` | None | `build: update release workflow` |
+| `ci:` | None | `ci: add linting step` |
+| `chore:` | None | `chore: update workflow` |
+| `revert:` | None | `revert: undo broken refactor` |
 
 ## 🔌 MCP Servers
 
@@ -402,7 +360,7 @@ limitations under the License.
 
 ## ⭐ Acknowledgments
 
-- Built for [Roo Code](https://github.com/RooCodeInc/Roo-Code) - an AI-powered coding assistant for VS Code.
+- Built for [Zoo Code](https://github.com/Zoo-Code-Org/Zoo-Code) - an AI-powered coding assistant for VS Code.
 - Inspired by hierarchical task decomposition and multi-agent orchestration patterns.
 - [Caveman](https://github.com/JuliusBrussee/caveman) by JuliusBrussee - token-efficient communication skill for AI agents.
 

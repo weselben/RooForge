@@ -6,7 +6,7 @@ First off, thank you for your interest in this project! We appreciate the commun
 
 **We do not generally accept pull requests.** This repository maintains a carefully curated agent "stack" where each mode is designed to work in concert with the others. Before any PR is considered, it must go through the following process:
 
-1. **Testing** - You must thoroughly test your changes by importing the modified YAML files into Roo Code and verifying that the mode behaves as expected within the full pipeline.
+1. **Testing** - You must thoroughly test your changes by importing the modified YAML files into Zoo Code and verifying that the mode behaves as expected within the full pipeline.
 2. **Evaluation** - We evaluate whether the change actually benefits the intended workflow and orchestration pattern. Changes that introduce inconsistency, break the pipeline, or deviate from the design philosophy will not be accepted.
 3. **Review** - If the change passes testing and evaluation, we will review the implementation details.
 
@@ -43,7 +43,7 @@ Use descriptive feature branches with a conventional prefix:
 
 - Edit the relevant `agents/*.yaml` file(s)
 - Ensure YAML syntax is valid
-- Test the mode in Roo Code within the full pipeline context
+- Test the mode in Zoo Code within the full pipeline context
 
 ### 4. Commit with Conventional Commits (Extended)
 
@@ -74,14 +74,16 @@ Closes #42
 |------|-------------|---------------|
 | `feat` | A new feature | **Minor** bump |
 | `fix` | A bug fix | **Patch** bump |
-| `feat!` or `BREAKING CHANGE` | Breaking change | **Major** bump |
+| `feat!` or `BREAKING CHANGE:` | Breaking change | **Major** bump |
 | `docs` | Documentation only | None |
-| `refactor` | Code restructuring (no behavior change) | None |
-| `chore` | Maintenance, tooling, CI | None |
-| `test` | Adding or updating tests | None |
 | `style` | Formatting, whitespace | None |
+| `refactor` | Code restructuring (no behavior change) | None |
 | `perf` | Performance improvements | None |
+| `test` | Adding or updating tests | None |
+| `build` | Build system or dependencies | None |
 | `ci` | CI/CD changes | None |
+| `chore` | Maintenance, tooling | None |
+| `revert` | Reverts a previous commit | None |
 
 #### Tips
 
@@ -99,7 +101,7 @@ git push origin feat/my-new-feature
 Then open a PR against the `main` branch on GitHub. Your PR description should include:
 
 - **What** you changed and why
-- **How** you tested the change in Roo Code
+- **How** you tested the change in Zoo Code
 - **Which modes** are affected
 - **Any pipeline implications** - does this change affect how modes interact?
 
@@ -107,7 +109,7 @@ Then open a PR against the `main` branch on GitHub. Your PR description should i
 
 Before submitting a PR, verify:
 
-- [ ] The modified YAML file(s) import successfully into Roo Code
+- [ ] The modified YAML file(s) import successfully into Zoo Code
 - [ ] The mode activates and follows its role definition correctly
 - [ ] The mode integrates properly with the other modes in the pipeline
 - [ ] No YAML syntax errors or broken references

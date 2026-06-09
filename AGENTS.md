@@ -11,7 +11,7 @@
 
 ## Project Nature
 
-Config-only repo — no build system, no package manager, no runtime code. Contains YAML mode export files for [Roo Code](https://github.com/RooCodeInc/Roo-Code) that define a multi-agent orchestration pipeline, slash commands for standardized tool call formats, and a Forge skill for pipeline orientation.
+Config-only repo — no build system, no package manager, no runtime code. Contains YAML mode export files for [Zoo Code](https://github.com/Zoo-Code-Org/Zoo-Code) that define a multi-agent orchestration pipeline, slash commands for standardized tool call formats, and a Forge skill for pipeline orientation.
 
 ## Architecture
 
@@ -24,7 +24,7 @@ Commands cascade into each other: `/plan` → `/delegate`, `/debug` → `/delega
 
 ## Validation & Testing
 
-- No automated tests. Validate by importing `agents/*.yaml` into Roo Code → Settings → Custom Modes → Import
+- No automated tests. Validate by importing `agents/*.yaml` into Zoo Code → Settings → Custom Modes → Import
 - Verify mode activates correctly and integrates with the full pipeline (all 6 modes)
 - YAML syntax must be valid — no linter configured, check manually
 - Common failure: `customInstructions` uses YAML block scalars (`>-` or `|-`) — incorrect indentation breaks parsing silently
@@ -34,7 +34,7 @@ Commands cascade into each other: `/plan` → `/delegate`, `/debug` → `/delega
 ## Conventional Commits (Required)
 
 Format: `<type>(<scope>): <subject>` — imperative mood, ≤72 chars, no trailing period.
-Types: `feat`, `fix`, `docs`, `refactor`, `chore`, `test`, `style`, `perf`, `ci`, `revert`
+Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
 Breaking: `feat!:` or `BREAKING CHANGE:` footer → major version bump.
 
 ## Release Pipeline
@@ -48,7 +48,7 @@ Branch descriptions must use technical language only — no pipeline jargon (no 
 
 ## PR Policy
 
-PRs NOT automatically accepted. Must pass: (1) testing in Roo Code, (2) evaluation for pipeline consistency, (3) implementation review.
+PRs NOT automatically accepted. Must pass: (1) testing in Zoo Code, (2) evaluation for pipeline consistency, (3) implementation review.
 
 ## YAML Schema
 
@@ -56,7 +56,9 @@ Each file in `agents/` follows: `customModes` array with `slug`, `name`, `iconNa
 
 ## Pipeline Enforcement
 
-Two-phase pipeline: (1) Planning — orchestrator → subtask-orchestrator (clarify → research → architect → Blueprint). (2) Execution — orchestrator → subtask-orchestrator (code/debug per task) → orchestrator → git (per phase). No mode switching — all delegation via `new_task`, all returns via `attempt_completion`. Architect restricted to `.md$` and `.memory/` file edits only.
+Workflow: optional init via `/forge-init`, then planning (orchestrator → subtask-orchestrator → architect → Blueprint) and execution waves (orchestrator → subtask-orchestrator → code/debug → orchestrator → git after each phase). No mode switching — all delegation via `new_task`, all returns via `attempt_completion`. Architect restricted to `.md$` and `.memory/` file edits only.
++
++All delegated agents persist relevant context to `.memory/` before completion so downstream tasks can reuse cached input and avoid regenerating context.
 
 ### MANDATORY Execution Rule
 
