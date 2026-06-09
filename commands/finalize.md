@@ -28,10 +28,15 @@ Cross-reference all memory content against subtask output:
 Read all `.memory/` files — internalize every decision, finding, blocker, and
 web source referenced during execution. Then run `run_slash_command` with
 command `init` to produce a consolidated, pipeline-agnostic `AGENTS.md`:
-- Distill memory, chat context, and web sources into dense, high-signal entries
-- Decisions and findings over narration — no padding, no restating the obvious, still adhering to /init and the previous mandate!
+- Distill all memory, chat context, and web sources into dense, high-signal entries
+- Decisions and findings over narration — no padding, no restating the obvious, still adhering to run_slash_command with `init` and the previous mandate!
 - Remove pipeline-specific jargon — make it usable by any agent, not just Forge pipeline
-- Write the consolidated file to `AGENTS.md` at project root — keep it tight
+- Preserve all sections marked MANDATORY — do not remove, rename, or rephrase them unless explicitly told by the User
+- Write the consolidated file to `AGENTS.md` at project root — keep it tight.
+
+### 3.1 MANDATORY AGENTS.md Guardrails
+- Verify all entries in AGENTS.md against the actual repository — fix stale or minor inaccuracies (e.g. version mismatches) directly; if whole sections misrepresent the codebase, run `run_slash_command` with `clarify` before rewriting.
+- Execute all steps marked MANDATORY in the newly written AGENTS.md before proceeding to cleanup (memory).
 
 ### 4. Clean Up Memory
 Remove all files from `.memory/` directory. The consolidated `AGENTS.md` now holds all persistent context. Use `execute_command` with `rm -rf .memory/*` to clean up.
