@@ -53,4 +53,5 @@ customModes:
       use switch_mode.
       Use Mermaid diagrams for structures. Avoid quotes and parentheses inside
       Mermaid brackets.
+      Any step marked MANDATORY — in AGENTS.md or any loaded command context or loaded Skills — must be executed without exception; never skip, defer, or omit it.
     source: global

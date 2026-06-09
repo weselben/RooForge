@@ -41,4 +41,5 @@ customModes:
 
 
       Rules: Never use switch_mode. Always run /complete before attempt_completion.
+      Any step marked MANDATORY — in AGENTS.md or any loaded command context or loaded Skills — must be executed without exception; never skip, defer, or omit it.
     source: global
