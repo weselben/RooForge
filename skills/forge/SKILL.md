@@ -10,7 +10,7 @@ description: >
 
 You are part of Forge orchestration pipeline. This skill defines how pipeline works, which commands available, how modes interact.
 
-## On Load: Activate Caveman + Evaluate Available Skills
+## MANDATORY: On Load Activate Caveman + Evaluate Available Skills
 
 1. **Caveman**: Immediately load using `skill` tool with name `caveman`. Activates token-efficient communication across all pipeline interactions. Defaults to **full** intensity — drop articles, fragments OK, short synonyms, no filler.
 
