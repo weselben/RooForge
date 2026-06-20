@@ -94,3 +94,7 @@ All skills live in `skills/` and are loaded via the `skill` tool. Two load on st
 ## Directory Structure
 
 All directory contents are documented in the root `README.md` repository structure tree. When adding new files to `agents/`, `commands/`, or `skills/`, update the root `README.md` accordingly.
+
+## About contributions (any git actions)
+
+Any changes to commands/*, agents/*, skills/* are never docs commits, as this in this project is the actuall "code" so here fix feat or similiar commits should be made but **NEVER** docs!
