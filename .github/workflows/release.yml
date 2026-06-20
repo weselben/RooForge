@@ -8,6 +8,7 @@ on:
       - "agents/**"
       - "commands/**"
       - "skills/**"
+      - "rules/**"
 
 permissions:
   contents: write
@@ -39,6 +40,7 @@ jobs:
         run: |
           zip -r commands.zip commands/
           zip -r skills.zip skills/
+          zip -r rules.zip rules/
 
       - name: Create GitHub Release
         if: steps.semantic.outputs.new_tag != steps.semantic.outputs.previous_tag
@@ -61,18 +63,20 @@ jobs:
             | `code-export.yaml` | Implementation & code modification |
             | `git-export.yaml` | Conventional commits & version control |
 
-            ### Slash Commands & Skills (zip archives)
+            ### Slash Commands, Skills & Rules (zip archives)
 
             | Archive | Contents |
             |---------|----------|
             | `commands.zip` | All 13 slash commands — copy to `~/.roo/commands/` |
-            | `skills.zip` | All 3 skills (forge, caveman, planning) — copy to `~/.roo/skills/` |
+            | `skills.zip` | All 6 skills (forge, caveman, grill-me, planning-and-task-breakdown, deep-research, conventional-commits) — copy to `~/.roo/skills/` |
+            | `rules.zip` | Native git commit guardrail rule — copy to `~/.roo/rules-git/` |
 
             ### Installation
 
             1. Download agent YAMLs and import into Roo Code → Settings → Custom Modes
             2. Download `commands.zip` and extract to `~/.roo/commands/`
             3. Download `skills.zip` and extract to `~/.roo/skills/`
+            4. Download `rules.zip` and extract to `~/.roo/rules-git/`
           files: |
             agents/orchestrator-export.yaml
             agents/subtask-orchestrator-export.yaml
@@ -82,5 +86,6 @@ jobs:
             agents/git-export.yaml
             commands.zip
             skills.zip
+            rules.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
