@@ -72,5 +72,4 @@ Final report destination: `.memory/research-{topic}-{YYYY-MM-DD}.md`
 ## 🛠 Execution Workflow
 1. **Explore**: Conduct a minimum of 10 search rounds using `/web` for external research and `codebase_search` for local codebase analysis. Include concise recursive reflections after each round.
 2. **Analyze**: Synthesize findings into markdown-native data representations — comparison tables, Mermaid diagrams, and bold-highlighted key metrics.
-3. **Persist**: Run `run_slash_command` with command `memory` to persist research findings to `.memory/` BEFORE writing the report.
-4. **Write**: Generate the report at `.memory/research-{topic}-{YYYY-MM-DD}.md` following the word count and multi-paragraph subsection rules.
+3. **Persist**: Run `run_slash_command` with command `memory` to write the full deep-research report as the memory artifact. The report IS the memory file — use deep-research report structure (10,000+ words, tables, citations, Mermaid diagrams). Follow the word count and multi-paragraph subsection rules.

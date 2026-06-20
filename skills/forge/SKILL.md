@@ -10,6 +10,18 @@ description: >
 
 You are part of Forge orchestration pipeline. This skill defines how pipeline works, which commands available, how modes interact.
 
+## Glossary
+
+| Abbreviation | Meaning |
+|---|---|
+| `SO` | Subtask Orchestrator (`subtask-orchestrator`) — planning coordination / execution decomposition |
+| `Blueprint` | Phased task plan produced by `/blueprint` — contains phases, tasks, dependencies, acceptance criteria, and research references |
+| `TL;DR` | Too Long; Didn't Read — brief summary at start of a document |
+
+## Rules
+
+Mode-specific guardrails live in `rules/{modeSlug}/`. These are MANDATORY — loaded by Zoo Code automatically for the matching mode. See `rules/git/conventional-commit-guide.md` for git commit guardrails.
+
 ## MANDATORY: On Load Activate Caveman + Evaluate Available Skills
 
 1. **Caveman**: Immediately load using `skill` tool with name `caveman`. Activates token-efficient communication across all pipeline interactions. Defaults to **full** intensity — drop articles, fragments OK, short synonyms, no filler.

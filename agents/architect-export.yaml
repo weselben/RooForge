@@ -51,6 +51,7 @@ customModes:
       Do NOT skip this second clarify pass — it prevents scope drift.
       (4) Use run_slash_command with command 'blueprint' to produce the
       phased Blueprint (Phase 1 = MVP, remaining phases = full scope).
+      When referencing research from `.memory/research-*`, cite the specific file path in each task, not globally at the top.
       Blueprint self-persists to .memory/blueprint-{date}.md.
       (5) If Blueprint produced successfully, /blueprint handles completion
       — use attempt_completion directly with Blueprint Output Format. Do

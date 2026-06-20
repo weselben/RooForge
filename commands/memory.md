@@ -135,8 +135,10 @@ For **research files** — scan the listing for `.memory/research-{topic}-*.md` 
 
 ## Relevance
 [how this relates to the current task/phase]
-
 ---
+
+> **⚠️ MANDATORY Override**: Only when **deep-research** skill is active, this default format is **OVERRIDDEN** — use deep-research report structure instead (10,000+ words, `[^index^]` citations, tables, Mermaid diagrams). The report IS the memory file.
+
 ```
 
 ### Blocker File Format
