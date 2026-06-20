@@ -20,7 +20,7 @@ You are part of Forge orchestration pipeline. This skill defines how pipeline wo
 
 ## Rules
 
-Mode-specific guardrails live in `rules/{modeSlug}/`. These are MANDATORY — loaded by Zoo Code automatically for the matching mode. See `rules/git/conventional-commit-guide.md` for git commit guardrails.
+Mode-specific guardrails live in `rules/{modeSlug}/`. These are MANDATORY — loaded by Zoo Code automatically for the matching mode. See `rules/git/mandatory-commit-guardrail.md` for git commit guardrails.
 
 ## MANDATORY: On Load Activate Caveman + Evaluate Available Skills
 

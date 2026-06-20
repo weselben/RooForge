@@ -19,6 +19,7 @@ The pipeline uses a **cascading command architecture**:
 - **Agent YAML files** (`agents/*.yaml`) — contain only flow logic (which commands to run when)
 - **Slash commands** (`commands/*.md`) — contain all format specifics, tool call structures, and behavioral details
 - **Skills** (`skills/*/SKILL.md`) — loaded on-demand by modes via `skill` tool (see Skills section below)
+- **Native rules** (`rules/git/`) — installed to `~/.roo/rules-git/`, enforce commit quality guardrails; supplements `/git`
 
 Commands cascade into each other: `/plan` → `/delegate`, `/debug` → `/delegate`, etc. This eliminates duplication and makes updates easy — change a command once, all modes benefit.
 
@@ -57,8 +58,8 @@ Each file in `agents/` follows: `customModes` array with `slug`, `name`, `iconNa
 ## Pipeline Enforcement
 
 Workflow: optional init via `/forge-init`, then planning (orchestrator → subtask-orchestrator → architect → Blueprint) and execution waves (orchestrator → subtask-orchestrator → code/debug → orchestrator → git after each phase). No mode switching — all delegation via `new_task`, all returns via `attempt_completion`. Architect restricted to `.md$` and `.memory/` file edits only.
-+
-+All delegated agents persist relevant context to `.memory/` before completion so downstream tasks can reuse cached input and avoid regenerating context.
+
+All delegated agents persist relevant context to `.memory/` before completion so downstream tasks can reuse cached input and avoid regenerating context.
 
 ### MANDATORY Execution Rule
 
@@ -83,6 +84,19 @@ All skills live in `skills/` and are loaded via the `skill` tool. Two load on st
 - planning-and-task-breakdown: loaded by architect during `/blueprint`
 - Other user-installed skills: evaluated per forge skill's "Skill evaluation" step
 
+## Native Rules
+
+All rules live in `rules/` and are installed to `~/.roo/rules-git/` via Zoo Code native rules mechanism.
+
+| Rule | Install Path | Purpose |
+|------|-------------|---------|
+| [`rules/git/mandatory-commit-guardrail.md`](rules/git/mandatory-commit-guardrail.md) | `~/.roo/rules-git/` | Git commit subject enforcement — anti-pattern detection, pipeline jargon ban, DO/DON'T guardrails. Supplements `/git`. |
+
+### Rule Loading Rules
+
+- Native rules are loaded automatically by Zoo Code when the rule's file pattern matches
+- The git commit guardrail rule **must** load `/git` via `run_slash_command` first (see rule content for enforcement details)
+
 ## Key Docs
 
 - `README.md` — Pipeline Mermaid diagrams, mode descriptions, install instructions
@@ -91,10 +105,11 @@ All skills live in `skills/` and are loaded via the `skill` tool. Two load on st
 - `skills/caveman/SKILL.md` — Token-efficient communication (auto-loaded by forge skill)
 - `skills/grill-me/SKILL.md` — Relentless interview protocol (mandatory on `/clarify`)
 - `mcp.md` — MCP server configuration (SearXNG + Git MCP)
+- `rules/git/mandatory-commit-guardrail.md` — Git commit guardrails (installed to `~/.roo/rules-git/`)
 
 ## Directory Structure
 
-All directory contents are documented in the root `README.md` repository structure tree. When adding new files to `agents/`, `commands/`, or `skills/`, update the root `README.md` accordingly.
+All directory contents are documented in the root `README.md` repository structure tree. When adding new files to `agents/`, `commands/`, `skills/`, or `rules/`, update the root `README.md` accordingly.
 
 ## About contributions (any git actions)
 
