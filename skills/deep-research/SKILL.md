@@ -1,15 +1,24 @@
 ---
 name: deep-research
-description: Utilizes a suite of tools to facilitate exhaustive, evidence-based deep research and long-form report engineering. Enforces a minimum 10-iteration search cycle, recursive reflection, and the production of structured reports exceeding 10,000 words with mandatory IPython visualizations and specific paragraph logic.
+description: Utilizes a suite of tools to facilitate exhaustive, evidence-based deep research and long-form report engineering. Enforces a minimum 10-iteration search cycle, recursive reflection, and the production of structured reports exceeding 10,000 words with markdown-native data tables and specific paragraph logic.
 source: moweme
 ---
+
+## Forge Integration
+
+- **Mode**: Loaded by `ask` mode via skill tool (after forge skill)
+- **Output**: `.memory/research-{topic}-{YYYY-MM-DD}.md`
+- **Web Research**: Use `run_slash_command` with command `web` for SearXNG searches + URL reading
+- **Codebase Analysis**: Use `codebase_search` for local file patterns and definitions
+- **Persistence**: Use `run_slash_command` with command `memory` to write findings to `.memory/`
+- **Completion**: Always `run_slash_command` with command `complete` before `attempt_completion`
 
 # Deep Research
 
 Execute a high-intensity research protocol focused on exhaustive discovery, continuous recursive reflection, and high-density analytical reporting. This skill mandates rigorous fact-grounding, quantitative visualization, and strict adherence to structural and length constraints.
 
 ## 📂 Output Path
-Final report destination: `/mnt/agents/output/report.md`
+Final report destination: `.memory/research-{topic}-{YYYY-MM-DD}.md`
 
 ## 🚀 Research & Discovery Phase (The 10+ Step Loop)
 
@@ -19,7 +28,7 @@ Final report destination: `/mnt/agents/output/report.md`
     - **Thinking**: Reflect on content found, identify unmet needs, and plan the next specific step.
     - **Summary**: Concise recap of key findings.
     - *Constraint*: Both sections must be **short and concise**.
-4.  **Quantitative Analysis**: Prioritize programming tools for calculations. Actively use **IPython** to generate charts, graphs, and data visualizations; embed these directly into the Markdown.
+4.  **Quantitative Analysis**: Prioritize data analysis via web research and codebase_search. Use **markdown-native** representations: tables for comparisons, Mermaid diagrams for flows/relationships, and bold-formatted key metrics. Embed findings directly into the Markdown report.
 
 ## 📝 Report Engineering Standards
 
@@ -61,6 +70,6 @@ Final report destination: `/mnt/agents/output/report.md`
 - **References**: Conclude with exactly **~10 high-quality, formatted references** linking to authoritative sources.
 
 ## 🛠 Execution Workflow
-1. **Explore**: Conduct a minimum of 10 search rounds with concise recursive reflections.
-2. **Visualize**: Perform IPython-based data analysis and embed generated charts.
-3. **Write**: Generate the article at `/mnt/agents/output/report.md` following the word count and multi-paragraph subsection rules.
+1. **Explore**: Conduct a minimum of 10 search rounds using `/web` for external research and `codebase_search` for local codebase analysis. Include concise recursive reflections after each round.
+2. **Analyze**: Synthesize findings into markdown-native data representations — comparison tables, Mermaid diagrams, and bold-highlighted key metrics.
+3. **Write**: Generate the report at `.memory/research-{topic}-{YYYY-MM-DD}.md` following the word count and multi-paragraph subsection rules. Use `run_slash_command` with command `memory` to persist findings.
