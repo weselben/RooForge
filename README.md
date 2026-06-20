@@ -213,6 +213,8 @@ mkdir -p ~/.roo/commands ~/.roo/skills ~/.roo/rules-git
 cp -rf commands/* ~/.roo/commands/
 # Only remove known RooForge skills — never rm -rf ~/.roo/skills/* to protect user-installed skills
 rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown ~/.roo/skills/conventional-commits
+# Only remove known RooForge rules — never rm -rf ~/.roo/rules-git/* to protect user-installed rules
+rm -rf ~/.roo/rules-git/mandatory-commit-guardrail.md
 cp -rf skills/* ~/.roo/skills/
 cp -rf rules/git/* ~/.roo/rules-git/
 ```
@@ -226,6 +228,8 @@ mkdir -p ~/.roo/commands ~/.roo/skills ~/.roo/rules-git
 cp -rf commands/* ~/.roo/commands/
 # Only remove known RooForge skills — never rm -rf ~/.roo/skills/* to protect user-installed skills
 rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown ~/.roo/skills/conventional-commits
+# Only remove known RooForge rules — never rm -rf ~/.roo/rules-git/* to protect user-installed rules
+rm -rf ~/.roo/rules-git/mandatory-commit-guardrail.md
 cp -rf skills/* ~/.roo/skills/
 cp -rf rules/git/* ~/.roo/rules-git/
 ```
