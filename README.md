@@ -46,10 +46,10 @@ flowchart TD
     O -->|"/forge-init"| INIT["💻 Code<br/>init"]
     INIT -->|"workspace ready"| O
 
-    O -->|"/plan"| SO_P["⚙️ Subtask Orchestrator<br/>planning"]
+    O -->|"/plan [PLAN]"| SO_P["⚙️ Subtask Orchestrator<br/>planning"]
     SO_P -->|"Blueprint"| O
 
-    O -->|"/execute"| SO_E["⚙️ Subtask Orchestrator<br/>execution"]
+    O -->|"/execute [EXEC]"| SO_E["⚙️ Subtask Orchestrator<br/>execution"]
     SO_E -->|"phase result"| O
     O -->|"/delegate"| G["📦 Git<br/>commit phase"]
     G -->|"committed"| O
@@ -191,6 +191,7 @@ All modes load **[`skills/forge/SKILL.md`](skills/forge/SKILL.md)** on startup. 
 | **[`skills/caveman/SKILL.md`](skills/caveman/SKILL.md)** | Auto-loaded by forge | Token-efficient communication (full intensity default) |
 | **[`skills/grill-me/SKILL.md`](skills/grill-me/SKILL.md)** | `/clarify` command | Relentless user interview — stress-test every design decision until shared understanding reached. **Mandatory** on every `/clarify` invocation. ([source](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md)) |
 | **[`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md)** | `/blueprint` command | Structured planning methodology for phased task breakdown. |
+| **[`skills/deep-research/SKILL.md`](skills/deep-research/SKILL.md)** | Auto-loaded by ask mode (after forge) | Exhaustive deep research protocol — 10+ iteration search loop, recursive reflection, markdown-native reports. Source: moweme |
 
 ## 🚀 Installation
 
@@ -318,6 +319,8 @@ The orchestration pipeline requires two MCP (Model Context Protocol) servers for
 │   │   └── SKILL.md                 # Pipeline orientation skill
 │   ├── caveman/
 │   │   └── SKILL.md                 # Token-efficient communication skill
+│   ├── deep-research/
+│   │   └── SKILL.md                 # Deep research protocol skill (moweme)
 │   ├── grill-me/
 │   │   └── SKILL.md                 # Relentless user interview skill
 │   └── planning-and-task-breakdown/

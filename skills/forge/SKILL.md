@@ -19,10 +19,12 @@ You are part of Forge orchestration pipeline. This skill defines how pipeline wo
 ## Pipeline Flow
 
 ```
-orchestrator → subtask-orchestrator (planning: clarify → research → architect) → orchestrator → subtask-orchestrator (execution: code/debug) → orchestrator → git → orchestrator
+orchestrator → subtask-orchestrator ([PLAN] or [EXEC] prefix) → orchestrator → git → orchestrator
 ```
 
-Two distinct phases: (1) Planning — orchestrator delegates to SO who coordinates clarify, research, and architect to produce Blueprint. (2) Execution — orchestrator navigates Blueprint phases, delegates each to SO for atomic decomposition, commits after each phase via git. Strict order non-negotiable. No mode skips phases or executes out of sequence.
+**subtask-orchestrator routing**: Task arrives with prefix. `[PLAN]` → planning lifecycle (clarify → research → architect → Blueprint). `[EXEC]` or no prefix → execution (decompose Blueprint → delegate to code/debug). Routing is determined by task prefix — see subtask-orchestrator's customInstructions for full flow.
+
+Two distinct phases: (1) Planning — orchestrator delegates to SO with [PLAN] prefix who coordinates clarify, research, and architect to produce Blueprint. (2) Execution — orchestrator navigates Blueprint phases, delegates each to SO with [EXEC] prefix for atomic decomposition, commits after each phase via git. Strict order non-negotiable. No mode skips phases or executes out of sequence.
 
 ## Working Memory
 
@@ -121,24 +123,3 @@ All modes forbidden from using `switch_mode`. All delegation uses `new_task`. Al
 
 ### Context is Explicit
 Never assume downstream modes have context. Every `new_task` must be self-contained with all relevant intel, Blueprint excerpts, context chains embedded explicitly.
-
-## Quick Reference
-
-```
-Starting a project:   run /forge-init → creates .memory/, .gitignore, AGENTS.md, git init
-Starting any task:    load 'forge' skill → load 'caveman' skill → evaluate available skills → understand pipeline + commands
-Need user clarity:    run /clarify → loads 'grill-me' skill → structured ask_followup_question
-Need web intel:       run /web → search + read URLs via SearXNG MCP
-Need intel:           run /research → (cascades to /delegate with ask)
-Plan a Blueprint:     run /plan → (cascades to /delegate with subtask-orchestrator)
-Planning lifecycle:   run /planning → clarify → research → architect → Blueprint (SO internal)
-Need a Blueprint:     run /blueprint → phased tasks with MVP-first ordering (architect internal)
-Need to execute:      run /execute → (cascades to /delegate with subtask-orchestrator)
-Hit an error (code):  run /debug → (cascades to /delegate with debug)
-Git operations:       run /git → MCP-first, CLI fallback (branch setup + pull/sync on main)
-Need to commit:       run /delegate with git mode
-Persist knowledge:    run /memory → direct edit to phase memory file
-Blocked:              run /complete with Blocked Variant → attempt_completion
-Done with work:       run /complete → format attempt_completion
-Final user output:    run /finalize → human-readable result
-```

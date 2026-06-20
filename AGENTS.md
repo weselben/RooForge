@@ -74,6 +74,7 @@ All skills live in `skills/` and are loaded via the `skill` tool. Two load on st
 | [`skills/caveman/SKILL.md`](skills/caveman/SKILL.md) | **Startup** (auto-loaded by forge) | Token-efficient communication (full intensity default) | Project-owned |
 | [`skills/grill-me/SKILL.md`](skills/grill-me/SKILL.md) | **Mandatory on `/clarify`** | Relentless user interview — stress-test every design decision until shared understanding | [mattpocock/skills](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) |
 | [`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md) | **On `/blueprint`** | Structured planning methodology for phased task breakdown | Project-owned |
+| [`skills/deep-research/SKILL.md`](skills/deep-research/SKILL.md) | **Startup** (auto-loaded by ask mode, after forge) | Exhaustive deep research — 10+ iteration search loop, recursive reflection, markdown-native reports | [moweme](skills/deep-research/SKILL.md) |
 
 ### Skill Loading Rules
 
