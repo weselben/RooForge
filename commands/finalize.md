@@ -24,7 +24,7 @@ Cross-reference all memory content against subtask output:
 - Every research finding → incorporated or explicitly scoped out
 - If gaps found → state them honestly in Known Limitations, do NOT silently skip
 
-### 3. Consolidate AGENTS.md
+### 3. MANDATORY Consolidate AGENTS.md
 Read all `.memory/` files — internalize every decision, finding, blocker, and
 web source referenced during execution. Then run `run_slash_command` with
 command `init` to produce a consolidated, pipeline-agnostic `AGENTS.md`:
@@ -34,7 +34,13 @@ command `init` to produce a consolidated, pipeline-agnostic `AGENTS.md`:
 - Preserve all sections marked MANDATORY — do not remove, rename, or rephrase them unless explicitly told by the User
 - Write the consolidated file to `AGENTS.md` at project root — keep it tight.
 
-### 3.1 MANDATORY AGENTS.md Guardrails
+### 3.1 MANDATORY AGENTS.md + README.md Sync
+After updating `AGENTS.md`, you **MUST** also update [`README.md`](README.md) to stay in sync. This is non-negotiable per the Documentation Sync Rule in `AGENTS.md`:
+- If a section was added/removed/changed in `AGENTS.md`, the corresponding section in `README.md` **must** be updated
+- Never let one file drift out of sync with the other
+- This step is MANDATORY — skipping it creates documentation gaps
+
+### 3.2 MANDATORY AGENTS.md Guardrails
 - Verify all entries in AGENTS.md against the actual repository — fix stale or minor inaccuracies (e.g. version mismatches) directly; if whole sections misrepresent the codebase, run `run_slash_command` with `clarify` before rewriting.
 - Execute all steps marked MANDATORY in the newly written AGENTS.md before proceeding to cleanup (memory).
 

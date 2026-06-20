@@ -8,7 +8,7 @@ source: moweme
 
 - **Mode**: Loaded by `ask` mode via skill tool (after forge skill)
 - **Output**: `.memory/research-{topic}-{YYYY-MM-DD}.md`
-- **Web Research**: Use `run_slash_command` with command `web` for SearXNG searches + URL reading
+- **Web Research**: **MANDATORY** — Use `run_slash_command` with command `web` for all external web research (SearXNG searches + URL reading). Never search the web without loading `/web` first.
 - **Codebase Analysis**: Use `codebase_search` for local file patterns and definitions
 - **Persistence**: Use `run_slash_command` with command `memory` to write findings to `.memory/`
 - **Completion**: Always `run_slash_command` with command `complete` before `attempt_completion`
@@ -72,4 +72,5 @@ Final report destination: `.memory/research-{topic}-{YYYY-MM-DD}.md`
 ## 🛠 Execution Workflow
 1. **Explore**: Conduct a minimum of 10 search rounds using `/web` for external research and `codebase_search` for local codebase analysis. Include concise recursive reflections after each round.
 2. **Analyze**: Synthesize findings into markdown-native data representations — comparison tables, Mermaid diagrams, and bold-highlighted key metrics.
-3. **Write**: Generate the report at `.memory/research-{topic}-{YYYY-MM-DD}.md` following the word count and multi-paragraph subsection rules. Use `run_slash_command` with command `memory` to persist findings.
+3. **Persist**: Run `run_slash_command` with command `memory` to persist research findings to `.memory/` BEFORE writing the report.
+4. **Write**: Generate the report at `.memory/research-{topic}-{YYYY-MM-DD}.md` following the word count and multi-paragraph subsection rules.

@@ -82,6 +82,6 @@ Use your judgment — enough clarification when direction is clear. Too much cla
 - Do NOT over-clarify — stop when clear direction exists
 - Always return context summary for orchestrator via attempt_completion
 - Always run /complete before attempt_completion
-
+- It is **MANDATORY** to NOT skip the planning lifecycle — even if scope seems obvious, always execute the full `run_slash_command` with command `clarify` → `run_slash_command` with command `research` → architect → `run_slash_command` with command `blueprint` pipeline. Skipping steps produces incomplete Blueprints.
 ## Important
 Run `run_slash_command` ('planning') once to load this context → follow the flow. Always re-run `/delegate` for each `new_task`. Always re-run `/complete` before `attempt_completion`.

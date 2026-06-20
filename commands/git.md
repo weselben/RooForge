@@ -10,6 +10,8 @@ description: >
 
 MCP-first for structured git ops. CLI fallback when MCP unavailable.
 
+> **⚠️ Working Directory**: Set the correct working directory before any git MCP operation. Use `execute_command` with `pwd` to verify, or pass the `cwd` parameter to MCP tools if available. Git operations in the wrong directory can stage or commit unintended files.
+
 ## Commit Workflow
 
 ### First Commit of a Blueprint (Branch Setup)
