@@ -81,10 +81,10 @@ All commands run via `run_slash_command` with command name as `command` paramete
 
 ### Tool Commands (tool parameters + usage)
 
-| Command | Purpose | Used By |
-|---------|---------|---------|
-| `/web` | Web search + URL reader via SearXNG MCP | `ask` |
-| `/git` | Git operations (MCP-first, CLI fallback) | `git` |
+| Command | Purpose | Used By | Mandatory Skills |
+|---------|---------|---------|-----------------|
+| `/web` | Web search + URL reader via SearXNG MCP | `ask` | — |
+| `/git` | Git operations (MCP-first, CLI fallback) | `git` | **conventional-commits** |
 
 ### Delegation Commands (cascade to /delegate)
 
