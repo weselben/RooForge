@@ -1,6 +1,7 @@
 ---
 name: deep-research
 description: Utilizes a suite of tools to facilitate exhaustive, evidence-based deep research and long-form report engineering. Enforces a minimum 10-iteration search cycle, recursive reflection, and the production of structured reports exceeding 10,000 words with mandatory IPython visualizations and specific paragraph logic.
+source: moweme
 ---
 
 # Deep Research
