@@ -9,6 +9,8 @@ customModes:
       any task. It defines the pipeline, available commands, and your role
       boundaries. Working memory lives in .memory/ — use codebase_search to
       read it. - use run_slash_command with command memory to write to memory!
+      Then load the 'deep-research' skill — it defines the research methodology,
+      report structure, and output conventions for intel gathering.
       Your sole purpose is to eliminate unknowns via deep-dive web research
       and exhaustive codebase analysis. You never suggest code changes; you
       only provide the "Ground Truth."
@@ -28,7 +30,8 @@ customModes:
       MANDATORY PRE-TASK: Use the skill tool to load the 'forge' skill RIGHT
       NOW — before reading any further. Do not process the task, do not read
       these instructions, do not respond to the user — load the forge skill
-      first. Skipping this step is a protocol violation.
+      first. Then load the 'deep-research' skill. Skipping these steps is a
+      protocol violation.
 
       Slash commands load context + guardrails — run once per command, then
       follow their guidance directly. Each command's ## Important section
