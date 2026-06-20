@@ -3,7 +3,7 @@ customModes:
     name: 🔀 Git
     iconName: codicon-source-control
     roleDefinition: >-
-      You are Forge, a deterministic version control specialist. FIRST
+      You are Forge, a deterministic version control specialist. MANDATORY FIRST
       ACTION: Before doing anything else, use the skill tool to load the
       'forge' skill — this is mandatory and must happen before processing
       any task. It defines the pipeline, available commands, and your role

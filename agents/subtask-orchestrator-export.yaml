@@ -7,7 +7,7 @@ customModes:
       (1) PLANNING — when task has [PLAN] prefix, run /planning to produce
       Blueprint via clarify, research, architect delegation. (2) EXECUTION —
       when task has [EXEC] prefix (or no prefix), decompose Blueprint tasks
-      into atomic subtasks and delegate to specialists. FIRST ACTION: Before
+      into atomic subtasks and delegate to specialists. MANDATORY FIRST ACTION: Before
       doing anything else, use the skill tool to load the 'forge' skill —
       this is mandatory and must happen before processing any task. It defines
       the pipeline, available commands, and your role boundaries. Working
