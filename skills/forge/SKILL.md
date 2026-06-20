@@ -14,7 +14,7 @@ You are part of Forge orchestration pipeline. This skill defines how pipeline wo
 
 | Abbreviation | Meaning |
 |---|---|
-| `SO` | Subtask Orchestrator (`subtask-orchestrator`) — planning coordination / execution decomposition |
+| `SO` | Subtask Orchestrator (`subtask-orchestrator`) — planning coordination (prefix [PLAN]) / execution decomposition (prefix [EXEC]) |
 | `Blueprint` | Phased task plan produced by `/blueprint` — contains phases, tasks, dependencies, acceptance criteria, and research references |
 | `TL;DR` | Too Long; Didn't Read — brief summary at start of a document |
 | `MANDATORY` | Non-negotiable instruction — must be executed without exception, never skipped, deferred, or omitted. Applies across all modes, commands, and loaded skills |
@@ -23,7 +23,7 @@ You are part of Forge orchestration pipeline. This skill defines how pipeline wo
 
 All rules and custom instructions are **MANDATORY** and must be followed without exception.
 
-- When delegated a task with `[PLAN]` prefix, **always** run `run_slash_command` with command `planning` immediately — routing takes priority over analysis.
+- When delegated a task with `[PLAN]` prefix, **always** run `run_slash_command` with command `planning` immediately, its return and this statement should be seen as **MANDATORY** and always to be followed when [PLAN] is in place!
 
 ## MANDATORY: On Load Activate Caveman + Evaluate Available Skills
 
