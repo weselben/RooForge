@@ -220,6 +220,7 @@ rm -f ~/.roo/mcp/pdf-curl-server.sh
 cp -rf skills/* ~/.roo/skills/
 cp -rf rules/git/* ~/.roo/rules-git/
 cp mcp/pdf-curl-server.sh ~/.roo/mcp/
+chmod +x ~/.roo/mcp/pdf-curl-server.sh
 ```
 
 To install a **specific version**, clone by tag instead:
@@ -237,6 +238,7 @@ rm -f ~/.roo/mcp/pdf-curl-server.sh
 cp -rf skills/* ~/.roo/skills/
 cp -rf rules/git/* ~/.roo/rules-git/
 cp mcp/pdf-curl-server.sh ~/.roo/mcp/
+chmod +x ~/.roo/mcp/pdf-curl-server.sh
 ```
 
 > **Why remove specific skills, not all?** The `rm -rf` targets only known RooForge skills (`caveman`, `conventional-commits`, `forge`, `grill-me`, `planning-and-task-breakdown`). This prevents accidental deletion of user-installed skills (e.g. via `npx skills add` or manual installs). If you add a new skill to this repo, **you must add it to the `rm -rf` line** in both install commands above.
