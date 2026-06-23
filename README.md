@@ -301,7 +301,7 @@ The orchestration pipeline requires the following MCP (Model Context Protocol) s
 |--------|-------------|---------|
 | **SearXNG** | Ask | Web search & URL reading |
 | **curl-download** | Ask | PDF download from URLs (1 tool) |
-| **pdf-reader-mcp** | Ask | Extract and parse text from PDFs |
+| **pdf-reader-mcp** | Ask | Extract and parse text from PDFs (7 tools) |
 | **Git MCP** | Git | Git operations (CLI fallback) |
 
 > 💡 See [`mcp.md`](mcp.md) for full setup instructions, configuration details, and usage examples.

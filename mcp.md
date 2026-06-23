@@ -38,7 +38,7 @@ The Forge pipeline requires three MCP servers for full functionality. Add the en
     "pdf-reader-mcp": {
       "command": "npx",
       "args": ["-y", "@sylphx/pdf-reader-mcp"],
-      "alwaysAllow": ["read_pdf", "search_pdf", "inspect_pdf"]
+      "alwaysAllow": ["read_pdf", "search_pdf", "inspect_pdf", "ocr_pages", "analyze_regions", "extract_regions", "render_page"]
     },
     "git-mcp-server": {
       "command": "npx",
@@ -170,6 +170,10 @@ Ask mode uses [`@sylphx/pdf-reader-mcp`](https://www.npmjs.com/package/@sylphx/p
 | `read_pdf` | Extract full text or Markdown from a PDF | `sources`, `include_full_text`, `include_markdown`, `maxLength` |
 | `search_pdf` | Search for specific terms within a PDF | `query`, `sources`, `case_sensitive`, `max_matches_per_source` |
 | `inspect_pdf` | Get metadata and structure overview | `sources` |
+| `ocr_pages` | OCR text from scanned/image pages | `sources`, `pages`, `language`, `include_ocr_text_layer` |
+| `analyze_regions` | Analyze document layout regions | `sources`, `pages`, `region_types`, `include_image` |
+| `extract_regions` | Extract specific regions from pages | `sources`, `pages`, `regions`, `include_image` |
+| `render_page` | Render page as image or preview | `sources`, `pages`, `format`, `dpi`, `include_image` |
 
 ### Setup
 

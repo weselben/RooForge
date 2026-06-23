@@ -117,7 +117,7 @@ All rules live in `rules/` and are installed to `~/.roo/rules-git/` via Zoo Code
 |--------|-------------|---------|-------|
 | **SearXNG** | `ask` | Web search & URL reading | `searxng_web_search`, `web_url_read` |
 | **curl-download** | `ask` | PDF download from URLs | `curl_download` (1) |
-| **pdf-reader-mcp** | `ask` | Extract and parse text from PDFs | `read_pdf`, `search_pdf`, `inspect_pdf` |
+| **pdf-reader-mcp** | `ask` | Extract and parse text from PDFs | `read_pdf`, `search_pdf`, `inspect_pdf`, `ocr_pages`, `analyze_regions`, `extract_regions`, `render_page` |
 | **Git MCP** | `git` | Git operations | 20+ tools |
 
 ## Key Docs
