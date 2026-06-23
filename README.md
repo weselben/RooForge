@@ -14,7 +14,7 @@ A hierarchical pipeline of specialized AI modes — from strategic planning to a
 
 ---
 
-**Jump to:** [Overview](#-overview) · [Pipeline](#-the-pipeline) · [Modes](#-modes) · [Commands](#-slash-commands) · [Installation](#-installation) · [MCP Servers](#-mcp-servers) · [Contributing](#-contributing)
+**Jump to:** [Overview](#-overview) · [Pipeline](#-the-pipeline) · [Modes](#-modes) · [Commands](#-slash-commands) · [Native Rules](#-native-rules) · [Installation](#-installation) · [MCP Servers](#-mcp-servers) · [Contributing](#-contributing)
 
 ---
 
@@ -46,10 +46,10 @@ flowchart TD
     O -->|"/forge-init"| INIT["💻 Code<br/>init"]
     INIT -->|"workspace ready"| O
 
-    O -->|"/plan"| SO_P["⚙️ Subtask Orchestrator<br/>planning"]
+    O -->|"/plan [PLAN]"| SO_P["⚙️ Subtask Orchestrator<br/>planning"]
     SO_P -->|"Blueprint"| O
 
-    O -->|"/execute"| SO_E["⚙️ Subtask Orchestrator<br/>execution"]
+    O -->|"/execute [EXEC]"| SO_E["⚙️ Subtask Orchestrator<br/>execution"]
     SO_E -->|"phase result"| O
     O -->|"/delegate"| G["📦 Git<br/>commit phase"]
     G -->|"committed"| O
@@ -191,6 +191,16 @@ All modes load **[`skills/forge/SKILL.md`](skills/forge/SKILL.md)** on startup. 
 | **[`skills/caveman/SKILL.md`](skills/caveman/SKILL.md)** | Auto-loaded by forge | Token-efficient communication (full intensity default) |
 | **[`skills/grill-me/SKILL.md`](skills/grill-me/SKILL.md)** | `/clarify` command | Relentless user interview — stress-test every design decision until shared understanding reached. **Mandatory** on every `/clarify` invocation. ([source](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md)) |
 | **[`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md)** | `/blueprint` command | Structured planning methodology for phased task breakdown. |
+| **[`skills/deep-research/SKILL.md`](skills/deep-research/SKILL.md)** | Auto-loaded by ask mode (after forge) | Exhaustive deep research protocol — 10+ iteration search loop, recursive reflection, markdown-native reports. Source: moweme |
+| **[`skills/conventional-commits/SKILL.md`](skills/conventional-commits/SKILL.md)** | `/git` command | Conventional Commits v1.0.0 format reference — types, SemVer mapping, breaking changes, revert rules | Project-owned |
+
+## 📏 Native Rules
+
+Zoo Code native rules installed to `~/.roo/rules-git/`. Loaded automatically when the rule's file pattern matches.
+
+| Rule | Install Path | Purpose |
+|------|-------------|---------|
+| **[`rules/git/mandatory-commit-guardrail.md`](rules/git/mandatory-commit-guardrail.md)** | `~/.roo/rules-git/` | Git commit subject enforcement — anti-pattern detection, pipeline jargon ban, DO/DON'T guardrails. Supplements `/git`. |
 
 ## 🚀 Installation
 
@@ -199,11 +209,14 @@ All modes load **[`skills/forge/SKILL.md`](skills/forge/SKILL.md)** on startup. 
 ```bash
 git clone https://github.com/weselben/RooForge.git
 cd RooForge
-mkdir -p ~/.roo/commands ~/.roo/skills
+mkdir -p ~/.roo/commands ~/.roo/skills ~/.roo/rules-git
 cp -rf commands/* ~/.roo/commands/
 # Only remove known RooForge skills — never rm -rf ~/.roo/skills/* to protect user-installed skills
-rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown
+rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown ~/.roo/skills/conventional-commits
+# Only remove known RooForge rules — never rm -rf ~/.roo/rules-git/* to protect user-installed rules
+rm -rf ~/.roo/rules-git/mandatory-commit-guardrail.md
 cp -rf skills/* ~/.roo/skills/
+cp -rf rules/git/* ~/.roo/rules-git/
 ```
 
 To install a **specific version**, clone by tag instead:
@@ -211,16 +224,20 @@ To install a **specific version**, clone by tag instead:
 ```bash
 git clone --branch v1.2.3 --depth 1 https://github.com/weselben/RooForge.git
 cd RooForge
-mkdir -p ~/.roo/commands ~/.roo/skills
+mkdir -p ~/.roo/commands ~/.roo/skills ~/.roo/rules-git
 cp -rf commands/* ~/.roo/commands/
 # Only remove known RooForge skills — never rm -rf ~/.roo/skills/* to protect user-installed skills
-rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown
+rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown ~/.roo/skills/conventional-commits
+# Only remove known RooForge rules — never rm -rf ~/.roo/rules-git/* to protect user-installed rules
+rm -rf ~/.roo/rules-git/mandatory-commit-guardrail.md
 cp -rf skills/* ~/.roo/skills/
+cp -rf rules/git/* ~/.roo/rules-git/
 ```
 
-> **Why remove specific skills, not all?** The `rm -rf` targets only known RooForge skills (`caveman`, `forge`, `grill-me`, `planning-and-task-breakdown`). This prevents accidental deletion of user-installed skills (e.g. via `npx skills add` or manual installs). If you add a new skill to this repo, **you must add it to the `rm -rf` line** in both install commands above.
+> **Why remove specific skills, not all?** The `rm -rf` targets only known RooForge skills (`caveman`, `conventional-commits`, `forge`, `grill-me`, `planning-and-task-breakdown`). This prevents accidental deletion of user-installed skills (e.g. via `npx skills add` or manual installs). If you add a new skill to this repo, **you must add it to the `rm -rf` line** in both install commands above.
 >
-> See [Zoo Code Slash Commands docs](https://docs.zoocode.dev/features/slash-commands) and [Skills docs](https://docs.zoocode.dev/features/skills) for details on global directories.
+> See [Zoo Code Slash Commands docs](https://docs.zoocode.dev/features/slash-commands), [Skills docs](https://docs.zoocode.dev/features/skills), and [Rules docs](https://docs.zoocode.dev/features/rules) for details on global directories.
+
 
 ### Import Agent Modes
 
@@ -312,12 +329,19 @@ The orchestration pipeline requires two MCP (Model Context Protocol) servers for
 │   ├── debug.md                     # /debug — error resolution
 │   ├── memory.md                    # /memory — phase-based memory persistence
 │   └── forge-init.md                # /forge-init — project initialization
+├── rules/
+│   └── git/
+│       └── mandatory-commit-guardrail.md  # Git commit guardrails (installed to ~/.roo/rules-git/)
 ├── skills/
 │   ├── forge/
 │   │   ├── README.md                # Forge skill overview
 │   │   └── SKILL.md                 # Pipeline orientation skill
 │   ├── caveman/
 │   │   └── SKILL.md                 # Token-efficient communication skill
+│   ├── deep-research/
+│   │   └── SKILL.md                 # Deep research protocol skill (moweme)
+│   ├── conventional-commits/
+│   │   └── SKILL.md                 # Conventional Commits v1.0.0 spec reference
 │   ├── grill-me/
 │   │   └── SKILL.md                 # Relentless user interview skill
 │   └── planning-and-task-breakdown/

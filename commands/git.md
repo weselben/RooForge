@@ -2,13 +2,15 @@
 name: git
 description: >
   Git operations. MCP-first with CLI fallback. Contains commit workflow,
-  branch management, pull/sync, tool reference, conventional commit format,
-  and CLI temp file pattern. Used by git mode.
+  branch management, pull/sync, tool reference, and CLI temp file pattern.
+  Used by git mode.
 ---
 
 # /git — Git Operations (MCP + CLI)
 
 MCP-first for structured git ops. CLI fallback when MCP unavailable.
+
+> **⚠️ Working Directory**: Set the correct working directory before any git MCP operation. Use `execute_command` with `pwd` to verify, or pass the `cwd` parameter to MCP tools if available. Git operations in the wrong directory can stage or commit unintended files.
 
 ## Commit Workflow
 
@@ -79,11 +81,9 @@ Always clean up temp file — even on failure.
 
 ## Conventional Commit Format
 
-`<type>(<scope>): <subject>` — imperative mood, max 72 chars, no trailing period.
+**MANDATORY**: Load `conventional-commits` skill via `skill` tool before creating any commit message.
 
-Body: WHAT changed + WHY. Footer: `BREAKING CHANGE:` if applicable.
-
-Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`.
+Quick reference: `<type>(<scope>): <subject>` — imperative mood, max 72 chars, no trailing period.
 
 ## Branch Naming
 
@@ -98,6 +98,7 @@ Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`
 - Always use temp file pattern for CLI commits — never `-m` with special characters.
 - Always clean up `/tmp/forge-commit.txt` after commit.
 - Never pipe user content into shell commands without sanitization.
+- Load `conventional-commits` skill before creating any commit message.
 
 ## Important
 Run `run_slash_command` ('git') at the start of each git task to load this context → use MCP git tools or CLI directly.

@@ -18,9 +18,9 @@ Two tools for web intel gathering. Use `searxng_web_search` to find → `web_url
 |-----------|------|----------|---------|-------------|
 | `query` | `string` | ✅ | — | Search query. Be specific. |
 | `pageno` | `number` | ❌ | `1` | Page number for pagination. |
-| `time_range` | `"day"` \| `"month"` \| `"year"` | ❌ | — | Filter by recency. |
+| `time_range` | `"day"`, `"month"`, `"year"` | ❌ | — | Filter by recency. |
 | `language` | `string` | ❌ | `"all"` | Language code (e.g. `en`, `de`). |
-| `safesearch` | `0` \| `1` \| `2` | ❌ | `0` | 0=None, 1=Moderate, 2=Strict. |
+| `safesearch` | `0`, `1`, `2` | ❌ | `0` | 0=None, 1=Moderate, 2=Strict. |
 
 ### Search Rules
 

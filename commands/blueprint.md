@@ -66,6 +66,7 @@ Each task follows this format:
 - `path/to/file`
 
 **Scope:** [XS: 1 file | S: 1-2 files | M: 3-5 files | L: split further]
+**Research Context:** [path to `.memory/research-*.md` if applicable — optional]
 
 ## Task Sizing
 
@@ -94,6 +95,7 @@ If task is L or larger → split. Agents perform best on S + M tasks.
 5. **No implementation detail** — WHAT + WHY, not HOW
 6. **MVP-first** — Phase 1 must deliver working value
 7. **Checkpoint between phases** — system stays working after each phase
+8. **Per-task research references** — reference research files per-task, not globally. If research applies to multiple tasks, cite the relevant `.memory/research-*` path in each task individually.
 
 ## Output Format
 
@@ -113,6 +115,7 @@ Phase 1: [MVP / Foundation Name]
     Dependencies: [none or task refs]
     Files likely touched: [paths]
     Scope: [XS/S/M]
+    Research Context: [path — optional]
 
   Task 1.2: [Title]
     ...
@@ -174,6 +177,7 @@ Do NOT call `/complete` after `/blueprint` — this format IS the completion out
 - Every phase ends with checkpoint confirming working state
 - Blueprint MUST be persisted to `.memory/blueprint-{YYYY-MM-DD}.md` — no exceptions
 - Do NOT call /memory from /blueprint — the blueprint file is self-contained
+- Reference research per-task, not globally — if research applies to multiple tasks, cite the specific `.memory/research-*` path in each task individually.
 
 ## Important
 Run `run_slash_command` ('blueprint') once to load this context → apply methodology directly. Blueprint self-persists to `.memory/`. Step 6 covers `attempt_completion` — do NOT call `/complete` after `/blueprint`.

@@ -19,6 +19,7 @@ The pipeline uses a **cascading command architecture**:
 - **Agent YAML files** (`agents/*.yaml`) — contain only flow logic (which commands to run when)
 - **Slash commands** (`commands/*.md`) — contain all format specifics, tool call structures, and behavioral details
 - **Skills** (`skills/*/SKILL.md`) — loaded on-demand by modes via `skill` tool (see Skills section below)
+- **Native rules** (`rules/git/`) — installed to `~/.roo/rules-git/`, enforce commit quality guardrails; supplements `/git`
 
 Commands cascade into each other: `/plan` → `/delegate`, `/debug` → `/delegate`, etc. This eliminates duplication and makes updates easy — change a command once, all modes benefit.
 
@@ -57,8 +58,8 @@ Each file in `agents/` follows: `customModes` array with `slug`, `name`, `iconNa
 ## Pipeline Enforcement
 
 Workflow: optional init via `/forge-init`, then planning (orchestrator → subtask-orchestrator → architect → Blueprint) and execution waves (orchestrator → subtask-orchestrator → code/debug → orchestrator → git after each phase). No mode switching — all delegation via `new_task`, all returns via `attempt_completion`. Architect restricted to `.md$` and `.memory/` file edits only.
-+
-+All delegated agents persist relevant context to `.memory/` before completion so downstream tasks can reuse cached input and avoid regenerating context.
+
+All delegated agents persist relevant context to `.memory/` before completion so downstream tasks can reuse cached input and avoid regenerating context.
 
 ### MANDATORY Execution Rule
 
@@ -74,13 +75,29 @@ All skills live in `skills/` and are loaded via the `skill` tool. Two load on st
 | [`skills/caveman/SKILL.md`](skills/caveman/SKILL.md) | **Startup** (auto-loaded by forge) | Token-efficient communication (full intensity default) | Project-owned |
 | [`skills/grill-me/SKILL.md`](skills/grill-me/SKILL.md) | **Mandatory on `/clarify`** | Relentless user interview — stress-test every design decision until shared understanding | [mattpocock/skills](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) |
 | [`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md) | **On `/blueprint`** | Structured planning methodology for phased task breakdown | Project-owned |
+| [`skills/deep-research/SKILL.md`](skills/deep-research/SKILL.md) | **Startup** (auto-loaded by ask mode, after forge) | Exhaustive deep research — 10+ iteration search loop, recursive reflection, markdown-native reports | [moweme](skills/deep-research/SKILL.md) |
+| [`skills/conventional-commits/SKILL.md`](skills/conventional-commits/SKILL.md) | **Mandatory on `/git`** | Conventional Commits v1.0.0 format reference — types, SemVer mapping, breaking changes | Project-owned |
 
 ### Skill Loading Rules
 
 - Forge + caveman: always loaded first (non-negotiable)
 - grill-me: **mandatory** on every `/clarify` invocation — do not skip
 - planning-and-task-breakdown: loaded by architect during `/blueprint`
+- conventional-commits: **mandatory** on every `/git` invocation — load before creating commit messages
 - Other user-installed skills: evaluated per forge skill's "Skill evaluation" step
+
+## Native Rules
+
+All rules live in `rules/` and are installed to `~/.roo/rules-git/` via Zoo Code native rules mechanism.
+
+| Rule | Install Path | Purpose |
+|------|-------------|---------|
+| [`rules/git/mandatory-commit-guardrail.md`](rules/git/mandatory-commit-guardrail.md) | `~/.roo/rules-git/` | Git commit subject enforcement — anti-pattern detection, pipeline jargon ban, DO/DON'T guardrails. Supplements `/git`. |
+
+### Rule Loading Rules
+
+- Native rules are loaded automatically by Zoo Code when the rule's file pattern matches
+- The git commit guardrail rule **must** load `/git` via `run_slash_command` first (see rule content for enforcement details)
 
 ## Key Docs
 
@@ -90,7 +107,12 @@ All skills live in `skills/` and are loaded via the `skill` tool. Two load on st
 - `skills/caveman/SKILL.md` — Token-efficient communication (auto-loaded by forge skill)
 - `skills/grill-me/SKILL.md` — Relentless interview protocol (mandatory on `/clarify`)
 - `mcp.md` — MCP server configuration (SearXNG + Git MCP)
+- `rules/git/mandatory-commit-guardrail.md` — Git commit guardrails (installed to `~/.roo/rules-git/`)
 
 ## Directory Structure
 
-All directory contents are documented in the root `README.md` repository structure tree. When adding new files to `agents/`, `commands/`, or `skills/`, update the root `README.md` accordingly.
+All directory contents are documented in the root `README.md` repository structure tree. When adding new files to `agents/`, `commands/`, `skills/`, or `rules/`, update the root `README.md` accordingly.
+
+## About contributions (any git actions)
+
+Any changes to commands/*, agents/*, skills/* are never docs commits, as this in this project is the actuall "code" so here fix feat or similiar commits should be made but **NEVER** docs!
