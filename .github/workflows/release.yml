@@ -9,6 +9,7 @@ on:
       - "commands/**"
       - "skills/**"
       - "rules/**"
+      - "mcp/**"
 
 permissions:
   contents: write
@@ -41,6 +42,7 @@ jobs:
           zip -r commands.zip commands/
           zip -r skills.zip skills/
           zip -r rules.zip rules/
+          zip -r mcp.zip mcp/
 
       - name: Create GitHub Release
         if: steps.semantic.outputs.new_tag != steps.semantic.outputs.previous_tag
@@ -70,6 +72,7 @@ jobs:
             | `commands.zip` | All 13 slash commands — copy to `~/.roo/commands/` |
             | `skills.zip` | All 6 skills (forge, caveman, grill-me, planning-and-task-breakdown, deep-research, conventional-commits) — copy to `~/.roo/skills/` |
             | `rules.zip` | Native git commit guardrail rule — copy to `~/.roo/rules-git/` |
+            | `mcp.zip` | MCP server scripts (pdf-curl-server.sh) — copy to `~/.roo/mcp/` |
 
             ### Installation
 
@@ -77,6 +80,7 @@ jobs:
             2. Download `commands.zip` and extract to `~/.roo/commands/`
             3. Download `skills.zip` and extract to `~/.roo/skills/`
             4. Download `rules.zip` and extract to `~/.roo/rules-git/`
+            5. Download `mcp.zip` and extract to `~/.roo/mcp/`
           files: |
             agents/orchestrator-export.yaml
             agents/subtask-orchestrator-export.yaml
@@ -87,5 +91,6 @@ jobs:
             commands.zip
             skills.zip
             rules.zip
+            mcp.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
