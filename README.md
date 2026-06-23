@@ -195,7 +195,11 @@ All modes load **[`skills/forge/SKILL.md`](skills/forge/SKILL.md)** on startup. 
 | **[`skills/caveman/SKILL.md`](skills/caveman/SKILL.md)** | Auto-loaded by forge | Token-efficient communication (full intensity default) |
 | **[`skills/grill-me/SKILL.md`](skills/grill-me/SKILL.md)** | `/clarify` command | Relentless user interview — stress-test every design decision until shared understanding reached. **Mandatory** on every `/clarify` invocation. ([source](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md)) |
 | **[`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md)** | `/blueprint` command | Structured planning methodology for phased task breakdown. |
-| **[`skills/subtask-breakdown/SKILL.md`](skills/subtask-breakdown/SKILL.md)** | `[EXEC]` phase | Atomic subtask decomposition — XS-sized tasks for code mode delegation. |
+| **[`skills/forge-subtask-breakdown/SKILL.md`](skills/forge-subtask-breakdown/SKILL.md)** | `[EXEC]` phase | Atomic subtask decomposition — XS-sized tasks for code mode delegation. |
+| **[`skills/forge-tailwindcss-conventions/SKILL.md`](skills/forge-tailwindcss-conventions/SKILL.md)** | `/ui-ux` command | Tailwind CSS v4 coding conventions for JS frameworks (React, Vue, Nuxt 4, Svelte). |
+| **[`skills/forge-eu-accessibility/SKILL.md`](skills/forge-eu-accessibility/SKILL.md)** | Mandatory on `/ui-ux` | EU legal compliance (BFSG, EAA, WCAG), framework-agnostic checklist. |
+| **[`skills/frontend-design/SKILL.md`](skills/frontend-design/SKILL.md)** | `/ui-ux` command | Design philosophy, typography, color, composition, anti-generic guardrails. |
+| **[`skills/forge-seo/SKILL.md`](skills/forge-seo/SKILL.md)** | `/ui-ux` or SEO code tasks | SEO hub with two references: UX/UI SEO (design → rankings) and Technical SEO (sitemaps, structured data, meta tags, rendering). Load first, then `read_file` the relevant reference. |
 | **[`skills/deep-research/SKILL.md`](skills/deep-research/SKILL.md)** | Auto-loaded by ask mode (after forge) | Exhaustive deep research protocol — 10+ iteration search loop, recursive reflection, markdown-native reports. Source: moweme |
 | **[`skills/conventional-commits/SKILL.md`](skills/conventional-commits/SKILL.md)** | `/git` command | Conventional Commits v1.0.0 format reference — types, SemVer mapping, breaking changes, revert rules | Project-owned |
 
@@ -217,7 +221,7 @@ cd RooForge
 mkdir -p ~/.roo/commands ~/.roo/skills ~/.roo/rules-git ~/.roo/mcp
 cp -rf commands/* ~/.roo/commands/
 # Only remove known RooForge skills — never rm -rf ~/.roo/skills/* to protect user-installed skills
-rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown ~/.roo/skills/subtask-breakdown ~/.roo/skills/conventional-commits
+rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown ~/.roo/skills/subtask-breakdown ~/.roo/skills/forge-subtask-breakdown ~/.roo/skills/forge-tailwindcss-conventions ~/.roo/skills/frontend-design ~/.roo/skills/eu-accessibility ~/.roo/skills/forge-eu-accessibility ~/.roo/skills/conventional-commits ~/.roo/skills/seo ~/.roo/skills/forge-seo
 # Only remove known RooForge rules — never rm -rf ~/.roo/rules-git/* to protect user-installed rules
 rm -rf ~/.roo/rules-git/mandatory-commit-guardrail.md
 rm -f ~/.roo/mcp/pdf-curl-server.sh
@@ -235,7 +239,7 @@ cd RooForge
 mkdir -p ~/.roo/commands ~/.roo/skills ~/.roo/rules-git ~/.roo/mcp
 cp -rf commands/* ~/.roo/commands/
 # Only remove known RooForge skills — never rm -rf ~/.roo/skills/* to protect user-installed skills
-rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown ~/.roo/skills/subtask-breakdown ~/.roo/skills/conventional-commits
+rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown ~/.roo/skills/subtask-breakdown ~/.roo/skills/forge-subtask-breakdown ~/.roo/skills/forge-tailwindcss-conventions ~/.roo/skills/frontend-design ~/.roo/skills/eu-accessibility ~/.roo/skills/forge-eu-accessibility ~/.roo/skills/conventional-commits ~/.roo/skills/seo ~/.roo/skills/forge-seo
 # Only remove known RooForge rules — never rm -rf ~/.roo/rules-git/* to protect user-installed rules
 rm -rf ~/.roo/rules-git/mandatory-commit-guardrail.md
 rm -f ~/.roo/mcp/pdf-curl-server.sh
@@ -245,7 +249,7 @@ cp -rf mcp/* ~/.roo/mcp/
 chmod +x ~/.roo/mcp/pdf-curl-server.sh
 ```
 
-> **Why remove specific skills, not all?** The `rm -rf` targets only known RooForge skills (`caveman`, `conventional-commits`, `forge`, `grill-me`, `planning-and-task-breakdown`). This prevents accidental deletion of user-installed skills (e.g. via `npx skills add` or manual installs). If you add a new skill to this repo, **you must add it to the `rm -rf` line** in both install commands above.
+> **Why remove specific skills, not all?** The `rm -rf` targets only known RooForge skills (`caveman`, `conventional-commits`, `forge`, `forge-eu-accessibility`, `forge-seo`, `forge-subtask-breakdown`, `frontend-design`, `grill-me`, `planning-and-task-breakdown`, `forge-tailwindcss-conventions`). This prevents accidental deletion of user-installed skills (e.g. via `npx skills add` or manual installs). If you add a new skill to this repo, **you must add it to the `rm -rf` line** in both install commands above.
 >
 > See [Zoo Code Slash Commands docs](https://docs.zoocode.dev/features/slash-commands), [Skills docs](https://docs.zoocode.dev/features/skills), and [Rules docs](https://docs.zoocode.dev/features/rules) for details on global directories.
 
@@ -402,8 +406,19 @@ The orchestration pipeline requires the following MCP (Model Context Protocol) s
 │   │   └── SKILL.md                 # Relentless user interview skill
 │   ├── planning-and-task-breakdown/
 │   │   └── SKILL.md                 # Planning methodology skill
-│   └── subtask-breakdown/
-│       └── SKILL.md                 # Atomic subtask decomposition skill
+│   ├── forge-subtask-breakdown/
+│   │   └── SKILL.md                 # Atomic subtask decomposition skill
+│   ├── forge-tailwindcss-conventions/
+│   │   └── SKILL.md                 # Tailwind CSS v4 conventions for JS frameworks
+│   ├── forge-seo/
+│   │   ├── SKILL.md                 # SEO hub skill (UX/UI + Technical references)
+│   │   └── references/              # Deep-dive reference files
+│   │       ├── uxui-seo.md          # UX/UI SEO deep-dive
+│   │       └── technical-seo.md     # Technical SEO deep-dive
+│   ├── forge-eu-accessibility/
+│   │   └── SKILL.md                 # EU accessibility compliance (BFSG, EAA, WCAG)
+│   ├── frontend-design/
+│   │   └── SKILL.md                 # Design philosophy, typography, color, composition
 ├── mcp/
 │   ├── pdf-curl-server.sh          # POSIX shell script for PDF download MCP
 │   └── pdf-curl-server.ps1         # PowerShell script for PDF download MCP (Windows)

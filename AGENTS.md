@@ -106,7 +106,11 @@ All skills live in `skills/` and are loaded via the `skill` tool. Two load on st
 | [`skills/caveman/SKILL.md`](skills/caveman/SKILL.md) | **Startup** (auto-loaded by forge) | Token-efficient communication (full intensity default) | Project-owned |
 | [`skills/grill-me/SKILL.md`](skills/grill-me/SKILL.md) | **Mandatory on `/clarify`** | Relentless user interview — stress-test every design decision until shared understanding | [mattpocock/skills](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) |
 | [`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md) | **On `/blueprint`** | Structured planning methodology for phased task breakdown | Project-owned |
-| [`skills/subtask-breakdown/SKILL.md`](skills/subtask-breakdown/SKILL.md) | **On [EXEC]** | Atomic subtask decomposition — XS-sized tasks for code mode delegation | Project-owned |
+| [`skills/forge-subtask-breakdown/SKILL.md`](skills/forge-subtask-breakdown/SKILL.md) | **On [EXEC]** | Atomic subtask decomposition — XS-sized tasks for code mode delegation | Project-owned |
+| [`skills/forge-tailwindcss-conventions/SKILL.md`](skills/forge-tailwindcss-conventions/SKILL.md) | **On `/ui-ux`** | Tailwind CSS v4 coding conventions for JS frameworks (React, Vue, Nuxt 4, Svelte) | Project-owned |
+| [`skills/forge-eu-accessibility/SKILL.md`](skills/forge-eu-accessibility/SKILL.md) | **Mandatory on `/ui-ux`** | EU legal compliance (BFSG, EAA, WCAG), framework-agnostic checklist | Project-owned |
+| [`skills/frontend-design/SKILL.md`](skills/frontend-design/SKILL.md) | **On `/ui-ux`** | Design philosophy, typography, color, composition, anti-generic guardrails | Project-owned |
+| [`skills/forge-seo/SKILL.md`](skills/forge-seo/SKILL.md) | **On `/ui-ux` or SEO code tasks** | SEO hub with two references: UX/UI SEO (design → rankings) and Technical SEO (sitemaps, structured data, meta tags, rendering). Load first, then `read_file` the relevant reference | Project-owned |
 | [`skills/deep-research/SKILL.md`](skills/deep-research/SKILL.md) | **Startup** (auto-loaded by ask mode, after forge) | Exhaustive deep research — 10+ iteration search loop, recursive reflection, markdown-native reports | [moweme](skills/deep-research/SKILL.md) |
 | [`skills/conventional-commits/SKILL.md`](skills/conventional-commits/SKILL.md) | **Mandatory on `/git`** | Conventional Commits v1.0.0 format reference — types, SemVer mapping, breaking changes | Project-owned |
 
@@ -115,7 +119,7 @@ All skills live in `skills/` and are loaded via the `skill` tool. Two load on st
 - Forge + caveman: always loaded first (non-negotiable)
 - grill-me: **mandatory** on every `/clarify` invocation — do not skip
 - planning-and-task-breakdown: loaded by architect during `/blueprint`
-- subtask-breakdown: loaded by subtask-orchestrator during `[EXEC]` phase
+- forge-subtask-breakdown: loaded by subtask-orchestrator during `[EXEC]` phase
 - conventional-commits: **mandatory** on every `/git` invocation — load before creating commit messages
 - Other user-installed skills: evaluated per forge skill's "Skill evaluation" step
 
