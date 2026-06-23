@@ -29,6 +29,7 @@ Where to look first:
 - `codebase` — search local repo for patterns, configs, existing implementations
 - `web` — search external docs, APIs, library docs
 - `.memory/` — check working memory for previously cached intel
+- If research requires reading a PDF document, use `/pdf` command to download and extract it before analysis
 - Order matters: list sources in priority sequence
 
 ### Expected answer format

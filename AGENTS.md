@@ -74,7 +74,7 @@ Every agent YAML, every command context, and every loaded skill can mark steps a
 | Command | Purpose | Target Mode |
 |---------|---------|-------------|
 | `/web` | Web search + URL reader via SearXNG MCP | `ask` |
-| `/pdf` | PDF download via curl MCP | `ask` |
+| `/pdf` | PDF download via curl MCP + read via pdf-reader-mcp | `ask` |
 | `/git` | Git operations (MCP-first, CLI fallback) | `git` |
 
 ## Skills
