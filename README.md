@@ -165,6 +165,7 @@ Standardized tool call formats that cascade into each other, eliminating duplica
 
 | Command | Purpose | Used By |
 |---------|---------|---------|
+| `/forge-init` | Project initialization — create `.memory/`, `.gitignore`, `AGENTS.md`, init git | Orchestrator |
 | `/web` | Web search + URL reader via SearXNG MCP | Ask |
 | `/pdf` | PDF download via curl MCP + read via pdf-reader-mcp | Ask |
 | `/git` | Git operations (MCP-first, CLI fallback) | Git |

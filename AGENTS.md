@@ -73,6 +73,7 @@ Every agent YAML, every command context, and every loaded skill can mark steps a
 
 | Command | Purpose | Target Mode |
 |---------|---------|-------------|
+| `/forge-init` | Project initialization — create `.memory/`, `.gitignore`, `AGENTS.md`, init git | `code` |
 | `/web` | Web search + URL reader via SearXNG MCP | `ask` |
 | `/pdf` | PDF download via curl MCP + read via pdf-reader-mcp | `ask` |
 | `/git` | Git operations (MCP-first, CLI fallback) | `git` |
