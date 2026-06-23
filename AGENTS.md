@@ -13,7 +13,9 @@
 
 Config-only repo — no build system, no package manager, no runtime code. Contains YAML mode export files for [Zoo Code](https://github.com/Zoo-Code-Org/Zoo-Code) that define a multi-agent orchestration pipeline, slash commands for standardized tool call formats, and a Forge skill for pipeline orientation.
 
-## Architecture
+## Forge Pipeline
+
+This project uses the Forge orchestration pipeline. All modes load the `forge` skill on startup for pipeline orientation, available commands, and role boundaries. The `caveman` skill auto-loads immediately after for token-efficient communication.
 
 The pipeline uses a **cascading command architecture**:
 - **Agent YAML files** (`agents/*.yaml`) — contain only flow logic (which commands to run when)
@@ -22,6 +24,22 @@ The pipeline uses a **cascading command architecture**:
 - **Native rules** (`rules/git/`) — installed to `~/.roo/rules-git/`, enforce commit quality guardrails; supplements `/git`
 
 Commands cascade into each other: `/plan` → `/delegate`, `/debug` → `/delegate`, etc. This eliminates duplication and makes updates easy — change a command once, all modes benefit.
+
+## Memory Index
+
+Memory files stored in `.memory/` (gitignored, local only). All modes read via `codebase_search` or direct file access. All modes write directly via `/memory` — no delegation needed.
+
+- Use `codebase_search` with query "memory" to find relevant memory files.
+- Check `.memory/` for cached intel + prior decisions before starting any task.
+- All delegated agents persist relevant context to `.memory/` before completion so downstream tasks can reuse cached input and avoid regenerating context.
+
+| File Pattern | Purpose | Behavior |
+|-------------|---------|----------|
+| `.memory/phase-{N}-{name}.md` | One file per Blueprint phase | Append only — never duplicate |
+| `.memory/research-{topic}-{date}.md` | One file per research run (ask mode) | New file per topic |
+| `.memory/blocker-{desc}.md` | One file per blocker | Standalone, resolvable |
+| `.memory/memory.md` | General fallback (no phase context) | Append only |
+| `.memory/blueprint-{date}.md` | Auto-created by `/blueprint` | Overwrite if same date |
 
 ## Validation & Testing
 

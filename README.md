@@ -35,9 +35,11 @@ Before installing, enable the **Run Slash Command** experimental feature in Zoo 
 
 This project provides a curated set of **custom mode export files**, **slash commands**, and a **Forge skill** that together define a disciplined, multi-layered agent orchestration workflow for Zoo Code. Each mode is a specialist with a clearly defined role, connected by standardized commands that cascade into each other to eliminate duplication.
 
-## 🔄 The Pipeline
+## 🔄 Forge Pipeline
 
-#### 1. Top-Level Orchestration Tree
+This project uses the Forge orchestration pipeline. All modes load the `forge` skill on startup for pipeline orientation, available commands, and role boundaries. The `caveman` skill auto-loads immediately after for token-efficient communication.
+
+### 1. Top-Level Orchestration Tree
 
 ```mermaid
 flowchart TD
