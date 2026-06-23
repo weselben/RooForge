@@ -47,6 +47,7 @@ Two tools for web intel gathering. Use `searxng_web_search` to find → `web_url
 - Use `readHeadings: true` first to scan structure → then `section` or `paragraphRange` to extract relevant parts.
 - Use `maxLength` to limit output — avoid pulling entire pages when only section needed.
 - URL fails → skip it, try next search result.
+- If a search result URL points to a `.pdf` file, use `/pdf` command instead of `web_url_read` to download and extract it.
 
 ## Workflow
 

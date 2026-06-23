@@ -135,7 +135,7 @@ All modes share `.memory/` as working memory — gitignored, local only. Read vi
 | Mode | File | Description |
 |------|------|-------------|
 | **Orchestrator** | [`agents/orchestrator-export.yaml`](agents/orchestrator-export.yaml) | Strategic entry point. Navigates Blueprint phases, delegates to subtask-orchestrator, and commits after each phase via Git. |
-| **Ask** | [`agents/ask-export.yaml`](agents/ask-export.yaml) | Intelligence specialist. Performs web research, codebase analysis, and generates "State of Intel" reports. |
+| **Ask** | [`agents/ask-export.yaml`](agents/ask-export.yaml) | Intelligence specialist. Performs web research, PDF acquisition, codebase analysis, and generates "State of Intel" reports. |
 | **Architect** | [`agents/architect-export.yaml`](agents/architect-export.yaml) | Technical leader. Creates detailed blueprints, system designs, and structured plans from gathered intelligence. |
 | **Subtask Orchestrator** | [`agents/subtask-orchestrator-export.yaml`](agents/subtask-orchestrator-export.yaml) | Dual-role specialist. (1) Planning: coordinates clarify → research → architect to produce Blueprint. (2) Execution: decomposes tasks into atomic subtasks for Code/Debug. |
 | **Code** | [`agents/code-export.yaml`](agents/code-export.yaml) | Implementation specialist. Writes, modifies, and refactors code. Delegates errors to Debug mode. |
@@ -166,6 +166,7 @@ Standardized tool call formats that cascade into each other, eliminating duplica
 | Command | Purpose | Used By |
 |---------|---------|---------|
 | `/web` | Web search + URL reader via SearXNG MCP | Ask |
+| `/pdf` | PDF download via curl MCP + read via pdf-reader-mcp | Ask |
 | `/git` | Git operations (MCP-first, CLI fallback) | Git |
 
 ### Delegation Commands (cascade to `/delegate`)
@@ -209,14 +210,17 @@ Zoo Code native rules installed to `~/.roo/rules-git/`. Loaded automatically whe
 ```bash
 git clone https://github.com/weselben/RooForge.git
 cd RooForge
-mkdir -p ~/.roo/commands ~/.roo/skills ~/.roo/rules-git
+mkdir -p ~/.roo/commands ~/.roo/skills ~/.roo/rules-git ~/.roo/mcp
 cp -rf commands/* ~/.roo/commands/
 # Only remove known RooForge skills — never rm -rf ~/.roo/skills/* to protect user-installed skills
 rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown ~/.roo/skills/conventional-commits
 # Only remove known RooForge rules — never rm -rf ~/.roo/rules-git/* to protect user-installed rules
 rm -rf ~/.roo/rules-git/mandatory-commit-guardrail.md
+rm -f ~/.roo/mcp/pdf-curl-server.sh
 cp -rf skills/* ~/.roo/skills/
 cp -rf rules/git/* ~/.roo/rules-git/
+cp mcp/pdf-curl-server.sh ~/.roo/mcp/
+chmod +x ~/.roo/mcp/pdf-curl-server.sh
 ```
 
 To install a **specific version**, clone by tag instead:
@@ -224,14 +228,17 @@ To install a **specific version**, clone by tag instead:
 ```bash
 git clone --branch v1.2.3 --depth 1 https://github.com/weselben/RooForge.git
 cd RooForge
-mkdir -p ~/.roo/commands ~/.roo/skills ~/.roo/rules-git
+mkdir -p ~/.roo/commands ~/.roo/skills ~/.roo/rules-git ~/.roo/mcp
 cp -rf commands/* ~/.roo/commands/
 # Only remove known RooForge skills — never rm -rf ~/.roo/skills/* to protect user-installed skills
 rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown ~/.roo/skills/conventional-commits
 # Only remove known RooForge rules — never rm -rf ~/.roo/rules-git/* to protect user-installed rules
 rm -rf ~/.roo/rules-git/mandatory-commit-guardrail.md
+rm -f ~/.roo/mcp/pdf-curl-server.sh
 cp -rf skills/* ~/.roo/skills/
 cp -rf rules/git/* ~/.roo/rules-git/
+cp mcp/pdf-curl-server.sh ~/.roo/mcp/
+chmod +x ~/.roo/mcp/pdf-curl-server.sh
 ```
 
 > **Why remove specific skills, not all?** The `rm -rf` targets only known RooForge skills (`caveman`, `conventional-commits`, `forge`, `grill-me`, `planning-and-task-breakdown`). This prevents accidental deletion of user-installed skills (e.g. via `npx skills add` or manual installs). If you add a new skill to this repo, **you must add it to the `rm -rf` line** in both install commands above.
@@ -255,7 +262,7 @@ See [**MCP Servers**](#-mcp-servers) below for required server setup.
 
 ## 🔄 Automated Releases
 
-This repository uses **automated semantic versioning** powered by [Conventional Commits](https://www.conventionalcommits.org/):
+This repository uses **automated semantic versioning** powered by [Conventional Commits](https://www.conventionalcommits.org):
 
 ```mermaid
 flowchart LR
@@ -290,11 +297,13 @@ flowchart LR
 
 ## 🔌 MCP Servers
 
-The orchestration pipeline requires two MCP (Model Context Protocol) servers for full functionality. These servers extend the capabilities of specific modes in the pipeline.
+The orchestration pipeline requires the following MCP (Model Context Protocol) servers for full functionality. These servers extend the capabilities of specific modes in the pipeline.
 
 | Server | Required By | Purpose |
 |--------|-------------|---------|
 | **SearXNG** | Ask | Web search & URL reading |
+| **curl-download** | Ask | PDF download from URLs (1 tool) |
+| **pdf-reader-mcp** | Ask | Extract and parse text from PDFs (7 tools) |
 | **Git MCP** | Git | Git operations (CLI fallback) |
 
 > 💡 See [`mcp.md`](mcp.md) for full setup instructions, configuration details, and usage examples.
@@ -322,6 +331,7 @@ The orchestration pipeline requires two MCP (Model Context Protocol) servers for
 │   ├── planning.md                  # /planning — SO planning lifecycle (clarify → research → architect)
 │   ├── finalize.md                  # /finalize — human-readable output
 │   ├── web.md                       # /web — web search + URL reader
+│   ├── pdf.md                       # /pdf — PDF download via curl MCP
 │   ├── git.md                       # /git — git operations (MCP + CLI + branch setup)
 │   ├── research.md                  # /research — intel delegation
 │   ├── plan.md                      # /plan — routing to SO for planning
@@ -346,7 +356,9 @@ The orchestration pipeline requires two MCP (Model Context Protocol) servers for
 │   │   └── SKILL.md                 # Relentless user interview skill
 │   └── planning-and-task-breakdown/
 │       └── SKILL.md                 # Planning methodology skill
-├── mcp.md                          # MCP server configuration (SearXNG + Git MCP)
+├── mcp/
+│   └── pdf-curl-server.sh          # POSIX shell script for PDF download MCP
+├── mcp.md                          # MCP server configuration (SearXNG + curl-download + pdf-reader-mcp + Git MCP)
 ├── CONTRIBUTING.md                  # Contribution guidelines
 ├── LICENSE                          # Apache License 2.0
 └── README.md                        # This file

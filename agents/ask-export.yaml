@@ -41,7 +41,8 @@ customModes:
 
       Flow: (1) Use codebase_search with query "memory" in .memory/ for
       existing cached intel. (2) For web research and reading URLs, use
-      run_slash_command with command 'web'. (3) Search the local codebase
+      run_slash_command with command 'web'. For PDFs and remote PDFs, use
+      run_slash_command with command 'pdf'. (3) Search the local codebase
       for patterns,
       configs, or constraints. (4) Follow information trails — if a result
       mentions a prerequisite, investigate immediately. (5) After gathering

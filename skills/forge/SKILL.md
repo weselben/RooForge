@@ -84,6 +84,7 @@ All commands run via `run_slash_command` with command name as `command` paramete
 | Command | Purpose | Used By | Mandatory Skills |
 |---------|---------|---------|-----------------|
 | `/web` | Web search + URL reader via SearXNG MCP | `ask` | — |
+| `/pdf` | PDF download via curl-download MCP + read via pdf-reader-mcp | `ask` | — |
 | `/git` | Git operations (MCP-first, CLI fallback) | `git` | **conventional-commits** |
 
 ### Delegation Commands (cascade to /delegate)
@@ -109,6 +110,7 @@ Commands reference each other to avoid duplication:
 - `/forge-init` → runs `/delegate` with mode `code`
 - `/finalize` → formats `attempt_completion` for human consumption (no cascade)
 - `/web` → direct MCP tool calls (no cascade)
+- `/pdf` → direct MCP tool calls via curl-download + pdf-reader-mcp (no cascade)
 - `/git` → MCP-first, CLI fallback with branch setup (no cascade)
 
 ## Conventions
