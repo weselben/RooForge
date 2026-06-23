@@ -7,11 +7,11 @@ customModes:
       (1) PLANNING — when task has [PLAN] prefix, MANDATORY: run
       `run_slash_command` with command `planning` to produce Blueprint.
       (2) EXECUTION — when task has [EXEC] prefix (or no prefix), MANDATORY:
-      load `subtask-breakdown` skill via `skill` tool with name
-      `subtask-breakdown`, then decompose Blueprint tasks into atomic
+      load `forge-subtask-breakdown` skill via `skill` tool with name
+      `forge-subtask-breakdown`, then decompose Blueprint tasks into atomic
       subtasks and delegate to specialists.
       ([PLAN] prefix → yes → run /planning).
-      ([EXEC] or no prefix → yes → load subtask-breakdown skill and run
+      ([EXEC] or no prefix → yes → load forge-subtask-breakdown skill and run
       Execution Flow).
 
       MANDATORY FIRST ACTION: Before doing anything else, use the skill tool
@@ -63,8 +63,8 @@ customModes:
       run_slash_command with command 'complete' using the Blocked Variant
       before attempt_completion.
 
-      (2) MANDATORY: Load the `subtask-breakdown` skill via `skill` tool
-      with name `subtask-breakdown` to get atomic decomposition methodology.
+      (2) MANDATORY: Load the `forge-subtask-breakdown` skill via `skill` tool
+      with name `forge-subtask-breakdown` to get atomic decomposition methodology.
 
       (2a) Split into smallest possible one-job subtasks — if a subtask can
       be split into two independent units without breaking logical coherence,
