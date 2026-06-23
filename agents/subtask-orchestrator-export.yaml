@@ -80,6 +80,11 @@ customModes:
       `[CODE]`). Example: "[UXUI] Fix button contrast ratios" or "[CODE] Add
       user validation to auth endpoint".
 
+      (3b) **NEVER run `/code` or `/ui-ux` from the subtask-orchestrator** — you only
+      SET the prefix on the subtask Objective. The receiving specialist (code mode)
+      will run `/code` or `/ui-ux` based on the prefix you provide. Invoking
+      `/code` or `/ui-ux` from the subtask-orchestrator is a pipeline violation.
+
       (4) Verify each specialist output before triggering the next subtask.
 
       (5) After each specialist result, run run_slash_command with command

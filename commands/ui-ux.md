@@ -1,12 +1,12 @@
 ---
 name: ui-ux
 description: >
-  UI/UX skill autoload command for code mode. Loads the forge-seo skill hub and
-  other design-related skills when UI/UX work is detected. Run before implementing
-  any design, styling, component, or accessibility task.
+  UI/UX skill autoload command for code mode. Loads the forge-eu-accessibility
+  skill and optionally other design-related skills when UI/UX work is detected.
+  Run before implementing any design, styling, component, or accessibility task.
 ---
 
-# /ui-ux — UI/UX Skill Collection
+# /ui-ux -- UI/UX Skill Collection
 
 ## When to Run
 
@@ -15,22 +15,21 @@ description: >
 
 ## Mandatory Skills
 
-Load these **every time** — no exceptions:
+Load these **every time** -- no exceptions:
 
 | Skill | Purpose |
 |-------|---------|
-| `forge-seo` | SEO hub with two references. After loading, `read_file` the relevant reference from `~/.roo/skills/forge-seo/references/` |
 | `forge-eu-accessibility` | EU legal compliance (BFSG, EAA, WCAG). **Always load last** to apply legal guardrails |
 
 ## Available Skills
 
-Load any additional skills from this list that fit the task context. Descriptions are generic — each skill's own `SKILL.md` contains the full deep-dive:
+Load any additional skills from this list that fit the task context. Descriptions are generic -- each skill's own `SKILL.md` contains the full deep-dive:
 
 | Skill | Load When |
 |-------|-----------|
+| `forge-seo` | SEO work detected (meta tags, sitemaps, structured data, performance, rendering). After loading, `read_file` the relevant reference from `~/.roo/skills/<skill>/references/` |
 | `frontend-design` | Creative direction needed |
 | `forge-tailwindcss-conventions` | Using Tailwind CSS |
-| `deep-research` | External intel needed (live docs, legal sources, Google updates) |
 | Any user-installed skill | Relevant to task |
 
 ## What to Apply After Loading
@@ -45,9 +44,9 @@ Load any additional skills from this list that fit the task context. Description
 ## Rules
 
 - **Only `forge-eu-accessibility` is mandatory** for every `/ui-ux` invocation. Load it last.
-- **No rigid skill sequence** — after loading `forge-seo`, select from available skills that fit the task.
+- **No rigid skill sequence** -- after loading mandatory skills, select from available skills that fit the task.
 - **Do NOT invoke this command** when the task does not involve UI/UX work.
-- **Reference files live in `~/.roo/skills/forge-seo/references/`** — use `read_file` with the absolute path from the Zoo Code global skills directory.
+- **Reference files live in `~/.roo/skills/<skill>/references/`** -- substitute `<skill>` with the loaded skill name. Use `read_file` with the absolute path from the Zoo Code global skills directory.
 
 ## Important
 

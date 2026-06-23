@@ -1,9 +1,8 @@
 ---
 name: code
 description: >
-  Standard code skill autoload command for code mode. Loads core pipeline skills
-  and optionally the forge-seo hub when technical SEO work is detected. Run for
-  non-UI/UX code work.
+  Standard code skill autoload command for code mode. Loads optional skills when
+  technical SEO work is detected. Run for non-UI/UX code work.
 ---
 
 # /code — Standard Code Skill Collection
@@ -16,37 +15,28 @@ description: >
 
 ## Mandatory Skills
 
-Load these **every time** — no exceptions:
-
-| Skill | Purpose |
-|-------|---------|
-| `forge` | Pipeline orientation, role boundaries, command registry. **Load first** |
-| `caveman` | Token-efficient communication. Auto-loaded by forge, explicit load ensures consistency |
-| `conventional-commits` | Conventional Commits v1.0.0 format. Load when creating commit messages |
-| `forge-subtask-breakdown` | XS/S atomic decomposition, UI/UX prefix injection, Blueprint loading. Load when planning implementation |
+None -- core pipeline skills are auto-loaded by code mode. No additional skill loading required for standard code work.
 
 ## Available Skills
 
-Load any additional skills from this list that fit the task context. Descriptions are generic — each skill's own `SKILL.md` contains the full deep-dive:
+Load any additional skills from this list that fit the task context. Descriptions are generic -- each skill's own `SKILL.md` contains the full deep-dive:
 
 | Skill | Load When |
 |-------|-----------|
 | `forge-seo` | SEO work detected (meta tags, sitemaps, structured data, performance, rendering) |
-| `deep-research` | External intel needed (docs, APIs, library docs, research) |
-| Any user-installed skill | Relevant to task |
 
 ## What to Apply After Loading
 
 - Follow loaded skill guidance directly.
-- **No design or accessibility skills** — do NOT load `frontend-design`, `forge-eu-accessibility`, `forge-tailwindcss-conventions`, or any UI/UX-specific skill in standard code mode.
-- **SEO optional** — only load `forge-seo` when the task explicitly involves SEO implementation.
-- **Framework-agnostic** — use language-native patterns unless framework-specific guidance is explicitly requested.
+- **No design or accessibility skills** -- do NOT load `frontend-design`, `forge-eu-accessibility`, `forge-tailwindcss-conventions`, or any UI/UX-specific skill in standard code mode.
+- **SEO optional** -- only load `forge-seo` when the task explicitly involves SEO implementation.
+- **Framework-agnostic** -- use language-native patterns unless framework-specific guidance is explicitly requested.
 
 ## Rules
 
-- **Only load `forge-seo` when needed** — do NOT load it for every code task. Check for SEO keywords first.
-- **No UI/UX skills** — do NOT load design, accessibility, or styling skills in standard code mode.
-- **Reference files live in `~/.roo/skills/forge-seo/references/`** — use `read_file` with the absolute path from the Zoo Code global skills directory.
+- **Only load `forge-seo` when needed** -- do NOT load it for every code task. Check for SEO keywords first.
+- **No UI/UX skills** -- do NOT load design, accessibility, or styling skills in standard code mode.
+- **Reference files live in `~/.roo/skills/<skill>/references/`** -- substitute `<skill>` with the loaded skill name. Use `read_file` with the absolute path from the Zoo Code global skills directory.
 
 ## Important
 
