@@ -87,6 +87,7 @@ All skills live in `skills/` and are loaded via the `skill` tool. Two load on st
 | [`skills/caveman/SKILL.md`](skills/caveman/SKILL.md) | **Startup** (auto-loaded by forge) | Token-efficient communication (full intensity default) | Project-owned |
 | [`skills/grill-me/SKILL.md`](skills/grill-me/SKILL.md) | **Mandatory on `/clarify`** | Relentless user interview — stress-test every design decision until shared understanding | [mattpocock/skills](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) |
 | [`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md) | **On `/blueprint`** | Structured planning methodology for phased task breakdown | Project-owned |
+| [`skills/subtask-breakdown/SKILL.md`](skills/subtask-breakdown/SKILL.md) | **On [EXEC]** | Atomic subtask decomposition — XS-sized tasks for code mode delegation | Project-owned |
 | [`skills/deep-research/SKILL.md`](skills/deep-research/SKILL.md) | **Startup** (auto-loaded by ask mode, after forge) | Exhaustive deep research — 10+ iteration search loop, recursive reflection, markdown-native reports | [moweme](skills/deep-research/SKILL.md) |
 | [`skills/conventional-commits/SKILL.md`](skills/conventional-commits/SKILL.md) | **Mandatory on `/git`** | Conventional Commits v1.0.0 format reference — types, SemVer mapping, breaking changes | Project-owned |
 
@@ -95,6 +96,7 @@ All skills live in `skills/` and are loaded via the `skill` tool. Two load on st
 - Forge + caveman: always loaded first (non-negotiable)
 - grill-me: **mandatory** on every `/clarify` invocation — do not skip
 - planning-and-task-breakdown: loaded by architect during `/blueprint`
+- subtask-breakdown: loaded by subtask-orchestrator during `[EXEC]` phase
 - conventional-commits: **mandatory** on every `/git` invocation — load before creating commit messages
 - Other user-installed skills: evaluated per forge skill's "Skill evaluation" step
 

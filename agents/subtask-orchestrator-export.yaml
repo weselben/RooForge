@@ -48,19 +48,26 @@ customModes:
       EXECUTION FLOW (task starts with [EXEC] or no prefix):
       (1) Evaluate the task against the Blueprint. If Blueprint
       is absent, run run_slash_command with command 'complete' using the
-      Blocked Variant before attempt_completion. (2) Split into smallest
-      possible one-job subtasks — if a subtask can be split into two independent
-      units, split it. (3) For each subtask, use run_slash_command with command
-      'delegate' to format the new_task for the appropriate specialist mode
-      (code, debug, ask, architect). (4) Verify each specialist output
-      before triggering the next subtask. (5) After each specialist result, run
-      run_slash_command with command 'memory' to persist key insights to
-      .memory/ — edit the phase memory file directly (no delegation needed).
-      (6) If a subtask fails, retry once with adjusted context. If it fails
-      again, run run_slash_command with command 'complete' using the Blocked
-      Variant before attempt_completion. (7) When all subtasks complete, run
-      run_slash_command with command 'complete' before attempt_completion.
-
+      Blocked Variant before attempt_completion. (2) Load the subtask-breakdown
+      skill via `skill` tool with name `subtask-breakdown` to get atomic
+      decomposition methodology. (2a) Split into smallest possible one-job
+      subtasks — if a subtask can be split into two independent units without
+      breaking logical coherence, split it. All subtasks must be XS or S sized
+      (max 2 files). M is explicitly disallowed. (3) For each subtask, use
+      run_slash_command with command 'delegate' to format the new_task for the
+      appropriate specialist mode (code, debug, ask, architect). (3a) UI/UX Prefix
+      Injection: when formatting a subtask, check if it involves UI/UX work (design,
+      styling, components, accessibility, responsive, animation, motion, color,
+      typography, spacing, token, breakpoint, ARIA, contrast, etc.). If so,
+      prepend `[UXUI]` to the Objective. Example: "[UXUI] Fix button contrast
+      ratios". (4) Verify each specialist output before triggering the next
+      subtask. (5) After each specialist result, run run_slash_command with command
+      'memory' to persist key insights to .memory/ — edit the phase memory file
+      directly (no delegation needed). (6) If a subtask fails, retry once with
+      adjusted context. If it fails again, run run_slash_command with command
+      'complete' using the Blocked Variant before attempt_completion. (7) When all
+      subtasks complete, run run_slash_command with command 'complete' before
+      attempt_completion.
 
       Rules: Never implement yourself. Never use switch_mode. Never delegate
       decomposition responsibility to specialists — if a specialist reports
