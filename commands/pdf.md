@@ -2,8 +2,8 @@
 name: pdf
 description: >
   PDF download via curl-download MCP and text extraction via pdf-reader-mcp.
-  Download PDFs from URLs, then read, search, inspect, OCR, analyze regions,
-  extract regions, or render pages. Used by ask mode.
+  Download PDFs from URLs, then read, search, inspect, OCR, or extract regions.
+  Used by ask mode.
 ---
 
 # /pdf — PDF Download + Read via curl-download and pdf-reader-mcp
@@ -153,27 +153,6 @@ Two-step workflow: use `curl_download` to fetch PDF → use `pdf-reader-mcp` too
 - Specify `language` for non-English documents to improve accuracy.
 - Limit `pages` to avoid timeouts on large scanned documents.
 
-## Region Analysis: `analyze_regions`
-
-### Parameters
-
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `sources` | `array` | ✅ | — | Array of `{ path: string, url?: string }` objects. |
-| `pages` | `array` | ❌ | — | Page numbers to analyze (1-indexed). Omit for all. |
-| `region_types` | `array` | ❌ | — | Types to detect: `table`, `image`, `formula`, `chart`, `figure`, `diagram`. |
-| `max_output_chars` | `number` | ❌ | — | Max chars per analyzed region. |
-| `scale` | `number` | ❌ | `2` | Render scale for visual analysis. |
-| `timeout_ms` | `number` | ❌ | `30000` | Timeout per region in ms. |
-| `include_image` | `boolean` | ❌ | `false` | Return cropped PNGs as MCP image parts. |
-
-### Region Analysis Rules
-
-- Use `analyze_regions` to identify tables, figures, and structured zones before extraction.
-- Specify `region_types` to narrow detection to relevant layout elements.
-- `include_image: true` returns visual crops of detected regions for verification.
-- Follow with `extract_regions` to pull specific bounding boxes.
-
 ## Region Extraction: `extract_regions`
 
 ### Parameters
@@ -190,32 +169,10 @@ Two-step workflow: use `curl_download` to fetch PDF → use `pdf-reader-mcp` too
 
 ### Region Extraction Rules
 
-- Use `extract_regions` after `analyze_regions` to pull specific content zones.
+- Use `extract_regions` to pull specific content zones from known coordinates.
 - `regions` array defines bounding boxes in PDF coordinates (points, 1-indexed page).
 - Combine with `include_image: true` to get both text and visual evidence.
 - Useful for isolating tables, captions, or specific paragraphs from large pages.
-
-## Page Rendering: `render_page`
-
-### Parameters
-
-| Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
-| `sources` | `array` | ✅ | — | Array of `{ path: string, url?: string }` objects. |
-| `pages` | `array` | ❌ | — | Page numbers to render (1-indexed). Omit for all. |
-| `format` | `string` | ❌ | `png` | Output format: `png` or `jpeg`. |
-| `dpi` | `number` | ❌ | `150` | Resolution in dots per inch. |
-| `max_pixels_per_page` | `number` | ❌ | `64000000` | Max pixels per rendered page. |
-| `max_pages` | `number` | ❌ | `20` | Max pages to render in one call. |
-| `scale` | `number` | ❌ | `2` | Render scale factor. |
-| `include_image` | `boolean` | ❌ | `true` | Return rendered pages as MCP image parts. |
-
-### Page Rendering Rules
-
-- Use `render_page` to produce visual previews of PDF pages for human review.
-- `dpi` controls quality — higher values produce sharper images but larger payloads.
-- `max_pages` caps at 20; paginate for larger documents.
-- Set `include_image: true` (default) to receive images directly in the response.
 
 ## Workflow
 
@@ -225,9 +182,9 @@ Two-step workflow: use `curl_download` to fetch PDF → use `pdf-reader-mcp` too
 4. **Inspect** — `inspect_pdf` on downloaded file for metadata + page count
 5. **Read/Search** — `read_pdf` for full extraction, or `search_pdf` for targeted term lookup
 6. **OCR** — `ocr_pages` if PDF is scanned/image-based and text extraction fails
-7. **Region Analysis** — `analyze_regions` to detect tables, figures, zones; then `extract_regions` to pull specific areas
-8. **Render** — `render_page` for visual preview of key pages
-9. Return extracted content for analysis
+7. **Extract Regions** — `extract_regions` to pull specific areas from known coordinates
+8. Return extracted content for analysis
 
 ## Important
-Run `run_slash_command` ('pdf') once to load this context → use `curl_download` + `read_pdf` / `search_pdf` / `inspect_pdf` / `ocr_pages` / `analyze_regions` / `extract_regions` / `render_page` directly.
+
+Run `run_slash_command` ('pdf') once to load this context → use `curl_download` + `read_pdf` / `search_pdf` / `inspect_pdf` / `ocr_pages` / `extract_regions` directly.
