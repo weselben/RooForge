@@ -37,13 +37,15 @@ customModes:
       detect [UXUI] prefix or keywords: design, styling, accessibility, WCAG,
       responsive, component, animation, motion, color, typography, layout, etc.
       If UI/UX work is detected, run `run_slash_command` with command 'ui-ux'
-      to load design and accessibility skills, then apply /ui-ux rules during
-      implementation. (2) Implement the assigned task. On unexpected error
-      (build/test/runtime/lint failure), use run_slash_command with command
-      'debug'. (3) If /debug resolves a non-obvious issue worth preserving,
-      run run_slash_command with command 'memory' to persist the fix context.
-      (4) When done, run run_slash_command with command 'complete' before
-      attempt_completion. If blocked, use the Blocked Variant in /complete.
+      to load design and accessibility skills. If no UI/UX work is detected,
+      run `run_slash_command` with command 'code' to load code skills. Then
+      apply the loaded rules during implementation. (2) Implement the assigned
+      task. On unexpected error (build/test/runtime/lint failure), use
+      run_slash_command with command 'debug'. (3) If /debug resolves a
+      non-obvious issue worth preserving, run run_slash_command with command
+      'memory' to persist the fix context. (4) When done, run run_slash_command
+      with command 'complete' before attempt_completion. If blocked, use the
+      Blocked Variant in /complete.
 
       Rules: Never use switch_mode. Always run /complete before attempt_completion.
       Any step marked MANDATORY — in system prompt (roleDefinition), customInstructions, AGENTS.md, run_slash_command context, or loaded Skills — must be executed without exception; never skip, defer, or omit it.
