@@ -6,9 +6,10 @@
 
 [![SearXNG](https://img.shields.io/badge/SearXNG-Ask%20Mode-blue)](#searxng)
 [![Curl Download](https://img.shields.io/badge/Curl%20Download-Ask%20Mode-green)](#curl-download-mcp)
+[![PDF Reader](https://img.shields.io/badge/PDF%20Reader-Ask%20Mode-purple)](#pdf-reader-mcp)
 [![Git MCP](https://img.shields.io/badge/Git%20MCP-Git%20Mode-orange)](#git-mcp-server)
 
-*Privacy-respecting search · PDF download · Structured git access · MCP-first*
+*Privacy-respecting search · PDF download · PDF text extraction · Structured git access · MCP-first*
 
 </div>
 
@@ -31,8 +32,13 @@ The Forge pipeline requires three MCP servers for full functionality. Add the en
     },
     "curl-download": {
       "command": "sh",
-      "args": ["mcp/pdf-curl-server.sh"],
+      "args": ["~/.roo/mcp/pdf-curl-server.sh"],
       "alwaysAllow": ["curl_download"]
+    },
+    "pdf-reader-mcp": {
+      "command": "npx",
+      "args": ["-y", "@sylphx/pdf-reader-mcp"],
+      "alwaysAllow": ["read_pdf", "search_pdf", "inspect_pdf"]
     },
     "git-mcp-server": {
       "command": "npx",
@@ -127,10 +133,12 @@ Ask mode uses the repo-owned `curl-download` MCP server for downloading PDFs fro
 
 ### Setup
 
-**Step 1:** Make the server script executable:
+**Step 1:** Create the MCP directory and make the server script executable:
 
 ```bash
+mkdir -p ~/.roo/mcp
 chmod +x mcp/pdf-curl-server.sh
+cp mcp/pdf-curl-server.sh ~/.roo/mcp/
 ```
 
 **Step 2:** Ensure dependencies are installed. The script requires `curl` and either `jq` or `python3`:
@@ -147,6 +155,25 @@ python3 --version
 ```
 
 **Step 3:** The MCP config block above connects Zoo Code to the curl-download server. Restart Zoo Code → switch to Ask mode → run `curl_download` → confirm PDF is downloaded to `.memory/`.
+
+---
+
+## PDF Reader MCP
+
+**Required by:** Ask mode
+**Purpose:** Extract and parse text from downloaded PDFs
+
+Ask mode uses [`@sylphx/pdf-reader-mcp`](https://www.npmjs.com/package/@sylphx/pdf-reader-mcp) for reading and extracting structured text from PDF files after they have been downloaded by the `curl-download` server.
+
+| Tool | Purpose | Key Parameters |
+|------|---------|--------------|
+| `read_pdf` | Extract full text or Markdown from a PDF | `sources`, `include_full_text`, `include_markdown`, `maxLength` |
+| `search_pdf` | Search for specific terms within a PDF | `query`, `sources`, `case_sensitive`, `max_matches_per_source` |
+| `inspect_pdf` | Get metadata and structure overview | `sources` |
+
+### Setup
+
+The MCP config block above connects Zoo Code to the PDF reader server. No additional setup required — `npx` handles the installation automatically.
 
 ---
 
@@ -211,14 +238,14 @@ The orchestration pipeline commits locally but does not auto-push. Push is destr
 
 ## Impact on the Pipeline
 
-| Mode | SearXNG | Curl Download MCP | Git MCP |
-|------|---------|-------------------|---------|
-| **Orchestrator** | Indirect (via Ask) | — | Indirect (via Git) |
-| **Ask** | **Direct** | **Direct** | — |
-| **Architect** | Indirect (via Ask) | — | — |
-| **Subtask Orchestrator** | Indirect (via Ask) | — | Indirect (via Git) |
-| **Code** | — | — | — |
-| **Git** | — | — | **Direct** |
+| Mode | SearXNG | Curl Download MCP | PDF Reader MCP | Git MCP |
+|------|---------|-------------------|----------------|---------|
+| **Orchestrator** | Indirect (via Ask) | — | — | Indirect (via Git) |
+| **Ask** | **Direct** | **Direct** | **Direct** | — |
+| **Architect** | Indirect (via Ask) | — | — | — |
+| **Subtask Orchestrator** | Indirect (via Ask) | — | — | Indirect (via Git) |
+| **Code** | — | — | — | — |
+| **Git** | — | — | — | **Direct** |
 
 ---
 

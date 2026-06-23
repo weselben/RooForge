@@ -210,14 +210,16 @@ Zoo Code native rules installed to `~/.roo/rules-git/`. Loaded automatically whe
 ```bash
 git clone https://github.com/weselben/RooForge.git
 cd RooForge
-mkdir -p ~/.roo/commands ~/.roo/skills ~/.roo/rules-git
+mkdir -p ~/.roo/commands ~/.roo/skills ~/.roo/rules-git ~/.roo/mcp
 cp -rf commands/* ~/.roo/commands/
 # Only remove known RooForge skills — never rm -rf ~/.roo/skills/* to protect user-installed skills
 rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown ~/.roo/skills/conventional-commits
 # Only remove known RooForge rules — never rm -rf ~/.roo/rules-git/* to protect user-installed rules
 rm -rf ~/.roo/rules-git/mandatory-commit-guardrail.md
+rm -f ~/.roo/mcp/pdf-curl-server.sh
 cp -rf skills/* ~/.roo/skills/
 cp -rf rules/git/* ~/.roo/rules-git/
+cp mcp/pdf-curl-server.sh ~/.roo/mcp/
 ```
 
 To install a **specific version**, clone by tag instead:
@@ -225,14 +227,16 @@ To install a **specific version**, clone by tag instead:
 ```bash
 git clone --branch v1.2.3 --depth 1 https://github.com/weselben/RooForge.git
 cd RooForge
-mkdir -p ~/.roo/commands ~/.roo/skills ~/.roo/rules-git
+mkdir -p ~/.roo/commands ~/.roo/skills ~/.roo/rules-git ~/.roo/mcp
 cp -rf commands/* ~/.roo/commands/
 # Only remove known RooForge skills — never rm -rf ~/.roo/skills/* to protect user-installed skills
 rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown ~/.roo/skills/conventional-commits
 # Only remove known RooForge rules — never rm -rf ~/.roo/rules-git/* to protect user-installed rules
 rm -rf ~/.roo/rules-git/mandatory-commit-guardrail.md
+rm -f ~/.roo/mcp/pdf-curl-server.sh
 cp -rf skills/* ~/.roo/skills/
 cp -rf rules/git/* ~/.roo/rules-git/
+cp mcp/pdf-curl-server.sh ~/.roo/mcp/
 ```
 
 > **Why remove specific skills, not all?** The `rm -rf` targets only known RooForge skills (`caveman`, `conventional-commits`, `forge`, `grill-me`, `planning-and-task-breakdown`). This prevents accidental deletion of user-installed skills (e.g. via `npx skills add` or manual installs). If you add a new skill to this repo, **you must add it to the `rm -rf` line** in both install commands above.
@@ -297,6 +301,7 @@ The orchestration pipeline requires the following MCP (Model Context Protocol) s
 |--------|-------------|---------|
 | **SearXNG** | Ask | Web search & URL reading |
 | **curl-download** | Ask | PDF download from URLs (1 tool) |
+| **pdf-reader-mcp** | Ask | Extract and parse text from PDFs |
 | **Git MCP** | Git | Git operations (CLI fallback) |
 
 > 💡 See [`mcp.md`](mcp.md) for full setup instructions, configuration details, and usage examples.
@@ -349,7 +354,9 @@ The orchestration pipeline requires the following MCP (Model Context Protocol) s
 │   │   └── SKILL.md                 # Relentless user interview skill
 │   └── planning-and-task-breakdown/
 │       └── SKILL.md                 # Planning methodology skill
-├── mcp.md                          # MCP server configuration (SearXNG + curl-download + Git MCP)
+├── mcp/
+│   └── pdf-curl-server.sh          # POSIX shell script for PDF download MCP
+├── mcp.md                          # MCP server configuration (SearXNG + curl-download + pdf-reader-mcp + Git MCP)
 ├── CONTRIBUTING.md                  # Contribution guidelines
 ├── LICENSE                          # Apache License 2.0
 └── README.md                        # This file

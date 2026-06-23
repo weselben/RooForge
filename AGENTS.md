@@ -117,6 +117,7 @@ All rules live in `rules/` and are installed to `~/.roo/rules-git/` via Zoo Code
 |--------|-------------|---------|-------|
 | **SearXNG** | `ask` | Web search & URL reading | `searxng_web_search`, `web_url_read` |
 | **curl-download** | `ask` | PDF download from URLs | `curl_download` (1) |
+| **pdf-reader-mcp** | `ask` | Extract and parse text from PDFs | `read_pdf`, `search_pdf`, `inspect_pdf` |
 | **Git MCP** | `git` | Git operations | 20+ tools |
 
 ## Key Docs
@@ -126,7 +127,7 @@ All rules live in `rules/` and are installed to `~/.roo/rules-git/` via Zoo Code
 - `skills/forge/SKILL.md` — Pipeline orientation, command registry, conventions
 - `skills/caveman/SKILL.md` — Token-efficient communication (auto-loaded by forge skill)
 - `skills/grill-me/SKILL.md` — Relentless interview protocol (mandatory on `/clarify`)
-- `mcp.md` — MCP server configuration (SearXNG + curl-download + Git MCP)
+- `mcp.md` — MCP server configuration (SearXNG + curl-download + pdf-reader-mcp + Git MCP)
 - `commands/pdf.md` — PDF download command via curl-download MCP
 - `rules/git/mandatory-commit-guardrail.md` — Git commit guardrails (installed to `~/.roo/rules-git/`)
 
