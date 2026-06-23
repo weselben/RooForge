@@ -57,7 +57,8 @@ validate_url() {
 }
 
 is_pdf_content_type() {
-    case "$1" in
+    _ct="${1%%;*}"
+    case "$_ct" in
         application/pdf|application/x-pdf|application/octet-stream) return 0 ;;
         *) return 1 ;;
     esac
