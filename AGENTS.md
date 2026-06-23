@@ -95,6 +95,8 @@ Every agent YAML, every command context, and every loaded skill can mark steps a
 | `/web` | Web search + URL reader via SearXNG MCP | `ask` |
 | `/pdf` | PDF download via curl MCP + read via pdf-reader-mcp | `ask` |
 | `/git` | Git operations (MCP-first, CLI fallback) | `git` |
+| `/code` | Standard code skill collection | `code` |
+| `/ui-ux` | UI/UX skill collection | `code` |
 
 ## Skills
 
@@ -154,6 +156,8 @@ All rules live in `rules/` and are installed to `~/.roo/rules-git/` via Zoo Code
 - `skills/grill-me/SKILL.md` — Relentless interview protocol (mandatory on `/clarify`)
 - `mcp.md` — MCP server configuration (SearXNG + curl-download + pdf-reader-mcp + Git MCP)
 - `commands/pdf.md` — PDF download command via curl-download MCP
+- `commands/code.md` — Standard code skill collection
+- `commands/ui-ux.md` — UI/UX skill collection
 - `rules/git/mandatory-commit-guardrail.md` — Git commit guardrails (installed to `~/.roo/rules-git/`)
 
 ## Directory Structure

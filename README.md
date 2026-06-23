@@ -171,6 +171,8 @@ Standardized tool call formats that cascade into each other, eliminating duplica
 | `/web` | Web search + URL reader via SearXNG MCP | Ask |
 | `/pdf` | PDF download via curl MCP + read via pdf-reader-mcp | Ask |
 | `/git` | Git operations (MCP-first, CLI fallback) | Git |
+| `/code` | Standard code skill collection | Code |
+| `/ui-ux` | UI/UX skill collection | Code |
 
 ### Delegation Commands (cascade to `/delegate`)
 
@@ -383,6 +385,8 @@ The orchestration pipeline requires the following MCP (Model Context Protocol) s
 │   ├── web.md                       # /web — web search + URL reader
 │   ├── pdf.md                       # /pdf — PDF download via curl MCP
 │   ├── git.md                       # /git — git operations (MCP + CLI + branch setup)
+│   ├── code.md                      # /code — standard code skill collection
+│   ├── ui-ux.md                     # /ui-ux — UI/UX skill collection
 │   ├── research.md                  # /research — intel delegation
 │   ├── plan.md                      # /plan — routing to SO for planning
 │   ├── execute.md                   # /execute — phase-based task execution

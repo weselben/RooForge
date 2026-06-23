@@ -86,6 +86,8 @@ All commands run via `run_slash_command` with command name as `command` paramete
 | `/web` | Web search + URL reader via SearXNG MCP | `ask` | — |
 | `/pdf` | PDF download via curl-download MCP + read via pdf-reader-mcp | `ask` | — |
 | `/git` | Git operations (MCP-first, CLI fallback) | `git` | **conventional-commits** |
+| `/code` | Standard code skill collection | `code` | — |
+| `/ui-ux` | UI/UX skill collection | `code` | **forge-eu-accessibility** |
 
 ### Delegation Commands (cascade to /delegate)
 

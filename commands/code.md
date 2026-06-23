@@ -28,13 +28,12 @@ Load any additional skills from this list that fit the task context. Description
 ## What to Apply After Loading
 
 - Follow loaded skill guidance directly.
-- **No design or accessibility skills** -- do NOT load `frontend-design`, `forge-eu-accessibility`, `forge-tailwindcss-conventions`, or any UI/UX-specific skill in standard code mode.
-- **SEO optional** -- only load `forge-seo` when the task explicitly involves SEO implementation.
+- **Only load `forge-seo` when needed** -- check for SEO keywords first. Do NOT load other optional skills in standard code mode.
 - **Framework-agnostic** -- use language-native patterns unless framework-specific guidance is explicitly requested.
 
 ## Rules
 
-- **Only load `forge-seo` when needed** -- do NOT load it for every code task. Check for SEO keywords first.
+- **Only load `forge-seo` when needed** -- check for SEO keywords first.
 - **No UI/UX skills** -- do NOT load design, accessibility, or styling skills in standard code mode.
 - **Reference files live in `~/.roo/skills/<skill>/references/`** -- substitute `<skill>` with the loaded skill name. Use `read_file` with the absolute path from the Zoo Code global skills directory.
 
