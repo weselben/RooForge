@@ -65,6 +65,18 @@ All delegated agents persist relevant context to `.memory/` before completion so
 
 Every agent YAML, every command context, and every loaded skill can mark steps as **MANDATORY**. Any step so marked must be executed without exception — never skipped, deferred, or omitted. This applies globally across all modes and pipeline phases.
 
+### Mode Capabilities
+
+- `ask` mode: web research (`/web`), PDF acquisition (`/pdf`), codebase analysis, intel reports
+
+### Command Registry
+
+| Command | Purpose | Target Mode |
+|---------|---------|-------------|
+| `/web` | Web search + URL reader via SearXNG MCP | `ask` |
+| `/pdf` | PDF download via curl MCP | `ask` |
+| `/git` | Git operations (MCP-first, CLI fallback) | `git` |
+
 ## Skills
 
 All skills live in `skills/` and are loaded via the `skill` tool. Two load on startup (forge → caveman). Others load on-demand when triggered by specific commands.
@@ -99,6 +111,14 @@ All rules live in `rules/` and are installed to `~/.roo/rules-git/` via Zoo Code
 - Native rules are loaded automatically by Zoo Code when the rule's file pattern matches
 - The git commit guardrail rule **must** load `/git` via `run_slash_command` first (see rule content for enforcement details)
 
+## MCP Servers
+
+| Server | Required By | Purpose | Tools |
+|--------|-------------|---------|-------|
+| **SearXNG** | `ask` | Web search & URL reading | `searxng_web_search`, `web_url_read` |
+| **curl-download** | `ask` | PDF download from URLs | `curl_download` (1) |
+| **Git MCP** | `git` | Git operations | 20+ tools |
+
 ## Key Docs
 
 - `README.md` — Pipeline Mermaid diagrams, mode descriptions, install instructions
@@ -106,7 +126,8 @@ All rules live in `rules/` and are installed to `~/.roo/rules-git/` via Zoo Code
 - `skills/forge/SKILL.md` — Pipeline orientation, command registry, conventions
 - `skills/caveman/SKILL.md` — Token-efficient communication (auto-loaded by forge skill)
 - `skills/grill-me/SKILL.md` — Relentless interview protocol (mandatory on `/clarify`)
-- `mcp.md` — MCP server configuration (SearXNG + Git MCP)
+- `mcp.md` — MCP server configuration (SearXNG + curl-download + Git MCP)
+- `commands/pdf.md` — PDF download command via curl-download MCP
 - `rules/git/mandatory-commit-guardrail.md` — Git commit guardrails (installed to `~/.roo/rules-git/`)
 
 ## Directory Structure

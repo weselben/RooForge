@@ -5,9 +5,10 @@
 **Model Context Protocol servers for the Forge pipeline**
 
 [![SearXNG](https://img.shields.io/badge/SearXNG-Ask%20Mode-blue)](#searxng)
+[![Curl Download](https://img.shields.io/badge/Curl%20Download-Ask%20Mode-green)](#curl-download-mcp)
 [![Git MCP](https://img.shields.io/badge/Git%20MCP-Git%20Mode-orange)](#git-mcp-server)
 
-*Privacy-respecting search · Structured git access · MCP-first*
+*Privacy-respecting search · PDF download · Structured git access · MCP-first*
 
 </div>
 
@@ -15,7 +16,7 @@
 
 ## Overview
 
-The Forge pipeline requires two MCP servers for full functionality. Add the entire block below to your Zoo Code MCP settings using the MCP settings view (**Edit Global MCP**). If editing manually, use the global `mcp_settings.json` file for your Zoo Code extension ID (`ZooCodeOrganization.zoo-code`).
+The Forge pipeline requires three MCP servers for full functionality. Add the entire block below to your Zoo Code MCP settings using the MCP settings view (**Edit Global MCP**). If editing manually, use the global `mcp_settings.json` file for your Zoo Code extension ID (`ZooCodeOrganization.zoo-code`).
 
 ```json
 {
@@ -27,6 +28,11 @@ The Forge pipeline requires two MCP servers for full functionality. Add the enti
         "SEARXNG_URL": "http://localhost:8088/"
       },
       "alwaysAllow": ["web_url_read", "searxng_web_search"]
+    },
+    "curl-download": {
+      "command": "sh",
+      "args": ["mcp/pdf-curl-server.sh"],
+      "alwaysAllow": ["curl_download"]
     },
     "git-mcp-server": {
       "command": "npx",
@@ -108,6 +114,42 @@ By default, Zoo Code asks for confirmation before each MCP tool call. Adding too
 
 ---
 
+## Curl Download MCP
+
+**Required by:** Ask mode
+**Purpose:** Download PDFs from URLs via POSIX shell + curl
+
+Ask mode uses the repo-owned `curl-download` MCP server for downloading PDFs from URLs. No `npx` or npm dependency — the server runs directly via `sh` with a POSIX shell script.
+
+| Tool | Purpose | Key Parameters |
+|------|---------|--------------|
+| `curl_download` | Download PDF from URL to `.memory/` | `url` (string, required) |
+
+### Setup
+
+**Step 1:** Make the server script executable:
+
+```bash
+chmod +x mcp/pdf-curl-server.sh
+```
+
+**Step 2:** Ensure dependencies are installed. The script requires `curl` and either `jq` or `python3`:
+
+```bash
+# Check curl
+curl --version
+
+# Check jq (preferred)
+jq --version
+
+# Or check python3 (fallback)
+python3 --version
+```
+
+**Step 3:** The MCP config block above connects Zoo Code to the curl-download server. Restart Zoo Code → switch to Ask mode → run `curl_download` → confirm PDF is downloaded to `.memory/`.
+
+---
+
 ## Git MCP Server
 
 **Required by:** Git mode
@@ -169,14 +211,14 @@ The orchestration pipeline commits locally but does not auto-push. Push is destr
 
 ## Impact on the Pipeline
 
-| Mode | SearXNG | Git MCP |
-|------|---------|---------|
-| **Orchestrator** | Indirect (via Ask) | Indirect (via Git) |
-| **Ask** | **Direct** | — |
-| **Architect** | Indirect (via Ask) | — |
-| **Subtask Orchestrator** | Indirect (via Ask) | Indirect (via Git) |
-| **Code** | — | — |
-| **Git** | — | **Direct** |
+| Mode | SearXNG | Curl Download MCP | Git MCP |
+|------|---------|-------------------|---------|
+| **Orchestrator** | Indirect (via Ask) | — | Indirect (via Git) |
+| **Ask** | **Direct** | **Direct** | — |
+| **Architect** | Indirect (via Ask) | — | — |
+| **Subtask Orchestrator** | Indirect (via Ask) | — | Indirect (via Git) |
+| **Code** | — | — | — |
+| **Git** | — | — | **Direct** |
 
 ---
 
