@@ -2,8 +2,6 @@
 # MCP stdio server for PDF curl downloads
 # POSIX sh, auto-detects jq or python3 for JSON parsing
 
-set -e
-
 # ---- JSON parser detection ----
 JSON_TOOL=""
 if command -v jq >/dev/null 2>&1; then
@@ -20,9 +18,9 @@ _json_get() {
     _key="$1"
     _json="$2"
     if [ "$JSON_TOOL" = "jq" ]; then
-        printf '%s' "$_json" | jq -r --arg k "$_key" '.[$k] // empty'
+        printf '%s' "$_json" | jq -r --arg k "$_key" '.[$k] // empty' || true
     else
-        printf '%s' "$_json" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('$_key','') if isinstance(d,dict) else '')"
+        printf '%s' "$_json" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('$_key','') if isinstance(d,dict) else '')" 2>/dev/null || true
     fi
 }
 
@@ -30,9 +28,9 @@ _json_get_nested() {
     _path="$1"
     _json="$2"
     if [ "$JSON_TOOL" = "jq" ]; then
-        printf '%s' "$_json" | jq -r --arg p "$_path" 'reduce ($p | split("."))[] as $k (.; .[$k]) // empty'
+        printf '%s' "$_json" | jq -r --arg p "$_path" 'reduce ($p | split("."))[] as $k (.; .[$k]) // empty' || true
     else
-        printf '%s' "$_json" | python3 -c "import sys,json; d=json.load(sys.stdin); v=d; [v:=v.get(k) if isinstance(v,dict) else None for k in '$_path'.split('.')]; print(v if v is not None else '')"
+        printf '%s' "$_json" | python3 -c "import sys,json; d=json.load(sys.stdin); v=d; [v:=v.get(k) if isinstance(v,dict) else None for k in '$_path'.split('.')]; print(v if v is not None else '')" 2>/dev/null || true
     fi
 }
 

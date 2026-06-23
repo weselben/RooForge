@@ -32,7 +32,7 @@ The Forge pipeline requires three MCP servers for full functionality. Add the en
     },
     "curl-download": {
       "command": "sh",
-      "args": ["~/.roo/mcp/pdf-curl-server.sh"],
+      "args": ["-c", "exec ~/.roo/mcp/pdf-curl-server.sh"],
       "alwaysAllow": ["curl_download"]
     },
     "pdf-reader-mcp": {
