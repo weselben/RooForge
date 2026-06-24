@@ -81,6 +81,24 @@ The Forge pipeline requires three MCP servers for full functionality. Add the en
 }
 ```
 
+### Windows Alternative
+
+On Windows, replace the `curl-download` entry in the config above with the PowerShell version:
+
+```json
+    "curl-download": {
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy", "Bypass",
+        "-File", "C:\\Users\\%username%\\.roo\\mcp\\pdf-curl-server.ps1"
+      ],
+      "alwaysAllow": ["curl_download"]
+    }
+```
+
+> Requires the [`pdf-curl-server.ps1`](mcp/pdf-curl-server.ps1) script to be copied to `~/.roo/mcp/`.
+
 ---
 
 ## SearXNG
