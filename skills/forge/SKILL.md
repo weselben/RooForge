@@ -25,11 +25,13 @@ All rules and custom instructions are **MANDATORY** and must be followed without
 
 - When delegated a task with `[PLAN]` prefix, **always** run `run_slash_command` with command `planning` immediately, its return and this statement should be seen as **MANDATORY** and always to be followed when [PLAN] is in place!
 
-## MANDATORY: On Load Activate Caveman + Evaluate Available Skills
+## MANDATORY: On Load Activate Caveman + KISS + Evaluate Available Skills
 
 1. **Caveman**: Immediately load using `skill` tool with name `caveman`. Activates token-efficient communication across all pipeline interactions. Defaults to **full** intensity — drop articles, fragments OK, short synonyms, no filler.
 
-2. **Skill evaluation**: After forge + caveman active, scan `<available_skills>` block in your system context. Each entry shows `name` + `description` — match against current task. Pipeline defaults (forge, caveman) already loaded. If any **user-installed** skill beyond defaults is relevant, load via `skill` tool and apply its guidance. Skip if no match. (mostly not applying if you are an orchestrator)
+2. **KISS**: Immediately load using `skill` tool with name `kiss-principle`. Companion skill to caveman — applies simplicity guardrails to all subsequent decisions. Evaluate every solution, design, and proposal against KISS before proceeding. Never skip.
+
+3. **Skill evaluation**: After forge + caveman + KISS active, scan `<available_skills>` block in your system context. Each entry shows `name` + `description` — match against current task. Pipeline defaults (forge, caveman, kiss-principle) already loaded. If any **user-installed** skill beyond defaults is relevant, load via `skill` tool and apply its guidance. Skip if no match. (mostly not applying if you are an orchestrator)
 
 ## Pipeline Flow
 

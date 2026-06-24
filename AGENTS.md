@@ -15,7 +15,7 @@ Config-only repo — no build system, no package manager, no runtime code. Conta
 
 ## Forge Pipeline
 
-This project uses the Forge orchestration pipeline. All modes load the `forge` skill on startup for pipeline orientation, available commands, and role boundaries. The `caveman` skill auto-loads immediately after for token-efficient communication.
+This project uses the Forge orchestration pipeline. All modes load the `forge` skill on startup for pipeline orientation, available commands, and role boundaries. The `caveman` skill auto-loads immediately after for token-efficient communication. The `kiss-principle` skill auto-loads after caveman as a companion simplicity guardrail for all modes.
 
 The pipeline uses a **cascading command architecture**:
 - **Agent YAML files** (`agents/*.yaml`) — contain only flow logic (which commands to run when)
@@ -95,8 +95,8 @@ Every agent YAML, every command context, and every loaded skill can mark steps a
 | `/web` | Web search + URL reader via SearXNG MCP | `ask` |
 | `/pdf` | PDF download via curl MCP + read via pdf-reader-mcp | `ask` |
 | `/git` | Git operations (MCP-first, CLI fallback) | `git` |
-| `/code` | Standard code skill collection | `code` |
-| `/ui-ux` | UI/UX skill collection | `code` |
+| `/code` | Standard code skill collection | `code` | **kiss-principle** |
+| `/ui-ux` | UI/UX skill collection | `code` | **kiss-principle**, **forge-eu-accessibility** |
 
 ## Skills
 
@@ -106,6 +106,7 @@ All skills live in `skills/` and are loaded via the `skill` tool. Two load on st
 |-------|-------------|---------|--------|
 | [`skills/forge/SKILL.md`](skills/forge/SKILL.md) | **Startup** (all modes) | Pipeline orientation — flow, command registry, mode roles, conventions | Project-owned |
 | [`skills/caveman/SKILL.md`](skills/caveman/SKILL.md) | **Startup** (auto-loaded by forge) | Token-efficient communication (full intensity default) | Project-owned |
+| [`skills/kiss-principle/SKILL.md`](skills/kiss-principle/SKILL.md) | **Startup** (auto-loaded by forge after caveman) | Simplicity guardrail — evaluate solutions against KISS, avoid over-engineering | Project-owned |
 | [`skills/grill-me/SKILL.md`](skills/grill-me/SKILL.md) | **Mandatory on `/clarify`** | Relentless user interview — stress-test every design decision until shared understanding | [mattpocock/skills](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) |
 | [`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md) | **On `/blueprint`** | Structured planning methodology for phased task breakdown | Project-owned |
 | [`skills/forge-subtask-breakdown/SKILL.md`](skills/forge-subtask-breakdown/SKILL.md) | **On [EXEC]** | Atomic subtask decomposition — XS-sized tasks for code mode delegation | Project-owned |
@@ -113,17 +114,19 @@ All skills live in `skills/` and are loaded via the `skill` tool. Two load on st
 | [`skills/forge-eu-accessibility/SKILL.md`](skills/forge-eu-accessibility/SKILL.md) | **Mandatory on `/ui-ux`** | EU legal compliance (BFSG, EAA, WCAG), framework-agnostic checklist | Project-owned |
 | [`skills/frontend-design/SKILL.md`](skills/frontend-design/SKILL.md) | **On `/ui-ux`** | Design philosophy, typography, color, composition, anti-generic guardrails | Project-owned |
 | [`skills/forge-seo/SKILL.md`](skills/forge-seo/SKILL.md) | **On `/ui-ux` or SEO code tasks** | SEO hub with two references: UX/UI SEO (design → rankings) and Technical SEO (sitemaps, structured data, meta tags, rendering). Load first, then `read_file` the relevant reference | Project-owned |
+| [`skills/12-factor-app/SKILL.md`](skills/12-factor-app/SKILL.md) | **On `/code` when relevant** | Cloud-native app methodology — evaluates codebase, dependencies, config, processes, observability against 12-Factor + modern extensions | Project-owned |
 | [`skills/deep-research/SKILL.md`](skills/deep-research/SKILL.md) | **Startup** (auto-loaded by ask mode, after forge) | Exhaustive deep research — 10+ iteration search loop, recursive reflection, markdown-native reports | [moweme](skills/deep-research/SKILL.md) |
 | [`skills/conventional-commits/SKILL.md`](skills/conventional-commits/SKILL.md) | **Mandatory on `/git`** | Conventional Commits v1.0.0 format reference — types, SemVer mapping, breaking changes | Project-owned |
 
 ### Skill Loading Rules
 
-- Forge + caveman: always loaded first (non-negotiable)
+- Forge + caveman + kiss-principle: always loaded first (non-negotiable). `kiss-principle` is a companion skill to caveman — load immediately after caveman, never skip
 - grill-me: **mandatory** on every `/clarify` invocation — do not skip
 - planning-and-task-breakdown: loaded by architect during `/blueprint`
 - forge-subtask-breakdown: loaded by subtask-orchestrator during `[EXEC]` phase
 - conventional-commits: **mandatory** on every `/git` invocation — load before creating commit messages
 - Other user-installed skills: evaluated per forge skill's "Skill evaluation" step
+- 12-factor-app: **available on `/code`** when SaaS, cloud-native, microservices, containerized, or serverless work is detected. Load if relevant — not mandatory
 
 ## Native Rules
 

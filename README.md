@@ -37,7 +37,7 @@ This project provides a curated set of **custom mode export files**, **slash com
 
 ## 🔄 Forge Pipeline
 
-This project uses the Forge orchestration pipeline. All modes load the `forge` skill on startup for pipeline orientation, available commands, and role boundaries. The `caveman` skill auto-loads immediately after for token-efficient communication.
+This project uses the Forge orchestration pipeline. All modes load the `forge` skill on startup for pipeline orientation, available commands, and role boundaries. The `caveman` skill auto-loads immediately after for token-efficient communication. The `kiss-principle` skill auto-loads after caveman as a companion simplicity guardrail for all modes.
 
 ### 1. Top-Level Orchestration Tree
 
@@ -171,8 +171,8 @@ Standardized tool call formats that cascade into each other, eliminating duplica
 | `/web` | Web search + URL reader via SearXNG MCP | Ask |
 | `/pdf` | PDF download via curl MCP + read via pdf-reader-mcp | Ask |
 | `/git` | Git operations (MCP-first, CLI fallback) | Git |
-| `/code` | Standard code skill collection | Code |
-| `/ui-ux` | UI/UX skill collection | Code |
+| `/code` | Standard code skill collection | Code | **kiss-principle** |
+| `/ui-ux` | UI/UX skill collection | Code | **kiss-principle**, **forge-eu-accessibility** |
 
 ### Delegation Commands (cascade to `/delegate`)
 
@@ -189,12 +189,13 @@ See the **Slash Commands** section above for the command tables and cascading ar
 
 ## 🧠 Skills
 
-All modes load **[`skills/forge/SKILL.md`](skills/forge/SKILL.md)** on startup. It immediately loads **[`skills/caveman/SKILL.md`](skills/caveman/SKILL.md)** for token-efficient communication.
+All modes load **[`skills/forge/SKILL.md`](skills/forge/SKILL.md)** on startup. It immediately loads **[`skills/caveman/SKILL.md`](skills/caveman/SKILL.md)** for token-efficient communication. The **[`skills/kiss-principle/SKILL.md`](skills/kiss-principle/SKILL.md)** skill auto-loads after caveman as a companion simplicity guardrail for all modes.
 
 | Skill | Trigger | Purpose |
 |-------|---------|---------|
 | **[`skills/forge/SKILL.md`](skills/forge/SKILL.md)** | Startup, all modes | Pipeline orientation: flow, command registry, mode roles, conventions |
 | **[`skills/caveman/SKILL.md`](skills/caveman/SKILL.md)** | Auto-loaded by forge | Token-efficient communication (full intensity default) |
+| **[`skills/kiss-principle/SKILL.md`](skills/kiss-principle/SKILL.md)** | Auto-loaded by forge after caveman | Simplicity guardrail — evaluate solutions against KISS, avoid over-engineering. **Companion skill to caveman — never skip** |
 | **[`skills/grill-me/SKILL.md`](skills/grill-me/SKILL.md)** | `/clarify` command | Relentless user interview — stress-test every design decision until shared understanding reached. **Mandatory** on every `/clarify` invocation. ([source](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md)) |
 | **[`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md)** | `/blueprint` command | Structured planning methodology for phased task breakdown. |
 | **[`skills/forge-subtask-breakdown/SKILL.md`](skills/forge-subtask-breakdown/SKILL.md)** | `[EXEC]` phase | Atomic subtask decomposition — XS-sized tasks for code mode delegation. |
@@ -202,6 +203,7 @@ All modes load **[`skills/forge/SKILL.md`](skills/forge/SKILL.md)** on startup. 
 | **[`skills/forge-eu-accessibility/SKILL.md`](skills/forge-eu-accessibility/SKILL.md)** | Mandatory on `/ui-ux` | EU legal compliance (BFSG, EAA, WCAG), framework-agnostic checklist. |
 | **[`skills/frontend-design/SKILL.md`](skills/frontend-design/SKILL.md)** | `/ui-ux` command | Design philosophy, typography, color, composition, anti-generic guardrails. |
 | **[`skills/forge-seo/SKILL.md`](skills/forge-seo/SKILL.md)** | `/ui-ux` or SEO code tasks | SEO hub with two references: UX/UI SEO (design → rankings) and Technical SEO (sitemaps, structured data, meta tags, rendering). Load first, then `read_file` the relevant reference. |
+| **[`skills/12-factor-app/SKILL.md`](skills/12-factor-app/SKILL.md)** | On `/code` when relevant | Cloud-native app methodology — evaluates codebase, dependencies, config, processes, observability against 12-Factor + modern extensions |
 | **[`skills/deep-research/SKILL.md`](skills/deep-research/SKILL.md)** | Auto-loaded by ask mode (after forge) | Exhaustive deep research protocol — 10+ iteration search loop, recursive reflection, markdown-native reports. Source: moweme |
 | **[`skills/conventional-commits/SKILL.md`](skills/conventional-commits/SKILL.md)** | `/git` command | Conventional Commits v1.0.0 format reference — types, SemVer mapping, breaking changes, revert rules | Project-owned |
 
@@ -241,7 +243,7 @@ cd RooForge
 mkdir -p ~/.roo/commands ~/.roo/skills ~/.roo/rules-git ~/.roo/mcp
 cp -rf commands/* ~/.roo/commands/
 # Only remove known RooForge skills — never rm -rf ~/.roo/skills/* to protect user-installed skills
-rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown ~/.roo/skills/subtask-breakdown ~/.roo/skills/forge-subtask-breakdown ~/.roo/skills/forge-tailwindcss-conventions ~/.roo/skills/frontend-design ~/.roo/skills/eu-accessibility ~/.roo/skills/forge-eu-accessibility ~/.roo/skills/conventional-commits ~/.roo/skills/seo ~/.roo/skills/forge-seo
+rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown ~/.roo/skills/subtask-breakdown ~/.roo/skills/forge-subtask-breakdown ~/.roo/skills/forge-tailwindcss-conventions ~/.roo/skills/frontend-design ~/.roo/skills/eu-accessibility ~/.roo/skills/forge-eu-accessibility ~/.roo/skills/conventional-commits ~/.roo/skills/seo ~/.roo/skills/forge-seo ~/.roo/skills/kiss-principle ~/.roo/skills/12-factor-app
 # Only remove known RooForge rules — never rm -rf ~/.roo/rules-git/* to protect user-installed rules
 rm -rf ~/.roo/rules-git/mandatory-commit-guardrail.md
 rm -f ~/.roo/mcp/pdf-curl-server.sh
@@ -251,7 +253,7 @@ cp -rf mcp/* ~/.roo/mcp/
 chmod +x ~/.roo/mcp/pdf-curl-server.sh
 ```
 
-> **Why remove specific skills, not all?** The `rm -rf` targets only known RooForge skills (`caveman`, `conventional-commits`, `forge`, `forge-eu-accessibility`, `forge-seo`, `forge-subtask-breakdown`, `frontend-design`, `grill-me`, `planning-and-task-breakdown`, `forge-tailwindcss-conventions`). This prevents accidental deletion of user-installed skills (e.g. via `npx skills add` or manual installs). If you add a new skill to this repo, **you must add it to the `rm -rf` line** in both install commands above.
+> **Why remove specific skills, not all?** The `rm -rf` targets only known RooForge skills (`caveman`, `conventional-commits`, `forge`, `forge-eu-accessibility`, `forge-seo`, `forge-subtask-breakdown`, `frontend-design`, `grill-me`, `planning-and-task-breakdown`, `forge-tailwindcss-conventions`, `kiss-principle`, `12-factor-app`). This prevents accidental deletion of user-installed skills (e.g. via `npx skills add` or manual installs). If you add a new skill to this repo, **you must add it to the `rm -rf` line** in both install commands above.
 >
 > See [Zoo Code Slash Commands docs](https://docs.zoocode.dev/features/slash-commands), [Skills docs](https://docs.zoocode.dev/features/skills), and [Rules docs](https://docs.zoocode.dev/features/rules) for details on global directories.
 
@@ -423,6 +425,10 @@ The orchestration pipeline requires the following MCP (Model Context Protocol) s
 │   │   └── SKILL.md                 # EU accessibility compliance (BFSG, EAA, WCAG)
 │   ├── frontend-design/
 │   │   └── SKILL.md                 # Design philosophy, typography, color, composition
+│   ├── kiss-principle/
+│   │   └── SKILL.md                 # Simplicity guardrail — KISS evaluation, anti-over-engineering
+│   ├── 12-factor-app/
+│   │   └── SKILL.md                 # Cloud-native app methodology — 12-Factor + modern extensions
 ├── mcp/
 │   ├── pdf-curl-server.sh          # POSIX shell script for PDF download MCP
 │   └── pdf-curl-server.ps1         # PowerShell script for PDF download MCP (Windows)
