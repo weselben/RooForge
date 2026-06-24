@@ -17,7 +17,7 @@ description: >
 
 | Skill | Purpose |
 |-------|---------|
-| `kiss-principle` | Simplicity guardrail — evaluate solutions against KISS, avoid over-engineering. **Always load first** after caveman |
+| `kiss-principle` | Simplicity guardrail — evaluate solutions against KISS, avoid over-engineering. **Mandatory — load immediately after caveman** |
 
 ## Available Skills
 

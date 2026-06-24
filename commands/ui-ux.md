@@ -19,7 +19,7 @@ Load these **every time** -- no exceptions:
 
 | Skill | Purpose |
 |-------|---------|
-| `kiss-principle` | Simplicity guardrail — evaluate UI/UX solutions against KISS, avoid over-engineering. **Load first** after caveman |
+| `kiss-principle` | Simplicity guardrail — evaluate UI/UX solutions against KISS, avoid over-engineering. **Mandatory — load immediately after caveman** |
 | `forge-eu-accessibility` | EU legal compliance (BFSG, EAA, WCAG). **Always load last** to apply legal guardrails |
 
 > **Skill loading philosophy:** Prefer loading more relevant skills over fewer. A deeper skill stack produces higher-quality output than a shallow one. Re-evaluate `<available_skills>` after every task clarification.
