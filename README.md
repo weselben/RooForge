@@ -219,7 +219,7 @@ rm -rf ~/.roo/rules-git/mandatory-commit-guardrail.md
 rm -f ~/.roo/mcp/pdf-curl-server.sh
 cp -rf skills/* ~/.roo/skills/
 cp -rf rules/git/* ~/.roo/rules-git/
-cp mcp/pdf-curl-server.sh ~/.roo/mcp/
+cp -rf mcp/* ~/.roo/mcp/
 chmod +x ~/.roo/mcp/pdf-curl-server.sh
 ```
 
@@ -237,7 +237,7 @@ rm -rf ~/.roo/rules-git/mandatory-commit-guardrail.md
 rm -f ~/.roo/mcp/pdf-curl-server.sh
 cp -rf skills/* ~/.roo/skills/
 cp -rf rules/git/* ~/.roo/rules-git/
-cp mcp/pdf-curl-server.sh ~/.roo/mcp/
+cp -rf mcp/* ~/.roo/mcp/
 chmod +x ~/.roo/mcp/pdf-curl-server.sh
 ```
 
@@ -259,6 +259,48 @@ chmod +x ~/.roo/mcp/pdf-curl-server.sh
 ### Configure MCP Servers
 
 See [**MCP Servers**](#-mcp-servers) below for required server setup.
+
+<details>
+<summary>🪟 Windows Installation (PowerShell)</summary>
+
+```powershell
+# Clone the repo
+$repo = "$env:USERPROFILE\RooForge"
+if (-not (Test-Path $repo)) {
+    git clone https://github.com/weselben/RooForge.git $repo
+}
+
+# Create directories and copy files
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.roo\commands" | Out-Null
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.roo\skills" | Out-Null
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.roo\rules-git" | Out-Null
+New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.roo\mcp" | Out-Null
+# Copy commands (flat files)
+Copy-Item -Path "$repo\commands\*" -Destination "$env:USERPROFILE\.roo\commands\" -Force
+
+# Only remove known RooForge skills — never rm -rf ~/.roo/skills/* to protect user-installed skills
+Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\caveman" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\forge" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\grill-me" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\planning-and-task-breakdown" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\conventional-commits" -ErrorAction SilentlyContinue
+
+# Copy skills (with subdirectories — Get-ChildItem avoids Copy-Item wildcard flattening bug)
+Get-ChildItem "$repo\skills" | ForEach-Object {
+    Copy-Item -Path $_.FullName -Destination "$env:USERPROFILE\.roo\skills\" -Recurse -Force
+}
+
+# Only remove known RooForge rules
+Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\rules-git\mandatory-commit-guardrail.md" -ErrorAction SilentlyContinue
+
+# Copy rules and mcp (flat files)
+Copy-Item -Path "$repo\rules\git\*" -Destination "$env:USERPROFILE\.roo\rules-git\" -Force
+Copy-Item -Path "$repo\mcp\*" -Destination "$env:USERPROFILE\.roo\mcp\" -Force
+```
+
+</details>
+
+> **Windows users:** The `curl-download` MCP server also ships as a PowerShell script (`pdf-curl-server.ps1`). Copy it alongside the shell script and use the Windows config shown in [`mcp.md`](mcp.md).
 
 ## 🔄 Automated Releases
 
@@ -357,7 +399,8 @@ The orchestration pipeline requires the following MCP (Model Context Protocol) s
 │   └── planning-and-task-breakdown/
 │       └── SKILL.md                 # Planning methodology skill
 ├── mcp/
-│   └── pdf-curl-server.sh          # POSIX shell script for PDF download MCP
+│   ├── pdf-curl-server.sh          # POSIX shell script for PDF download MCP
+│   └── pdf-curl-server.ps1         # PowerShell script for PDF download MCP (Windows)
 ├── mcp.md                          # MCP server configuration (SearXNG + curl-download + pdf-reader-mcp + Git MCP)
 ├── CONTRIBUTING.md                  # Contribution guidelines
 ├── LICENSE                          # Apache License 2.0
