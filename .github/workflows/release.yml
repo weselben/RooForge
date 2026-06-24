@@ -69,14 +69,14 @@ jobs:
 
             | Archive | Contents |
             |---------|----------|
-            | `commands.zip` | All 13 slash commands — copy to `~/.roo/commands/` |
-            | `skills.zip` | All 6 skills (forge, caveman, grill-me, planning-and-task-breakdown, deep-research, conventional-commits) — copy to `~/.roo/skills/` |
+            | `commands.zip` | All slash commands — copy to `~/.roo/commands/` |
+            | `skills.zip` | All skills (forge, caveman, grill-me, planning-and-task-breakdown, forge-subtask-breakdown, forge-tailwindcss-conventions, frontend-design, forge-eu-accessibility, forge-seo, deep-research, conventional-commits) — copy to `~/.roo/skills/` |
             | `rules.zip` | Native git commit guardrail rule — copy to `~/.roo/rules-git/` |
             | `mcp.zip` | MCP server scripts (pdf-curl-server.sh, pdf-curl-server.ps1) — copy to `~/.roo/mcp/` |
 
             ### Installation
 
-            1. Download agent YAMLs and import into Roo Code → Settings → Custom Modes
+            1. Download agent YAMLs and import into Zoo Code → Settings → Custom Modes
             2. Download `commands.zip` and extract to `~/.roo/commands/`
             3. Download `skills.zip` and extract to `~/.roo/skills/`
             4. Download `rules.zip` and extract to `~/.roo/rules-git/`
