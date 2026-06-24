@@ -225,7 +225,7 @@ cd RooForge
 mkdir -p ~/.roo/commands ~/.roo/skills ~/.roo/rules-git ~/.roo/mcp
 cp -rf commands/* ~/.roo/commands/
 # Only remove known RooForge skills — never rm -rf ~/.roo/skills/* to protect user-installed skills
-rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown ~/.roo/skills/subtask-breakdown ~/.roo/skills/forge-subtask-breakdown ~/.roo/skills/forge-tailwindcss-conventions ~/.roo/skills/frontend-design ~/.roo/skills/eu-accessibility ~/.roo/skills/forge-eu-accessibility ~/.roo/skills/conventional-commits ~/.roo/skills/seo ~/.roo/skills/forge-seo
+rm -rf ~/.roo/skills/caveman ~/.roo/skills/forge ~/.roo/skills/grill-me ~/.roo/skills/planning-and-task-breakdown ~/.roo/skills/subtask-breakdown ~/.roo/skills/forge-subtask-breakdown ~/.roo/skills/forge-tailwindcss-conventions ~/.roo/skills/frontend-design ~/.roo/skills/eu-accessibility ~/.roo/skills/forge-eu-accessibility ~/.roo/skills/conventional-commits ~/.roo/skills/seo ~/.roo/skills/forge-seo ~/.roo/skills/kiss-principle ~/.roo/skills/12-factor-app
 # Only remove known RooForge rules — never rm -rf ~/.roo/rules-git/* to protect user-installed rules
 rm -rf ~/.roo/rules-git/mandatory-commit-guardrail.md
 rm -f ~/.roo/mcp/pdf-curl-server.sh
@@ -295,7 +295,17 @@ Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\caveman" -ErrorAction 
 Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\forge" -ErrorAction SilentlyContinue
 Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\grill-me" -ErrorAction SilentlyContinue
 Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\planning-and-task-breakdown" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\subtask-breakdown" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\forge-subtask-breakdown" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\forge-tailwindcss-conventions" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\frontend-design" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\eu-accessibility" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\forge-eu-accessibility" -ErrorAction SilentlyContinue
 Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\conventional-commits" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\seo" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\forge-seo" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\kiss-principle" -ErrorAction SilentlyContinue
+Remove-Item -Recurse -Force "$env:USERPROFILE\.roo\skills\12-factor-app" -ErrorAction SilentlyContinue
 
 # Copy skills (with subdirectories — Get-ChildItem avoids Copy-Item wildcard flattening bug)
 Get-ChildItem "$repo\skills" | ForEach-Object {
