@@ -5,6 +5,7 @@ description: >
   Apply simplicity guardrails to avoid over-engineering, accidental complexity, and premature abstraction.
   Use when designing systems, writing code, evaluating architectures, or when any solution feels
   overly complex, clever, or bloated. Source: Wikipedia.
+source: https://en.wikipedia.org/wiki/KISS_principle
 ---
 
 # KISS Principle
@@ -48,7 +49,3 @@ description: >
 - **DRY** — eliminate duplication, but don't over-abstract to achieve it
 - **Unix Philosophy** — do one thing well, compose small tools
 - **Occam's Razor** — simplest explanation is usually correct
-
-## Source
-
-- https://en.wikipedia.org/wiki/KISS_principle

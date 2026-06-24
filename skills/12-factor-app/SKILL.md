@@ -4,7 +4,7 @@ description: >
   Evaluate, design, and critique software systems against the 12-Factor App methodology
   and its modern extensions (observability, API-first, security, progressive delivery).
   Use when building SaaS, cloud-native apps, microservices, containerized workloads, or serverless functions.
-  Source: https://12factor.net/.
+source: https://12factor.net/
 ---
 
 # 12-Factor App
