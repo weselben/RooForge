@@ -194,7 +194,7 @@ All modes load **[`skills/forge/SKILL.md`](skills/forge/SKILL.md)** on startup. 
 | Skill | Trigger | Purpose |
 |-------|---------|---------|
 | **[`skills/forge/SKILL.md`](skills/forge/SKILL.md)** | Startup, all modes | Pipeline orientation: flow, command registry, mode roles, conventions |
-| **[`skills/caveman/SKILL.md`](skills/caveman/SKILL.md)** | Auto-loaded by forge | Token-efficient communication (full intensity default) |
+| **[`skills/caveman/SKILL.md`](skills/caveman/SKILL.md)** | Auto-loaded by forge | Token-efficient communication (full intensity default) | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman/blob/main/skills/caveman/SKILL.md) |
 | **[`skills/kiss-principle/SKILL.md`](skills/kiss-principle/SKILL.md)** | Auto-loaded by forge after caveman | Simplicity guardrail — evaluate solutions against KISS, avoid over-engineering. **Companion skill to caveman — never skip** |
 | **[`skills/grill-me/SKILL.md`](skills/grill-me/SKILL.md)** | `/clarify` command | Relentless user interview — stress-test every design decision until shared understanding reached. **Mandatory** on every `/clarify` invocation. ([source](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md)) |
 | **[`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md)** | `/blueprint` command | Structured planning methodology for phased task breakdown. |
@@ -482,7 +482,7 @@ limitations under the License.
 
 - Built for [Zoo Code](https://github.com/Zoo-Code-Org/Zoo-Code) - an AI-powered coding assistant for VS Code.
 - Inspired by hierarchical task decomposition and multi-agent orchestration patterns.
-- [Caveman](https://github.com/JuliusBrussee/caveman) by JuliusBrussee - token-efficient communication skill for AI agents.
+- [Caveman](https://github.com/JuliusBrussee/caveman/blob/main/skills/caveman/SKILL.md) by JuliusBrussee — token-efficient communication skill for AI agents.
 
 ---
 

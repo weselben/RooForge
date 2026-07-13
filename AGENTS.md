@@ -105,7 +105,7 @@ All skills live in `skills/` and are loaded via the `skill` tool. Two load on st
 | Skill | Load Timing | Purpose | Source |
 |-------|-------------|---------|--------|
 | [`skills/forge/SKILL.md`](skills/forge/SKILL.md) | **Startup** (all modes) | Pipeline orientation — flow, command registry, mode roles, conventions | Project-owned |
-| [`skills/caveman/SKILL.md`](skills/caveman/SKILL.md) | **Startup** (auto-loaded by forge) | Token-efficient communication (full intensity default) | Project-owned |
+| [`skills/caveman/SKILL.md`](skills/caveman/SKILL.md) | **Startup** (auto-loaded by forge) | Token-efficient communication (full intensity default) | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman/blob/main/skills/caveman/SKILL.md) |
 | [`skills/kiss-principle/SKILL.md`](skills/kiss-principle/SKILL.md) | **Startup** (auto-loaded by forge after caveman) | Simplicity guardrail — evaluate solutions against KISS, avoid over-engineering | Project-owned |
 | [`skills/grill-me/SKILL.md`](skills/grill-me/SKILL.md) | **Mandatory on `/clarify`** | Relentless user interview — stress-test every design decision until shared understanding | [mattpocock/skills](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) |
 | [`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md) | **On `/blueprint`** | Structured planning methodology for phased task breakdown | Project-owned |
