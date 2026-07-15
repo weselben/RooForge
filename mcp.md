@@ -28,7 +28,14 @@ The Forge pipeline requires three MCP servers for full functionality. Add the en
       "env": {
         "SEARXNG_URL": "http://localhost:8088/"
       },
-      "alwaysAllow": ["web_url_read", "searxng_web_search"]
+			"alwaysAllow": [
+				"web_url_read",
+				"searxng_web_search",
+        "searxng_instance_info"
+			],
+			"disabledTools": [
+				"searxng_search_suggestions"
+			]
     },
     "curl-download": {
       "command": "sh",
