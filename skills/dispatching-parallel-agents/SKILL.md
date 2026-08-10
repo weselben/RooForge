@@ -1,6 +1,6 @@
 ---
 name: dispatching-parallel-agents
-source: https://github.com/obra/superpowers/tree/main/skills/dispatching-parallel-agents
+source: https://raw.githubusercontent.com/obra/superpowers/main/skills/dispatching-parallel-agents/SKILL.md
 description: "Dispatch up to 10 parallel subagents via AgentSwarm for 2+ independent tasks. Triggers: \"swarm mode\", \"parallel agents\", \"dispatch in parallel\", or 2+ independent tasks with no shared state."
 ---
 
