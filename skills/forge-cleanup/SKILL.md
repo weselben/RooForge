@@ -1,7 +1,7 @@
 ---
 name: forge-cleanup
 description: Remove stale forge artefacts — scratch files, unused worktrees, uncommitted changes, untracked files, local branches. Asks before each removal.
-source: local://authored
+source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-cleanup/SKILL.md
 disable-model-invocation: true
 ---
 
