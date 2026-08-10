@@ -1,6 +1,6 @@
 ---
 name: subagent-driven-development
-source: https://github.com/obra/superpowers/tree/main/skills/subagent-driven-development
+source: https://raw.githubusercontent.com/obra/superpowers/main/skills/subagent-driven-development/SKILL.md
 description: Coordinator-driven parallel implementation — dispatch one implementer subagent per task in its own worktree, per-task review, fix loop, integrate. Load when the plan has independent tasks ready to execute.
 ---
 
