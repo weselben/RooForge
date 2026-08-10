@@ -9,7 +9,7 @@ description: Set the git identity (name + email) before any commit, amend, or re
 Every commit on this machine uses one identity — author AND committer:
 
 ```
-name:  weselben
+name:  weselben/rooforge
 email: bengottwaldi04@gmail.com
 ```
 
@@ -18,20 +18,20 @@ email: bengottwaldi04@gmail.com
 **First commit in a repo** — set repo-local (never `--global` unless asked):
 
 ```bash
-git config user.name "weselben"
+git config user.name "weselben/rooforge"
 git config user.email "bengottwaldi04@gmail.com"
 ```
 
 **One-off** (no config touch):
 
 ```bash
-git -c user.name="weselben" -c user.email="bengottwaldi04@gmail.com" commit ...
+git -c user.name="weselben/rooforge" -c user.email="bengottwaldi04@gmail.com" commit ...
 ```
 
 **Fix authorship of an existing commit:**
 
 ```bash
-git config user.name "weselben"
+git config user.name "weselben/rooforge"
 git config user.email "bengottwaldi04@gmail.com"
 git commit --amend --reset-author --no-edit
 ```
