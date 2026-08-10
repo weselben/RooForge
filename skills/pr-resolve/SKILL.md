@@ -1,6 +1,6 @@
 ---
 name: pr-resolve
-source: local://authored
+source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/pr-resolve/SKILL.md
 description: "Resolve PR review findings — reads caveman-review findings, dispatches one resolver subagent per finding group into its own worktree, commits under user's git identity, pushes to PR head branch, replies under each review thread with the resolving commit SHA. Triggers: \"resolve review comments\", \"fix PR feedback\", \"address review findings\"."
 ---
 
