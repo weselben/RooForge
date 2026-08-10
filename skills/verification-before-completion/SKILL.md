@@ -1,6 +1,6 @@
 ---
 name: verification-before-completion
-source: https://github.com/obra/superpowers/tree/main/skills/verification-before-completion
+source: https://raw.githubusercontent.com/obra/superpowers/main/skills/verification-before-completion/SKILL.md
 description: "Verify completion claims with fresh evidence. Iron Law: NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE. Load when about to claim complete/fixed/passing; before commit/PR/task done."
 ---
 
