@@ -1,6 +1,7 @@
 ---
 name: ste100
 description: Write human-facing text in ASD-STE100 Simplified Technical English — short sentences, approved words, one meaning per word. Governs artifacts only (PRs, commits, docs, comments); chat replies are not in scope.
+source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/ste100/SKILL.md
 ---
 
 # STE100
