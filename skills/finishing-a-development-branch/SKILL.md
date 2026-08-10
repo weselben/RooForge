@@ -1,6 +1,6 @@
 ---
 name: finishing-a-development-branch
-source: https://github.com/obra/superpowers/tree/main/skills/finishing-a-development-branch
+source: https://raw.githubusercontent.com/obra/superpowers/main/skills/finishing-a-development-branch/SKILL.md
 description: "Finish a development branch — commit, verify, push, open PR. PR is the only path. Load when implementation is complete and tests pass. Triggers: \"finish this branch\", \"wrap up\", \"open a PR\"."
 ---
 
