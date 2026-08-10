@@ -1,7 +1,7 @@
 ---
 name: deep-research
 description: "Exhaustive evidence-based research — minimum 10 search iterations, recursive reflection, structured reports with markdown-native tables. As long as the research is solid; no fixed length cap. Triggers: \"research this\", \"deep dive\", \"exhaustive analysis\", \"report on X\"."
-source: "https://github.com/MoweME"
+source: "https://github.com/MoweME (origin: kimi.com web UI)"
 ---
 
 # Deep Research
