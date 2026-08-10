@@ -1,6 +1,6 @@
 ---
 name: pr-review
-source: local://authored
+source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/pr-review/SKILL.md
 description: "Review a GitHub PR or local branch inside a worktree — hard-rule validation, then a kimi -p review loop producing caveman-review findings. PR mode posts ONE review under the authenticated user's identity; local mode returns findings. Triggers: \"review this PR\", \"review <repo>#<n>\", \"PR review\", \"review branch <name>\"."
 ---
 
