@@ -1,6 +1,7 @@
 ---
 name: git-issue-tracker
 description: Issue-tracker integration point for git-tracked repos. Premade with GitHub operations (gh CLI — native sub-issues for parent/child, native blocked_by dependencies for blocking, frontier queries). Load whenever a skill or workflow (e.g. wayfinder) needs to publish to, read from, or wire relationships on the repo's issue tracker. Replace the operations below if your tracker isn't GitHub.
+source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/git-issue-tracker/SKILL.md
 ---
 
 # Issue tracker
