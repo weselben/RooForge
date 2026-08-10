@@ -1,6 +1,6 @@
 ---
 name: creating-pull-requests
-source: https://github.com/tdhopper/dotfiles2.0/blob/master/.claude/skills/creating-pull-requests/SKILL.md
+source: https://raw.githubusercontent.com/tdhopper/dotfiles2.0/master/.claude/skills/creating-pull-requests/SKILL.md
 description: "Write clear, size-gated PR descriptions with mandatory AI disclosure. Load `ste100` for prose. Triggers: \"create a PR\", \"open a pull request\", \"update PR description\", or pushes a branch with PR intent."
 ---
 
