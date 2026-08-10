@@ -1,6 +1,7 @@
 ---
 name: loops
 description: "Drive `kimi -p` review/resolve loops via a shell framework. Dynamic prompts: callers supply their own `.md` template; loops renders it, compresses it, drives `run_loop` until `DONE:` or `BLOCKED:`. Triggers: \"kimi -p loop\", \"review loop\", \"resolve loop\"."
+source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/loops/SKILL.md
 ---
 
 # loops — shell framework for `kimi -p` loops
