@@ -1,75 +1,63 @@
 ---
 name: deep-research
-description: Utilizes a suite of tools to facilitate exhaustive, evidence-based deep research and long-form report engineering. Enforces a minimum 10-iteration search cycle, recursive reflection, and the production of structured reports exceeding 10,000 words with markdown-native data tables and specific paragraph logic.
-source: moweme
+description: "Exhaustive evidence-based research — minimum 10 search iterations, recursive reflection, structured reports with markdown-native tables. As long as the research is solid; no fixed length cap. Triggers: \"research this\", \"deep dive\", \"exhaustive analysis\", \"report on X\"."
+source: "https://github.com/MoweME"
 ---
-
-## Forge Integration
-
-- **Mode**: Loaded by `ask` mode via skill tool (after forge skill)
-- **Output**: `.memory/research-{topic}-{YYYY-MM-DD}.md`
-- **Web Research**: **MANDATORY** — Use `run_slash_command` with command `web` for all external web research (SearXNG searches + URL reading). Never search the web without loading `/web` first.
-- **Codebase Analysis**: Use `codebase_search` for local file patterns and definitions
-- **Persistence**: Use `run_slash_command` with command `memory` to write findings to `.memory/`
-- **Completion**: Always `run_slash_command` with command `complete` before `attempt_completion`
 
 # Deep Research
 
-Execute a high-intensity research protocol focused on exhaustive discovery, continuous recursive reflection, and high-density analytical reporting. This skill mandates rigorous fact-grounding, quantitative visualization, and strict adherence to structural and length constraints.
+High-intensity research protocol: exhaustive discovery, recursive reflection, high-density reporting. Rigorous fact-grounding, quantitative visualization, strict structure and length.
 
-## 📂 Output Path
-Final report destination: `.memory/research-{topic}-{YYYY-MM-DD}.md`
+## Output
 
-## 🚀 Research & Discovery Phase (The 10+ Step Loop)
+`docs/dev/agents/<topic>.md` — topic-specific filename, no date. Example: `docs/dev/agents/auth-providers-comparison.md`.
 
-1.  **Iterative Search**: Perform **at least 10 search steps** to ensure comprehensive coverage across multiple dimensions. Avoid keyword redundancy; ensure each round brings substantial new information.
-2.  **Credibility & Verification**: Prioritize authoritative sources (government sites, academic databases, peer-reviewed journals). **Never fabricate data.** Every statistic and claim must be accurate and traceable.
-3.  **Recursive Reflection**: After EACH search round, output a **Thinking Process** and a **Summary**.
-    - **Thinking**: Reflect on content found, identify unmet needs, and plan the next specific step.
-    - **Summary**: Concise recap of key findings.
-    - *Constraint*: Both sections must be **short and concise**.
-4.  **Quantitative Analysis**: Prioritize data analysis via web research and codebase_search. Use **markdown-native** representations: tables for comparisons, Mermaid diagrams for flows/relationships, and bold-formatted key metrics. Embed findings directly into the Markdown report.
+## Leading word: recursion
 
-## 📝 Report Engineering Standards
+Every search round ends with a **Think** (what's still unknown, what to ask next) and a **Summary** (what's known now). Both tight — under five lines each. The recursion drives the next round's direction.
 
-### 1. Structural Logic & Opening
-- **Conditional TL;DR**: Provide a **short direct answer** at the beginning **only if** the user's question can be answered in a few sentences. 
-- **Style Adaptation**:
-    - If a specific style is implied (e.g., story, interview, case narrative), adhere to it.
-    - **Default**: Strict academic report format.
-    - Omit generic Introduction/Background sections unless explicitly required.
+## Steps
 
-### 2. Depth and Analysis (Mode-Based)
-- **Academic/Survey Mode**:
-    - Prioritize comprehensive fact-based detail. Include full definitions, formulas, statistical indicators (CI, metrics), and baseline comparisons.
-    - Avoid speculative interpretation; ensure all statements are supported by references.
-- **Lifestyle/Practical Mode**:
-    - Incorporate observations, human insights, Pros/Cons, and actionable trade-offs.
-    - Reflect on implications and explain why certain patterns matter.
+### 1. Explore — minimum 10 search rounds
 
-### 3. Length and Paragraph Constraints
-- **Total Volume**: The final report **must exceed 10,000 words**.
-- **Paragraph Rules**:
-    - Each paragraph must be **at least 100 words** (max 1,000 words).
-    - **Subsection Rule**: Every subsection (e.g., `## 3.1`) MUST contain **more than one paragraph**.
-- **Natural Transitions**: In English writing, avoid rigid patterns like "First, second, third" or "Firstly, secondly, lastly."
+Each round earns its keep — new dimensions, not synonym-shuffled queries. Prefer primary sources (government, peer-reviewed, official docs). **Every claim traceable.**
 
-### 4. Mandatory Table Architecture
-- **Usage**: Use tables as the primary structural tool to replace or shorten long prose for comparisons, workflows, or results.
-- **Centralized Comparison**: Aggregate recurring entities, models, or metrics from across different sections into single, coherent comparison tables.
-- **Source Integration**: **Do not include a separate "Source" column**. Place numeric citations (e.g., `[^1^]`) directly within the data cells.
+After each round, write a short **Think** and **Summary** (see recursion above).
 
-## ⚖️ Formatting & Citation Rules
+**Parallel research:** when the question splits into independent sub-questions (e.g. compare 5 auth providers, survey 3 frameworks), invoke `dispatching-parallel-agents` with one item per sub-question. Each subagent runs its own 10-round loop, writes to its own `docs/dev/agents/<sub-topic>.md`, and returns a summary. Aggregate results in step 3.
 
-- **Citation Format**: Use `[^index^]` for factual/formal pieces. Max **two citations per sentence**.
-    - *Note*: Do not use citations for creative/non-formal writing.
-- **Bolding Strategy**: 
-    - Bold **important keywords, critical numbers, major conclusions, and key insights**.
-    - **Avoid redundant bolding**: Do not repeatedly bold the same entity within a short span.
-- **Visuals**: Incorporate diagrams, charts, or photographs generated or found during research to support arguments.
-- **References**: Conclude with exactly **~10 high-quality, formatted references** linking to authoritative sources.
+**Done when:** 10 rounds complete per stream; every round's Think shows diminishing new information.
 
-## 🛠 Execution Workflow
-1. **Explore**: Conduct a minimum of 10 search rounds using `/web` for external research and `codebase_search` for local codebase analysis. Include concise recursive reflections after each round.
-2. **Analyze**: Synthesize findings into markdown-native data representations — comparison tables, Mermaid diagrams, and bold-highlighted key metrics.
-3. **Persist**: Run `run_slash_command` with command `memory` to write the full deep-research report as the memory artifact. The report IS the memory file — use deep-research report structure (10,000+ words, tables, citations, Mermaid diagrams). Follow the word count and multi-paragraph subsection rules.
+### 2. Analyze — synthesize into markdown-native representations
+
+- **Comparison tables** for entities, models, metrics
+- **Mermaid diagrams** for flows and relationships
+- **Bold** for key metrics and conclusions
+- Data analysis via web research and codebase search
+
+### 3. Persist — write to `docs/dev/agents/<topic>.md`
+
+The report IS the artifact. Structure:
+
+- **Every subsection** (`## 3.1`) **must contain more than one paragraph**
+- **Every paragraph** ≥ 100 words (max 1,000)
+- **Tables as primary structure** — aggregate recurring entities into single coherent comparison tables
+- **No separate "Source" column** — numeric citations (`[^1^]`) inside data cells
+- **Citations:** `[^index^]` for factual/formal pieces, max 2 per sentence
+- **Bold sparingly:** important keywords, critical numbers, major conclusions — don't repeat the same bold entity in a short span
+- **References:** ~10 high-quality formatted references at the end
+- **Conditional TL;DR** at the top only if the question can be answered in a few sentences
+
+**After writing**, load `forge-docs` — it updates `docs/dev/README.md` and any affected index files.
+
+**Done when:** report written to output path, every claim traceable, tables/mermaid/citations in place, references formatted, and `forge-docs` applied.
+
+## Report modes
+
+| Mode | Style |
+|------|-------|
+| Academic/Survey | Fact-based, full definitions, formulas, statistical indicators, baseline comparisons. No speculative interpretation. |
+| Lifestyle/Practical | Observations, human insights, Pros/Cons, actionable trade-offs. |
+
+Style adapts to context. Default: strict academic. Omit generic Introduction/Background unless required.
+

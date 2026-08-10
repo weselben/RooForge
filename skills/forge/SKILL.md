@@ -1,10 +1,9 @@
 ---
 name: forge
 description: "Forge owns the session-start flow — forge-flow bootstraps (feat branch from main, harness goal), then forge runs: chart or load the wayfinder map, resolve tickets until the way is clear, plan, dispatch one subagent per task into its own worktree, verify, then pr-review → pr-resolve loop until the user merges. Auto-loads on session start."
-source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge/SKILL.md
 ---
 
-# Forge — Pipeline Orientation
+# Forge
 
 Forge owns a sequence the agent runs every session: **map → resolve → plan → work → verify → review → resolve**. Each step ends on a checkable criterion; the next step is the proof.
 
