@@ -1,7 +1,7 @@
 ---
 name: resolving-merge-conflicts
 description: "Use when you need to resolve an in-progress git merge/rebase conflict. Loads `subagent-driven-development` when conflicts touch integration branches and need per-task unblock work."
-source: "https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts/SKILL.md"
+source: "https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/resolving-merge-conflicts/SKILL.md"
 ---
 
 # Resolving Merge Conflicts
