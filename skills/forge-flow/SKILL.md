@@ -1,7 +1,7 @@
 ---
 name: forge-flow
 description: Session bootstrap for forge — detect the wayfinder map, prepare the feat branch from main, write the long-living contract goal, hand off to forge step 1. Auto-loads with forge at session start.
-source: local://authored
+source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-flow/SKILL.md
 ---
 
 # Forge Flow
