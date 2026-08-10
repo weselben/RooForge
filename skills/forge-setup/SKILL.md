@@ -1,7 +1,7 @@
 ---
 name: forge-setup
 description: Adapt this repo's skills to the harness actually running you. Discovers every non-harness-agnostic reference (non-interactive CLI loops, goal/plan-mode APIs, subagent swarm tooling), researches the running harness's equivalents, and patches them with minimal diffs. Run once after cloning the repo into a non-Kimi harness.
-source: local://authored
+source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-setup/SKILL.md
 ---
 
 # Forge Setup
