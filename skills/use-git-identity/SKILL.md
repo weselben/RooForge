@@ -1,6 +1,6 @@
 ---
 name: use-git-identity
-source: local://authored (host git identity convention)
+source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/use-git-identity/SKILL.md
 description: Set the git identity (name + email) before any commit, amend, or rebase. Apply repo-local on first commit; use `-c` for one-offs.
 ---
 
