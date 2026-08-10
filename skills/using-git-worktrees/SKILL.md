@@ -1,6 +1,6 @@
 ---
 name: using-git-worktrees
-source: https://github.com/obra/superpowers/tree/main/skills/using-git-worktrees
+source: https://raw.githubusercontent.com/obra/superpowers/main/skills/using-git-worktrees/SKILL.md
 description: "Create an isolated git worktree for feature work. Detect existing isolation first; only create if needed. Triggers: \"worktree\", \"isolate\", \"parallel implementation\", \"subagent dispatch\"."
 ---
 
