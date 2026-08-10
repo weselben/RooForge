@@ -1,6 +1,6 @@
 ---
 name: conventional-commits
-source: https://github.com/weselben/RooForge/tree/main/skills/conventional-commits
+source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/conventional-commits/SKILL.md
 description: Format commits per Conventional Commits v1.0.0 spec. Load when writing any commit message.
 ---
 
