@@ -1,4 +1,4 @@
-# skills-and-conventions
+# RooForge
 
 A curated set of AI agent **skills** for orchestrating large efforts on an issue tracker — from a loose idea to a merged PR. The repo defines the skills; the forge drives the flow; the tracker carries the map.
 
@@ -8,8 +8,44 @@ A curated set of AI agent **skills** for orchestrating large efforts on an issue
 
 The repo has two layers:
 
-- **`skills/`** — 28 vendor-agnostic skills an agent loads mid-session. Communication skills (caveman, ste100, conventional-commits) govern all text. Orchestrator skills (forge, forge-flow, loops) drive the session. Planning skills (wayfinder, grilling, prototype, deep-research, planning-and-task-breakdown, domain-modeling) shape the map. Execution skills (using-git-worktrees, subagent-driven-development, dispatching-parallel-agents, finishing-a-development-branch, verification-before-completion, pr-review, pr-resolve, creating-pull-requests) build the code. Bootstrap skills (forge-init, forge-docs, forge-cleanup) maintain the repo itself.
+- **`skills/`** — 29 vendor-agnostic skills an agent loads mid-session. Communication skills (caveman, ste100, conventional-commits) govern all text. Orchestrator skills (forge, forge-flow, loops) drive the session. Planning skills (wayfinder, grilling, prototype, deep-research, planning-and-task-breakdown, domain-modeling) shape the map. Execution skills (using-git-worktrees, subagent-driven-development, dispatching-parallel-agents, finishing-a-development-branch, verification-before-completion, pr-review, pr-resolve, creating-pull-requests) build the code. Bootstrap skills (forge-init, forge-setup, forge-docs, forge-cleanup) maintain the repo itself.
 - **`docs/`** — convention scaffolding for the artefacts the agent produces: ADRs in `docs/adr/`, system designs in `docs/system-design/`, how-to guides in `docs/guides/`, deep research artifacts in `docs/dev/agents/`. RFC-style decisions live as wayfinder tickets on the tracker, not as docs files.
+
+---
+
+## Install — copy this prompt to your agent
+
+```text
+Install the forge-setup skill from the raw URL below into my harness's skill directory (preferred: `<harness-config-dir>/skills/forge-setup/SKILL.md`; fallback: `~/.agents/skills/forge-setup/SKILL.md`), then load it in this chat and run it. The skill handles everything: it clones this repo to a temp directory, identifies the running harness, discovers and patches all non-harness-agnostic references, verifies the adapted skills, and optionally installs them into the harness skill directory.
+```
+
+Raw skill URL:
+```
+https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-setup/SKILL.md
+```
+
+After forge-setup completes, run `forge-init` (if not already done) then `forge-flow` to start a session.
+
+---
+
+## Prerequisites
+
+The skills in this repo have the following external dependencies. Ensure these are available on your system before running the corresponding skills.
+
+| Skill | Required tools / dependencies |
+|-------|-------------------------------|
+| **forge**, **forge-flow**, **wayfinder**, **git-issue-tracker**, **creating-pull-requests**, **pr-review**, **pr-resolve**, **finishing-a-development-branch** | `gh` (GitHub CLI, ≥2.0), authenticated (`gh auth status`) |
+| **forge-init**, **wayfinder** | `gh` + `gh api` (label creation, sub-issue wiring) |
+| **loops**, **pr-review**, **pr-resolve** | `bash` (POSIX), `kimi -p` (or harness equivalent after forge-setup) |
+| **using-git-worktrees**, **subagent-driven-development**, **finishing-a-development-branch** | `git` (≥2.20 for `git worktree`), project test runner (`npm test` / `cargo test` / `pytest` / `go test ./...`) |
+| **using-git-worktrees** | Project package manager if `package.json` exists (`npm`/`pnpm`/`yarn`) |
+| **deep-research** | Web search capability (harness tool or `curl` + `jq` for API fallback) |
+| **dispatching-parallel-agents**, **subagent-driven-development** | Harness subagent API (`AgentSwarm`, `Agent`, `run_in_background`, `subagent_type: coder/explore/plan`) — **adapted by forge-setup** |
+| **forge-flow** | Harness goal API (`CreateGoal`) or file fallback (`GOAL.md`) — **adapted by forge-setup** |
+| **planning-and-task-breakdown**, **forge** | Harness plan mode (`EnterPlanMode`/`ExitPlanMode`) — **adapted by forge-setup** |
+| **caveman**, **caveman-commit**, **caveman-review**, **ste100**, **conventional-commits**, **grilling**, **prototype**, **domain-modeling**, **verification-before-completion**, **resolving-merge-conflicts**, **use-git-identity**, **forge-init**, **forge-docs**, **forge-cleanup**, **forge-setup** | No external tools (pure prompt contracts) |
+
+> **Note:** Skills marked **adapted by forge-setup** reference Kimi-specific machinery (`CreateGoal`, `EnterPlanMode`, `AgentSwarm`, `kimi -p`). The `forge-setup` skill (run once after cloning on a non-Kimi harness) discovers and patches these to the harness's equivalents. Until forge-setup runs, those skills will reference unavailable Kimi APIs.
 
 ---
 
@@ -17,19 +53,35 @@ The repo has two layers:
 
 Forge owns a single path: **map → resolve → plan → work → verify → review → resolve**. Each step ends on a checkable criterion; the next step is the proof.
 
+Each step is driven by one skill and supported by others:
+
+| Step | Driving skill | Supporting skills |
+|------|---------------|-------------------|
+| 0. Bootstrap | `forge-flow` | `ste100` |
+| 1. Map | `wayfinder` | `git-issue-tracker`, `grilling`, `domain-modeling`, `deep-research`, `dispatching-parallel-agents` |
+| 2. Resolve | the ticket's type skill (`grilling` / `prototype` / `deep-research` / task) | `domain-modeling` (sweep after every close) |
+| 3. Plan | `planning-and-task-breakdown` | — |
+| 4. Work | `subagent-driven-development` | `using-git-worktrees`, `dispatching-parallel-agents`, `conventional-commits`, `caveman-commit`, `forge-docs`, `resolving-merge-conflicts` |
+| 5. PR | `creating-pull-requests` | `ste100` |
+| 6. Verify | `verification-before-completion` | — |
+| 7. Review | `pr-review` | `loops`, `caveman-review` |
+| 8. Resolve findings | `pr-resolve` | `use-git-identity`, `loops`, `resolving-merge-conflicts` |
+
+Always-on regardless of step: `forge` (orchestrator), `caveman` (ultra), `wayfinder`.
+
 ### 1. Session Start — Forge Flow Bootstrap
 
 Forge Flow runs before forge step 1. It prepares the work surface (branch) and the contract (goal), then hands off.
 
 ```mermaid
 flowchart TD
-    Start([Session Start]) --> Flow["Forge Flow<br/>(session bootstrap)"]
+    Start([Session Start]) --> Flow["<b>forge-flow</b><br/>session bootstrap"]
     Flow --> Detect{"Map exists?"}
-    Detect -->|"yes"| LoadMap["Load map from tracker"]
-    Detect -->|"no"| ChartMap["Forge step 1:<br/>wayfinder chart"]
-    LoadMap --> Goal["Write contract goal<br/>(long-living, STE100)"]
+    Detect -->|"yes"| LoadMap["<b>wayfinder</b><br/>load map from tracker"]
+    Detect -->|"no"| ChartMap["<b>wayfinder</b> chart mode<br/>via forge step 1"]
+    LoadMap --> Goal["<b>forge-flow</b><br/>write contract goal<br/>(long-living, <b>ste100</b>)"]
     ChartMap --> Goal
-    Goal --> Handoff["Hand off to forge step 1"]
+    Goal --> Handoff["Hand off to<br/><b>forge</b> step 1"]
     
     style Start fill:#95A5A6,color:#fff,stroke:#7F8C8D
     style Flow fill:#4A90D9,color:#fff,stroke:#2C5F8A
@@ -89,21 +141,23 @@ One ticket per session. Research tickets run in parallel via `dispatching-parall
 
 ```mermaid
 flowchart LR
-    Ticket["Open Ticket<br/>wayfinder:<type>"] --> Claim["Claim<br/>(assign)"]
-    Claim --> Skill["Invoke skill<br/>per type label"]
+    Ticket["Open Ticket<br/>wayfinder:<type>"] --> Claim["<b>wayfinder</b><br/>claim (assign)"]
+    Claim --> Skill["<b>grilling</b> / <b>prototype</b> /<br/><b>deep-research</b> / task<br/>per type label"]
     Skill --> Resolve["Resolve<br/>post answer, close issue"]
-    Resolve --> Pointer["Append pointer to<br/>map Decisions-so-far"]
-    Resolve --> Fog{"New fog<br/>specifiable?"}
-    Fog -->|"yes"| NewTickets["Create new tickets<br/>graduate from Not yet specified"]
+    Resolve --> Sweep["<b>domain-modeling</b><br/>glossary + ADR sweep"]
+    Sweep --> Pointer["<b>wayfinder</b><br/>append pointer to<br/>map Decisions-so-far"]
+    Pointer --> Fog{"New fog<br/>specifiable?"}
+    Fog -->|"yes"| NewTickets["<b>wayfinder</b><br/>create new tickets<br/>graduate from Not yet specified"]
     Fog -->|"no"| Frontier{"Frontier<br/>empty?"}
     NewTickets --> Frontier
     Frontier -->|"no"| NextTicket["Next session:<br/>next ticket"]
-    Frontier -->|"yes"| Plan["Step 3: Plan"]
+    Frontier -->|"yes"| Plan["Step 3: <b>planning-and-task-breakdown</b>"]
     
     style Ticket fill:#4A90D9,color:#fff,stroke:#2C5F8A
     style Claim fill:#F39C12,color:#fff,stroke:#B8750E
     style Skill fill:#E67E22,color:#fff,stroke:#A05A15
     style Resolve fill:#27AE60,color:#fff,stroke:#1A7A42
+    style Sweep fill:#E67E22,color:#fff,stroke:#A05A15
     style Pointer fill:#16A085,color:#fff,stroke:#0E6655
     style Fog fill:#F39C12,color:#fff,stroke:#B8750E
     style NewTickets fill:#8E44AD,color:#fff,stroke:#5B2D6E
@@ -118,28 +172,28 @@ When the frontier is empty, plan, then delegate to SDD. One worktree per task. O
 
 ```mermaid
 flowchart LR
-    Plan["Plan Approved<br/>(planning-and-task-breakdown)"] --> SDD["Subagent-Driven<br/>Development"]
-    SDD --> Worktrees["Create Worktrees<br/>.worktrees/<task-slug>/"]
-    Worktrees --> Swarm["Dispatch Swarm<br/>(dispatching-parallel-agents)"]
+    Plan["Plan Approved<br/><b>planning-and-task-breakdown</b>"] --> SDD["<b>subagent-driven-development</b><br/>coordinator"]
+    SDD --> Worktrees["<b>using-git-worktrees</b><br/>.worktrees/<task-slug>/"]
+    Worktrees --> Swarm["<b>dispatching-parallel-agents</b><br/>one AgentSwarm call"]
     
     subgraph Wave1["Wave 1"]
-        WT1["worktree/ticket-1"] --> SA1["subagent"] --> Squash1["squash → feat branch"]
+        WT1["worktree/ticket-1"] --> SA1["subagent<br/><b>conventional-commits</b>"] --> Squash1["squash → feat branch"]
     end
     
     subgraph Wave2["Wave 2 (parallel)"]
-        WT2["worktree/ticket-2"] --> SA2["subagent"] --> Squash2["squash → feat branch"]
-        WT3["worktree/ticket-3"] --> SA3["subagent"] --> Squash3["squash → feat branch"]
+        WT2["worktree/ticket-2"] --> SA2["subagent<br/><b>conventional-commits</b>"] --> Squash2["squash → feat branch"]
+        WT3["worktree/ticket-3"] --> SA3["subagent<br/><b>conventional-commits</b>"] --> Squash3["squash → feat branch"]
     end
     
     Swarm --> Wave1
     Swarm --> Wave2
     
-    Squash1 --> Integrate["Integrate<br/>(git merge --no-ff)"]
+    Squash1 --> Integrate["Integrate<br/>(git merge --no-ff)<br/>conflicts → <b>resolving-merge-conflicts</b>"]
     Squash2 --> Integrate
     Squash3 --> Integrate
     
-    Integrate --> Docs["forge-docs<br/>(update indexes)"]
-    Docs --> Verify["verification-before-completion<br/>(full test suite)"]
+    Integrate --> Docs["<b>forge-docs</b><br/>update indexes"]
+    Docs --> Verify["<b>verification-before-completion</b><br/>full test suite"]
     
     style Plan fill:#27AE60,color:#fff,stroke:#1A7A42
     style SDD fill:#16A085,color:#fff,stroke:#0E6655
@@ -165,12 +219,12 @@ After squash commits land, draft the PR, verify, then run the review-resolve loo
 
 ```mermaid
 flowchart LR
-    Verify["Suite Green"] --> PR["PR Draft<br/>(creating-pull-requests)"]
-    PR --> Review["pr-review<br/>(loops + caveman-review)"]
+    Verify["<b>verification-before-completion</b><br/>suite green"] --> PR["<b>creating-pull-requests</b><br/>PR draft (<b>ste100</b> prose)"]
+    PR --> Review["<b>pr-review</b><br/><b>loops</b> + <b>caveman-review</b>"]
     Review --> Findings{"🔴/🟡<br/>findings?"}
-    Findings -->|"yes"| Resolve["pr-resolve<br/>(per-group worktrees)"]
+    Findings -->|"yes"| Resolve["<b>pr-resolve</b><br/>per-group worktrees<br/><b>use-git-identity</b>"]
     Resolve --> Push["Push + Reply<br/>in review threads"]
-    Push --> ReReview["pr-review<br/>(re-run)"]
+    Push --> ReReview["<b>pr-review</b><br/>re-run"]
     ReReview --> Findings
     Findings -->|"no"| Merge(["User merges"])
     
@@ -208,34 +262,35 @@ Each forge step emits concrete files. The table below shows what gets written wh
 
 | Skill | Purpose | Load | Source | Guide |
 |-------|---------|------|--------|-------|
-| [`skills/forge/SKILL.md`](skills/forge/SKILL.md) | Session-start orchestrator: map → resolve → plan → work → verify → review → resolve | **always** | local | [`docs/guides/forge.md`](docs/guides/forge.md) |
-| [`skills/forge-flow/SKILL.md`](skills/forge-flow/SKILL.md) | Session bootstrap: feat branch from main, harness goal, hand off to forge step 1 | **always** | local | [`docs/guides/forge-flow.md`](docs/guides/forge-flow.md) |
-| [`skills/forge-init/SKILL.md`](skills/forge-init/SKILL.md) | Bootstrap a repo to be forge-ready: AGENTS.md contract, grilling for repo-specifics | one-shot | local | [`docs/guides/forge-init.md`](docs/guides/forge-init.md) |
-| [`skills/forge-docs/SKILL.md`](skills/forge-docs/SKILL.md) | Maintain the docs directory — structure, update rules, index files, ADR mandate | on-demand | local | [`docs/guides/forge-docs.md`](docs/guides/forge-docs.md) |
-| [`skills/forge-cleanup/SKILL.md`](skills/forge-cleanup/SKILL.md) | Remove stale forge artefacts — scratch files, worktrees, uncommitted changes, local branches | one-shot | local | [`docs/guides/forge-cleanup.md`](docs/guides/forge-cleanup.md) |
-| [`skills/wayfinder/SKILL.md`](skills/wayfinder/SKILL.md) | Plan a huge effort as a shared map of decision tickets on the issue tracker | **always** | [mattpocock/skills](https://github.com/mattpocock/skills/blob/main/skills/engineering/wayfinder/SKILL.md) | [`docs/guides/wayfinder.md`](docs/guides/wayfinder.md) |
-| [`skills/caveman/SKILL.md`](skills/caveman/SKILL.md) | Ultra-compressed chat replies — drop articles/filler, keep technical accuracy | **always** | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman/tree/main/skills/caveman) | [`docs/guides/caveman.md`](docs/guides/caveman.md) |
-| [`skills/grilling/SKILL.md`](skills/grilling/SKILL.md) | Grill the user relentlessly — design-tree frontier, max 4 questions per wave | on-demand | [mattpocock/skills](https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md) | [`docs/guides/grilling.md`](docs/guides/grilling.md) |
-| [`skills/prototype/SKILL.md`](skills/prototype/SKILL.md) | Build a throwaway prototype to answer a design question | on-demand | [mattpocock/skills](https://github.com/mattpocock/skills/blob/main/skills/engineering/prototype/SKILL.md) | [`docs/guides/prototype.md`](docs/guides/prototype.md) |
-| [`skills/deep-research/SKILL.md`](skills/deep-research/SKILL.md) | Exhaustive evidence-based research — 10+ iteration search loop, markdown-native reports | on-demand | [MoweME](https://github.com/MoweME) | [`docs/guides/deep-research.md`](docs/guides/deep-research.md) |
-| [`skills/domain-modeling/SKILL.md`](skills/domain-modeling/SKILL.md) | Build and sharpen the domain model: CONTEXT.md glossary + ADRs in `docs/adr/` | on-demand | [mattpocock/skills](https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md) | [`docs/guides/domain-modeling.md`](docs/guides/domain-modeling.md) |
-| [`skills/git-issue-tracker/SKILL.md`](skills/git-issue-tracker/SKILL.md) | Wrap the GitHub API for issue/sub-issue/dependency operations used by wayfinder | on-demand | local | [`docs/guides/git-issue-tracker.md`](docs/guides/git-issue-tracker.md) |
-| [`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md) | Break a spec into ordered, implementable tasks with parallel work identified | on-demand | local | [`docs/guides/planning-and-task-breakdown.md`](docs/guides/planning-and-task-breakdown.md) |
-| [`skills/using-git-worktrees/SKILL.md`](skills/using-git-worktrees/SKILL.md) | Create one worktree per task, commits inside, cleanup by coordinator | on-demand | [obra/superpowers](https://github.com/obra/superpowers/tree/main/skills/using-git-worktrees) | [`docs/guides/using-git-worktrees.md`](docs/guides/using-git-worktrees.md) |
-| [`skills/dispatching-parallel-agents/SKILL.md`](skills/dispatching-parallel-agents/SKILL.md) | AgentSwarm mechanics: dispatch up to 10 parallel subagents via `{{item}}` prompt template | on-demand | [obra/superpowers](https://github.com/obra/superpowers/tree/main/skills/dispatching-parallel-agents) | [`docs/guides/dispatching-parallel-agents.md`](docs/guides/dispatching-parallel-agents.md) |
-| [`skills/subagent-driven-development/SKILL.md`](skills/subagent-driven-development/SKILL.md) | Coordinator dispatch → per-task review → fix loop → integrate. One worktree per task | on-demand | [obra/superpowers](https://github.com/obra/superpowers/tree/main/skills/subagent-driven-development) | [`docs/guides/subagent-driven-development.md`](docs/guides/subagent-driven-development.md) |
-| [`skills/finishing-a-development-branch/SKILL.md`](skills/finishing-a-development-branch/SKILL.md) | Push + PR creation path; merge conflicts load `resolving-merge-conflicts` | on-demand | [obra/superpowers](https://github.com/obra/superpowers/tree/main/skills/finishing-a-development-branch) | [`docs/guides/finishing-a-development-branch.md`](docs/guides/finishing-a-development-branch.md) |
-| [`skills/verification-before-completion/SKILL.md`](skills/verification-before-completion/SKILL.md) | Iron Law: NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE | on-demand | [obra/superpowers](https://github.com/obra/superpowers/tree/main/skills/verification-before-completion) | [`docs/guides/verification-before-completion.md`](docs/guides/verification-before-completion.md) |
-| [`skills/pr-review/SKILL.md`](skills/pr-review/SKILL.md) | Validate → review loop → post ONE review (caveman-review findings) inside a worktree | on-demand | local | [`docs/guides/pr-review.md`](docs/guides/pr-review.md) |
-| [`skills/pr-resolve/SKILL.md`](skills/pr-resolve/SKILL.md) | Findings → fix → push → thread replies (loop until no 🔴/🟡) | on-demand | local | [`docs/guides/pr-resolve.md`](docs/guides/pr-resolve.md) |
-| [`skills/loops/SKILL.md`](skills/loops/SKILL.md) | Shell framework: render prompt template, cavemanize, drive `kimi -p` until DONE:/BLOCKED: | on-demand | local | [`docs/guides/loops.md`](docs/guides/loops.md) |
-| [`skills/creating-pull-requests/SKILL.md`](skills/creating-pull-requests/SKILL.md) | Size-gated PR descriptions with mandatory AI disclosure (prose per `ste100`) | on-demand | [tdhopper/dotfiles2.0](https://github.com/tdhopper/dotfiles2.0/blob/master/.claude/skills/creating-pull-requests/SKILL.md) | [`docs/guides/creating-pull-requests.md`](docs/guides/creating-pull-requests.md) |
-| [`skills/caveman-review/SKILL.md`](skills/caveman-review/SKILL.md) | Ultra-compressed code review comments: location, problem, fix — one line per finding | on-demand | local | [`docs/guides/caveman-review.md`](docs/guides/caveman-review.md) |
-| [`skills/ste100/SKILL.md`](skills/ste100/SKILL.md) | Write human-facing text in ASD-STE100 Simplified Technical English | on-demand | local | [`docs/guides/ste100.md`](docs/guides/ste100.md) |
-| [`skills/caveman-commit/SKILL.md`](skills/caveman-commit/SKILL.md) | Ultra-compressed commit messages in Conventional Commits format | on-demand | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman/tree/main/skills/caveman-commit) | [`docs/guides/caveman-commit.md`](docs/guides/caveman-commit.md) |
-| [`skills/conventional-commits/SKILL.md`](skills/conventional-commits/SKILL.md) | Conventional Commits v1.0.0 spec — type→SemVer table | on-demand | [weselben/RooForge](https://github.com/weselben/RooForge/tree/main/skills/conventional-commits) | [`docs/guides/conventional-commits.md`](docs/guides/conventional-commits.md) |
-| [`skills/use-git-identity/SKILL.md`](skills/use-git-identity/SKILL.md) | Set git identity before any commit/amend/rebase | on-demand | local (host convention) | [`docs/guides/use-git-identity.md`](docs/guides/use-git-identity.md) |
-| [`skills/resolving-merge-conflicts/SKILL.md`](skills/resolving-merge-conflicts/SKILL.md) | Resolve git merge/rebase conflicts; multi-branch conflicts delegate to SDD | on-demand | [mattpocock/skills](https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts/SKILL.md) | [`docs/guides/resolving-merge-conflicts.md`](docs/guides/resolving-merge-conflicts.md) |
+| [`skills/forge/SKILL.md`](skills/forge/SKILL.md) | Session-start orchestrator: map → resolve → plan → work → verify → review → resolve | **always** | [local](https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge/SKILL.md) | [`docs/guides/forge.md`](docs/guides/forge.md) |
+| [`skills/forge-flow/SKILL.md`](skills/forge-flow/SKILL.md) | Session bootstrap: feat branch from main, harness goal, hand off to forge step 1 | **always** | [local](https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-flow/SKILL.md) | [`docs/guides/forge-flow.md`](docs/guides/forge-flow.md) |
+| [`skills/forge-init/SKILL.md`](skills/forge-init/SKILL.md) | Bootstrap a repo to be forge-ready: AGENTS.md contract, grilling for repo-specifics | one-shot | [local](https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-init/SKILL.md) | [`docs/guides/forge-init.md`](docs/guides/forge-init.md) |
+| [`skills/forge-setup/SKILL.md`](skills/forge-setup/SKILL.md) | One-shot harness adaptation: discover non-agnostic references, research the running harness's equivalent, patch with minimal diffs | one-shot | [local](https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-setup/SKILL.md) | [`docs/guides/forge-setup.md`](docs/guides/forge-setup.md) |
+| [`skills/forge-docs/SKILL.md`](skills/forge-docs/SKILL.md) | Maintain the docs directory — structure, update rules, index files, ADR mandate | on-demand | [local](https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-docs/SKILL.md) | [`docs/guides/forge-docs.md`](docs/guides/forge-docs.md) |
+| [`skills/forge-cleanup/SKILL.md`](skills/forge-cleanup/SKILL.md) | Remove stale forge artefacts — scratch files, worktrees, uncommitted changes, local branches | one-shot | [local](https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-cleanup/SKILL.md) | [`docs/guides/forge-cleanup.md`](docs/guides/forge-cleanup.md) |
+| [`skills/wayfinder/SKILL.md`](skills/wayfinder/SKILL.md) | Plan a huge effort as a shared map of decision tickets on the issue tracker | **always** | [mattpocock/skills](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/wayfinder/SKILL.md) | [`docs/guides/wayfinder.md`](docs/guides/wayfinder.md) |
+| [`skills/caveman/SKILL.md`](skills/caveman/SKILL.md) | Ultra-compressed chat replies — drop articles/filler, keep technical accuracy | **always** | [JuliusBrussee/caveman](https://raw.githubusercontent.com/JuliusBrussee/caveman/main/skills/caveman/SKILL.md) | [`docs/guides/caveman.md`](docs/guides/caveman.md) |
+| [`skills/grilling/SKILL.md`](skills/grilling/SKILL.md) | Grill the user relentlessly — design-tree frontier, max 4 questions per wave | on-demand | [mattpocock/skills](https://raw.githubusercontent.com/mattpocock/skills/main/skills/productivity/grilling/SKILL.md) | [`docs/guides/grilling.md`](docs/guides/grilling.md) |
+| [`skills/prototype/SKILL.md`](skills/prototype/SKILL.md) | Build a throwaway prototype to answer a design question | on-demand | [mattpocock/skills](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/prototype/SKILL.md) | [`docs/guides/prototype.md`](docs/guides/prototype.md) |
+| [`skills/deep-research/SKILL.md`](skills/deep-research/SKILL.md) | Exhaustive evidence-based research — 10+ iteration search loop, markdown-native reports | on-demand | [MoweME](https://github.com/MoweME) (origin: kimi.com web UI) | [`docs/guides/deep-research.md`](docs/guides/deep-research.md) |
+| [`skills/domain-modeling/SKILL.md`](skills/domain-modeling/SKILL.md) | Build and sharpen the domain model: CONTEXT.md glossary + ADRs in `docs/adr/` | on-demand | [mattpocock/skills](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/domain-modeling/SKILL.md) | [`docs/guides/domain-modeling.md`](docs/guides/domain-modeling.md) |
+| [`skills/git-issue-tracker/SKILL.md`](skills/git-issue-tracker/SKILL.md) | Wrap the GitHub API for issue/sub-issue/dependency operations used by wayfinder | on-demand | [local](https://raw.githubusercontent.com/weselben/RooForge/main/skills/git-issue-tracker/SKILL.md) | [`docs/guides/git-issue-tracker.md`](docs/guides/git-issue-tracker.md) |
+| [`skills/planning-and-task-breakdown/SKILL.md`](skills/planning-and-task-breakdown/SKILL.md) | Break a spec into ordered, implementable tasks with parallel work identified | on-demand | [local](https://raw.githubusercontent.com/weselben/RooForge/main/skills/planning-and-task-breakdown/SKILL.md) | [`docs/guides/planning-and-task-breakdown.md`](docs/guides/planning-and-task-breakdown.md) |
+| [`skills/using-git-worktrees/SKILL.md`](skills/using-git-worktrees/SKILL.md) | Create one worktree per task, commits inside, cleanup by coordinator | on-demand | [obra/superpowers](https://raw.githubusercontent.com/obra/superpowers/main/skills/using-git-worktrees/SKILL.md) | [`docs/guides/using-git-worktrees.md`](docs/guides/using-git-worktrees.md) |
+| [`skills/dispatching-parallel-agents/SKILL.md`](skills/dispatching-parallel-agents/SKILL.md) | AgentSwarm mechanics: dispatch up to 10 parallel subagents via `{{item}}` prompt template | on-demand | [obra/superpowers](https://raw.githubusercontent.com/obra/superpowers/main/skills/dispatching-parallel-agents/SKILL.md) | [`docs/guides/dispatching-parallel-agents.md`](docs/guides/dispatching-parallel-agents.md) |
+| [`skills/subagent-driven-development/SKILL.md`](skills/subagent-driven-development/SKILL.md) | Coordinator dispatch → per-task review → fix loop → integrate. One worktree per task | on-demand | [obra/superpowers](https://raw.githubusercontent.com/obra/superpowers/main/skills/subagent-driven-development/SKILL.md) | [`docs/guides/subagent-driven-development.md`](docs/guides/subagent-driven-development.md) |
+| [`skills/finishing-a-development-branch/SKILL.md`](skills/finishing-a-development-branch/SKILL.md) | Push + PR creation path; merge conflicts load `resolving-merge-conflicts` | on-demand | [obra/superpowers](https://raw.githubusercontent.com/obra/superpowers/main/skills/finishing-a-development-branch/SKILL.md) | [`docs/guides/finishing-a-development-branch.md`](docs/guides/finishing-a-development-branch.md) |
+| [`skills/verification-before-completion/SKILL.md`](skills/verification-before-completion/SKILL.md) | Iron Law: NO COMPLETION CLAIMS WITHOUT FRESH VERIFICATION EVIDENCE | on-demand | [obra/superpowers](https://raw.githubusercontent.com/obra/superpowers/main/skills/verification-before-completion/SKILL.md) | [`docs/guides/verification-before-completion.md`](docs/guides/verification-before-completion.md) |
+| [`skills/pr-review/SKILL.md`](skills/pr-review/SKILL.md) | Validate → review loop → post ONE review (caveman-review findings) inside a worktree | on-demand | [local](https://raw.githubusercontent.com/weselben/RooForge/main/skills/pr-review/SKILL.md) | [`docs/guides/pr-review.md`](docs/guides/pr-review.md) |
+| [`skills/pr-resolve/SKILL.md`](skills/pr-resolve/SKILL.md) | Findings → fix → push → thread replies (loop until no 🔴/🟡) | on-demand | [local](https://raw.githubusercontent.com/weselben/RooForge/main/skills/pr-resolve/SKILL.md) | [`docs/guides/pr-resolve.md`](docs/guides/pr-resolve.md) |
+| [`skills/loops/SKILL.md`](skills/loops/SKILL.md) | Shell framework: render prompt template, cavemanize, drive `kimi -p` until DONE:/BLOCKED: | on-demand | [local](https://raw.githubusercontent.com/weselben/RooForge/main/skills/loops/SKILL.md) | [`docs/guides/loops.md`](docs/guides/loops.md) |
+| [`skills/creating-pull-requests/SKILL.md`](skills/creating-pull-requests/SKILL.md) | Size-gated PR descriptions with mandatory AI disclosure (prose per `ste100`) | on-demand | [tdhopper/dotfiles2.0](https://raw.githubusercontent.com/tdhopper/dotfiles2.0/master/.claude/skills/creating-pull-requests/SKILL.md) | [`docs/guides/creating-pull-requests.md`](docs/guides/creating-pull-requests.md) |
+| [`skills/caveman-review/SKILL.md`](skills/caveman-review/SKILL.md) | Ultra-compressed code review comments: location, problem, fix — one line per finding | on-demand | [JuliusBrussee/caveman](https://raw.githubusercontent.com/JuliusBrussee/caveman/main/skills/caveman-review/SKILL.md) | [`docs/guides/caveman-review.md`](docs/guides/caveman-review.md) |
+| [`skills/ste100/SKILL.md`](skills/ste100/SKILL.md) | Write human-facing text in ASD-STE100 Simplified Technical English | on-demand | [local](https://raw.githubusercontent.com/weselben/RooForge/main/skills/ste100/SKILL.md) | [`docs/guides/ste100.md`](docs/guides/ste100.md) |
+| [`skills/caveman-commit/SKILL.md`](skills/caveman-commit/SKILL.md) | Ultra-compressed commit messages in Conventional Commits format | on-demand | [JuliusBrussee/caveman](https://raw.githubusercontent.com/JuliusBrussee/caveman/main/skills/caveman-commit/SKILL.md) | [`docs/guides/caveman-commit.md`](docs/guides/caveman-commit.md) |
+| [`skills/conventional-commits/SKILL.md`](skills/conventional-commits/SKILL.md) | Conventional Commits v1.0.0 spec — type→SemVer table | on-demand | [local](https://raw.githubusercontent.com/weselben/RooForge/main/skills/conventional-commits/SKILL.md) | [`docs/guides/conventional-commits.md`](docs/guides/conventional-commits.md) |
+| [`skills/use-git-identity/SKILL.md`](skills/use-git-identity/SKILL.md) | Set git identity (weselben/rooforge) before any commit/amend/rebase | on-demand | [local](https://raw.githubusercontent.com/weselben/RooForge/main/skills/use-git-identity/SKILL.md) | [`docs/guides/use-git-identity.md`](docs/guides/use-git-identity.md) |
+| [`skills/resolving-merge-conflicts/SKILL.md`](skills/resolving-merge-conflicts/SKILL.md) | Resolve git merge/rebase conflicts; multi-branch conflicts delegate to SDD | on-demand | [mattpocock/skills](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/resolving-merge-conflicts/SKILL.md) | [`docs/guides/resolving-merge-conflicts.md`](docs/guides/resolving-merge-conflicts.md) |
 
 ---
 
@@ -252,7 +307,7 @@ Each forge step emits concrete files. The table below shows what gets written wh
 │   │   └── agents/         # Deep research reports
 │   ├── guides/
 │   │   ├── README.md       # guides subfolder index
-│   │   └── <skill>.md      # One reference guide per skill (28 total)
+│   │   └── <skill>.md      # One reference guide per skill (29 total)
 │   ├── public/
 │   │   └── README.md       # public subfolder index
 │   └── system-design/
@@ -272,6 +327,7 @@ Each forge step emits concrete files. The table below shows what gets written wh
 │   ├── forge-docs/
 │   ├── forge-flow/
 │   ├── forge-init/
+│   ├── forge-setup/          # one-shot harness adaptation
 │   ├── git-issue-tracker/
 │   ├── grilling/
 │   ├── loops/
@@ -288,7 +344,7 @@ Each forge step emits concrete files. The table below shows what gets written wh
 │   └── wayfinder/
 ├── src/                  # reserved
 ├── tests/                # reserved
-├── AGENTS.md             # Local agent contract (letter style)
+├── AGENTS.md             # Local agent contract (letter style + install protocol)
 └── README.md             # this file
 ```
 
@@ -296,7 +352,7 @@ Each forge step emits concrete files. The table below shows what gets written wh
 
 ## Docs
 
-Every skill ships with a one-page reference guide under [`docs/guides/`](docs/guides/README.md) — the index links all 28. The global docs index at [`docs/README.md`](docs/README.md) covers the rest: [`docs/dev/CONTEXT.md`](docs/dev/CONTEXT.md) (domain glossary + ADR index), [`docs/adr/`](docs/adr/) (architecture decisions), [`docs/system-design/`](docs/system-design/README.md), [`docs/public/`](docs/public/README.md), and [`docs/dev/agents/`](docs/dev/agents/) (deep research reports).
+Every skill ships with a one-page reference guide under [`docs/guides/`](docs/guides/README.md) — the index links all 29. The global docs index at [`docs/README.md`](docs/README.md) covers the rest: [`docs/dev/CONTEXT.md`](docs/dev/CONTEXT.md) (domain glossary + ADR index), [`docs/adr/`](docs/adr/) (architecture decisions), [`docs/system-design/`](docs/system-design/README.md), [`docs/public/`](docs/public/README.md), and [`docs/dev/agents/`](docs/dev/agents/) (deep research reports).
 
 A local agent contract lives at [`AGENTS.md`](AGENTS.md) — letter style, scoped to this repo's conventions.
 
