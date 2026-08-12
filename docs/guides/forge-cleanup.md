@@ -41,7 +41,7 @@ Interactive one-shot maintenance that removes stale forge development artefacts 
 
 ## Notes
 
-- The skill sets `disable-model-invocation: true` — it runs as a pure shell workflow, no LLM calls.
+- The skill sets `disableModelInvocation: true` — it runs as a pure shell workflow, no LLM calls.
 - Detection for stale worktrees checks `git merge-base --is-ancestor "$BRANCH" main` (unmerged) AND `git branch -r --contains "$BRANCH"` (not on origin); if both true, the worktree is offered for removal.
 - Current branch is explicitly protected in the branch detection `awk` filter (`$1 != "'"$(git branch --show-current)"'"`).
 - No `--yes` flag bypass exists; the skill is interactive by design per `skills/forge-cleanup/SKILL.md:75-76`.
