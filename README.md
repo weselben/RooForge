@@ -8,7 +8,7 @@ A curated set of AI agent **skills** for orchestrating large efforts on an issue
 
 The repo has two layers:
 
-- **`skills/`** — 29 vendor-agnostic skills an agent loads mid-session. Communication skills (caveman, ste100, conventional-commits) govern all text. Orchestrator skills (forge, forge-flow, loops) drive the session. Planning skills (wayfinder, grilling, prototype, deep-research, planning-and-task-breakdown, domain-modeling) shape the map. Execution skills (using-git-worktrees, subagent-driven-development, dispatching-parallel-agents, finishing-a-development-branch, verification-before-completion, pr-review, pr-resolve, creating-pull-requests) build the code. Bootstrap skills (forge-init, forge-setup, forge-docs, forge-cleanup) maintain the repo itself.
+- **`skills/`** — 35 vendor-agnostic skills an agent loads mid-session. Communication skills (caveman, ste100, conventional-commits) govern all text. Orchestrator skills (forge, forge-flow, loops) drive the session. Planning skills (wayfinder, grilling, prototype, deep-research, planning-and-task-breakdown, domain-modeling) shape the map. Execution skills (using-git-worktrees, subagent-driven-development, dispatching-parallel-agents, finishing-a-development-branch, verification-before-completion, pr-review, pr-resolve, creating-pull-requests) build the code. Bootstrap skills (forge-init, forge-setup, forge-docs, forge-cleanup) maintain the repo itself. Sidecar skills (`12-factor-app`, `kiss-principle`, `frontend-design`, `forge-tailwindcss-conventions`, `forge-eu-accessibility`, `forge-seo`) ride alongside — domain conventions loaded when the task touches them.
 - **`docs/`** — convention scaffolding for the artefacts the agent produces: ADRs in `docs/adr/`, system designs in `docs/system-design/`, how-to guides in `docs/guides/`, deep research artifacts in `docs/dev/agents/`. RFC-style decisions live as wayfinder tickets on the tracker, not as docs files.
 
 ---
@@ -40,10 +40,11 @@ The skills in this repo have the following external dependencies. Ensure these a
 | **using-git-worktrees**, **subagent-driven-development**, **finishing-a-development-branch** | `git` (≥2.20 for `git worktree`), project test runner (`npm test` / `cargo test` / `pytest` / `go test ./...`) |
 | **using-git-worktrees** | Project package manager if `package.json` exists (`npm`/`pnpm`/`yarn`) |
 | **deep-research** | Web search capability (harness tool or `curl` + `jq` for API fallback) |
+| **forge-eu-accessibility**, **forge-seo** | Web search + URL fetch capability (e.g. `WebSearch` / `FetchURL`) for live legal / standards verification |
 | **dispatching-parallel-agents**, **subagent-driven-development** | Harness subagent API (`AgentSwarm`, `Agent`, `run_in_background`, `subagent_type: coder/explore/plan`) — **adapted by forge-setup** |
 | **forge-flow** | Harness goal API (`CreateGoal`) or file fallback (`GOAL.md`) — **adapted by forge-setup** |
 | **planning-and-task-breakdown**, **forge** | Harness plan mode (`EnterPlanMode`/`ExitPlanMode`) — **adapted by forge-setup** |
-| **caveman**, **caveman-commit**, **caveman-review**, **ste100**, **conventional-commits**, **grilling**, **prototype**, **domain-modeling**, **verification-before-completion**, **resolving-merge-conflicts**, **use-git-identity**, **forge-init**, **forge-docs**, **forge-cleanup**, **forge-setup** | No external tools (pure prompt contracts) |
+| **caveman**, **caveman-commit**, **caveman-review**, **ste100**, **conventional-commits**, **grilling**, **prototype**, **domain-modeling**, **verification-before-completion**, **resolving-merge-conflicts**, **use-git-identity**, **forge-init**, **forge-docs**, **forge-cleanup**, **forge-setup**, **12-factor-app**, **kiss-principle**, **frontend-design**, **forge-tailwindcss-conventions** | No external tools (pure prompt contracts) |
 
 > **Note:** Skills marked **adapted by forge-setup** reference Kimi-specific machinery (`CreateGoal`, `EnterPlanMode`, `AgentSwarm`, `kimi -p`). The `forge-setup` skill (run once after cloning on a non-Kimi harness) discovers and patches these to the harness's equivalents. Until forge-setup runs, those skills will reference unavailable Kimi APIs.
 
@@ -329,12 +330,13 @@ Each forge step emits concrete files. The table below shows what gets written wh
 │   │   └── agents/         # Deep research reports
 │   ├── guides/
 │   │   ├── README.md       # guides subfolder index
-│   │   └── <skill>.md      # One reference guide per skill (29 total)
+│   │   └── <skill>.md      # One reference guide per skill (35 total)
 │   ├── public/
 │   │   └── README.md       # public subfolder index
 │   └── system-design/
 │       └── README.md       # system-design subfolder index
 ├── skills/
+│   ├── 12-factor-app/      # sidecar: SaaS / cloud-native conventions
 │   ├── caveman/
 │   ├── caveman-commit/
 │   ├── caveman-review/
@@ -347,11 +349,16 @@ Each forge step emits concrete files. The table below shows what gets written wh
 │   ├── forge/                # the orchestrator
 │   ├── forge-cleanup/
 │   ├── forge-docs/
+│   ├── forge-eu-accessibility/   # sidecar: BFSG/EAA/WCAG compliance
 │   ├── forge-flow/
 │   ├── forge-init/
-│   ├── forge-setup/          # one-shot harness adaptation
+│   ├── forge-seo/               # sidecar: SEO hub
+│   ├── forge-setup/             # one-shot harness adaptation
+│   ├── forge-tailwindcss-conventions/  # sidecar: Tailwind v4 conventions
+│   ├── frontend-design/         # sidecar: distinctive visual design
 │   ├── git-issue-tracker/
 │   ├── grilling/
+│   ├── kiss-principle/          # sidecar: simplicity guardrails
 │   ├── loops/
 │   ├── planning-and-task-breakdown/
 │   ├── pr-resolve/
@@ -374,7 +381,7 @@ Each forge step emits concrete files. The table below shows what gets written wh
 
 ## Docs
 
-Every skill ships with a one-page reference guide under [`docs/guides/`](docs/guides/README.md) — the index links all 29. The global docs index at [`docs/README.md`](docs/README.md) covers the rest: [`docs/dev/CONTEXT.md`](docs/dev/CONTEXT.md) (domain glossary + ADR index), [`docs/adr/`](docs/adr/) (architecture decisions), [`docs/system-design/`](docs/system-design/README.md), [`docs/public/`](docs/public/README.md), and [`docs/dev/agents/`](docs/dev/agents/) (deep research reports).
+Every skill ships with a one-page reference guide under [`docs/guides/`](docs/guides/README.md) — the index links all 35. The global docs index at [`docs/README.md`](docs/README.md) covers the rest: [`docs/dev/CONTEXT.md`](docs/dev/CONTEXT.md) (domain glossary + ADR index), [`docs/adr/`](docs/adr/) (architecture decisions), [`docs/system-design/`](docs/system-design/README.md), [`docs/public/`](docs/public/README.md), and [`docs/dev/agents/`](docs/dev/agents/) (deep research reports).
 
 A local agent contract lives at [`AGENTS.md`](AGENTS.md) — letter style, scoped to this repo's conventions.
 
