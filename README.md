@@ -69,32 +69,47 @@ Each step is driven by one skill and supported by others:
 
 Always-on regardless of step: `forge` (orchestrator), `caveman` (ultra), `wayfinder`.
 
-### 1. Session Start — Forge Flow Bootstrap
+### 1. Session Start — Forge loads, forge-flow bootstraps
 
-Forge Flow runs before forge step 1. It prepares the work surface (branch) and the contract (goal), then hands off.
+The user opens a chat and writes something like "work on the next ticket", "let's continue the auth refactor", or simply describes a task. The **`forge`** skill is always-loaded and auto-triggers on these prompts. It invokes **`forge-flow`** once at session start as a frontier sub-skill: forge-flow detects whether a wayfinder map exists, prepares the feat branch from `main`, writes the long-living contract goal, and hands off to forge step 1. Then forge's own step 1 either loads the existing map or charts a new one through `wayfinder`.
 
 ```mermaid
 flowchart TD
-    Start([Session Start]) --> Flow["<b>forge-flow</b><br/>session bootstrap"]
-    Flow --> Detect{"Map exists?"}
-    Detect -->|"yes"| LoadMap["<b>wayfinder</b><br/>load map from tracker"]
-    Detect -->|"no"| ChartMap["<b>wayfinder</b> chart mode<br/>via forge step 1"]
-    LoadMap --> Goal["<b>forge-flow</b><br/>write contract goal<br/>(long-living, <b>ste100</b>)"]
-    ChartMap --> Goal
-    Goal --> Handoff["Hand off to<br/><b>forge</b> step 1"]
-    
+    subgraph Forge["<b>forge</b> — always-loaded orchestrator"]
+        direction TB
+        F1["Step 1: Map<br/><b>wayfinder</b>"]
+        F2["Step 2: Resolve<br/>ticket-type skill"]
+        F3["Step 3: Plan<br/><b>planning-and-task-breakdown</b>"]
+        F4["Step 4: Work<br/><b>subagent-driven-development</b>"]
+        F5["Step 5: PR<br/><b>creating-pull-requests</b>"]
+        F6["Step 6: Verify<br/><b>verification-before-completion</b>"]
+        F7["Step 7: Review<br/><b>pr-review</b>"]
+        F8["Step 8: Resolve findings<br/><b>pr-resolve</b>"]
+        F1 --> F2 --> F3 --> F4 --> F5 --> F6 --> F7 --> F8
+    end
+
+    Start([Session Start<br/>user prompt]) --> Forge
+    Start --> FF["<b>forge-flow</b><br/>session bootstrap (frontier sub-skill)"]
+    FF -->|"detect map · name branch<br/>write goal · hand off"| F1
+
     style Start fill:#95A5A6,color:#fff,stroke:#7F8C8D
-    style Flow fill:#4A90D9,color:#fff,stroke:#2C5F8A
-    style Detect fill:#F39C12,color:#fff,stroke:#B8750E
-    style LoadMap fill:#27AE60,color:#fff,stroke:#1A7A42
-    style ChartMap fill:#E67E22,color:#fff,stroke:#A05A15
-    style Goal fill:#2C3E50,color:#fff,stroke:#1A252F
-    style Handoff fill:#16A085,color:#fff,stroke:#0E6655
+    style Forge fill:#16A085,color:#fff,stroke:#0E6655
+    style FF fill:#4A90D9,color:#fff,stroke:#2C5F8A
+    style F1 fill:#4A90D9,color:#fff,stroke:#2C5F8A
+    style F2 fill:#F39C12,color:#fff,stroke:#B8750E
+    style F3 fill:#F39C12,color:#fff,stroke:#B8750E
+    style F4 fill:#8E44AD,color:#fff,stroke:#5B2D6E
+    style F5 fill:#2C3E50,color:#fff,stroke:#1A252F
+    style F6 fill:#27AE60,color:#fff,stroke:#1A7A42
+    style F7 fill:#E67E22,color:#fff,stroke:#A05A15
+    style F8 fill:#E67E22,color:#fff,stroke:#A05A15
 ```
+
+`forge-flow` does not load the map itself — it only detects whether one exists. The actual map load happens in forge step 1 (section 2 below).
 
 ### 2. Map — Load or Chart the Wayfinder Map
 
-The map is a single issue on the tracker, labelled `wayfinder:map`. Its tickets are child issues. Each ticket carries a `wayfinder:<type>` label naming the skill that resolves it.
+The map is a single issue on the tracker, labelled `wayfinder:map`. Its tickets are child issues; each ticket carries a `wayfinder:<type>` label naming the skill that resolves it. If a map already exists, `wayfinder` loads it; if not, it enters chart mode (grilling + domain-modeling) and creates one. Sub-skills involved: **`git-issue-tracker`** for the GitHub operations, **`grilling`** to draw out the destination, **`domain-modeling`** to seed the glossary, **`deep-research`** for AFK research tickets, and **`dispatching-parallel-agents`** to chart fog patches in parallel.
 
 ```mermaid
 flowchart LR
@@ -137,7 +152,7 @@ flowchart LR
 
 ### 3. Resolve — Work One Ticket
 
-One ticket per session. Research tickets run in parallel via `dispatching-parallel-agents`. After every grilling ticket closes, `domain-modeling` sweeps for new terms and decisions.
+One ticket per session. **`wayfinder`** claims the next frontier ticket (assigns it), the ticket's `wayfinder:<type>` label names the resolution skill (grilling, prototype, deep-research, or a task), and on close `domain-modeling` sweeps for new glossary terms and decisions worth an ADR. Sub-skills: **`dispatching-parallel-agents`** may run multiple research tickets in parallel; the next session picks up the next frontier ticket or, when the frontier empties, hands off to step 3 (plan).
 
 ```mermaid
 flowchart LR
