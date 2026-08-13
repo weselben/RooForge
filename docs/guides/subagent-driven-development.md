@@ -40,7 +40,7 @@ Coordinates parallel implementation by dispatching one implementer subagent per 
 
 6. **Final whole-branch review** — After all tasks complete, dispatch ONE final reviewer on most capable model over full branch range. Point at deferred-minor and parked findings. If findings return, dispatch ONE fix subagent with complete list, then one scoped re-review. No second fix wave — residual load-bearing findings surface to user.
 
-7. **Integrate & finish** — Merge each task branch locally: `git checkout <integration-branch> && git merge --no-ff <task-slug>` (never `main`/`master`). Run full test suite on merged result. Red → stop, investigate. Green → load `finishing-a-development-branch` for cleanup and PR creation. Before declaring complete, load `verification-before-completion` — check each subagent's claimed state against `git status` and full suite run.
+7. **Integrate & finish** — Squash each task branch locally: `git checkout <integration-branch> && git merge --squash <task-slug> && git commit -m "<conventional-commit>"` (never `main`/`master`). One squash commit per task, each a natural Conventional Commit. Run full test suite on the merged result. Red → stop, investigate. Green → load `finishing-a-development-branch` for cleanup and PR creation. Before declaring complete, load `verification-before-completion` — check each subagent's claimed state against `git status` and full suite run.
 
 ## Files in this skill
 

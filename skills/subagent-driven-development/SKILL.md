@@ -100,7 +100,7 @@ If findings return, dispatch ONE fix subagent with the complete list. Then one s
 
 ### 7. Integrate & finish
 
-1. Merge each task branch into integration branch locally: `git checkout <integration-branch> && git merge --no-ff <task-slug>`. **Never `main`/`master`.**
+1. Merge each task branch into the integration branch locally via squash: `git checkout <integration-branch> && git merge --squash <task-slug> && git commit -m "<conventional-commit>"`. One commit per task on the integration branch, each a natural Conventional Commit (e.g. `feat(api): add user profile endpoint`). **Never `main`/`master`.**
 2. Run full test suite on merged result. **Red:** stop, leave everything in place, investigate (nothing pushed, merge is local + recoverable).
 3. **Green:** load `finishing-a-development-branch` for cleanup and PR creation.
 

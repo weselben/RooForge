@@ -184,7 +184,7 @@ flowchart LR
 
 ### 4. Work — Subagent-Driven Development
 
-When the frontier empties, **`planning-and-task-breakdown`** breaks the cleared map into ordered tasks and the user approves the plan in plan mode. Then **`subagent-driven-development`** takes over as coordinator: it creates one worktree per task via **`using-git-worktrees`** (under `.worktrees/<task-slug>/`), dispatches all implementer subagents in a single **`dispatching-parallel-agents`** swarm call (each runs `using-git-worktrees` + `conventional-commits` + `caveman-commit` + `verification-before-completion`), reviews each task's diff, runs the fix loop until clean, and merges each branch into the feat branch with `git merge --no-ff`. Conflicts route through **`resolving-merge-conflicts`**. After every squash, **`forge-docs`** updates the docs indexes.
+When the frontier empties, **`planning-and-task-breakdown`** breaks the cleared map into ordered tasks and the user approves the plan in plan mode. Then **`subagent-driven-development`** takes over as coordinator: it creates one worktree per task via **`using-git-worktrees`** (under `.worktrees/<task-slug>/`), dispatches all implementer subagents in a single **`dispatching-parallel-agents`** swarm call (each runs `using-git-worktrees` + `conventional-commits` + `caveman-commit` + `verification-before-completion`), reviews each task's diff, runs the fix loop until clean, and squashes each task branch into one Conventional Commit on the feat branch (`git merge --squash` then `git commit`). Conflicts route through **`resolving-merge-conflicts`**. After every squash, **`forge-docs`** updates the docs indexes.
 
 ```mermaid
 flowchart LR
@@ -204,7 +204,7 @@ flowchart LR
     Swarm --> Wave1
     Swarm --> Wave2
     
-    Squash1 --> Integrate["Integrate<br/>(git merge --no-ff)<br/>conflicts → <b>resolving-merge-conflicts</b>"]
+    Squash1 --> Integrate["Integrate<br/>(squash + commit)<br/>conflicts → <b>resolving-merge-conflicts</b>"]
     Squash2 --> Integrate
     Squash3 --> Integrate
     

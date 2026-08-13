@@ -67,7 +67,8 @@ For each branch a subagent reported (cross-reference `subagent-driven-developmen
 MAIN_ROOT=$(git -C "$(git rev-parse --git-common-dir)/.." rev-parse --show-toplevel)
 cd "$MAIN_ROOT"
 git checkout <integration-branch>
-git merge --no-ff <task-branch>
+git merge --squash <task-branch>
+git commit -m "<conventional-commit>"
 ```
 
 After all branches merged, run full suite on the merged result. **Red:** stop, leave everything in place, investigate (nothing pushed, local + recoverable).
