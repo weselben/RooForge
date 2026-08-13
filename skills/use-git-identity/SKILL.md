@@ -6,6 +6,8 @@ description: Set the git identity (name + email) before any commit, amend, or re
 
 # Use Git Identity
 
+> **Note:** the defaults below are the maintainer's identity. `forge-setup` step 6 prompts the user on first install and rewrites these values with the user's own `user.name` and `user.email` before any commit lands. Until that runs, commits carry the maintainer's identity.
+
 Every commit on this machine uses one identity — author AND committer:
 
 ```
