@@ -18,7 +18,7 @@ Three cases:
 
 - **Map URL or number provided** — load it. The map defines the scope of the contract.
 - **Map exists in tracker** — query for an open `wayfinder:map` issue. Load it if found.
-- **No map** — hand off to forge step 1, which invokes `wayfinder` chart mode. Goal is written in step 5 with placeholder map reference.
+- **No map** — hand off to forge step 1, which invokes `wayfinder` chart mode. Goal is written in step 4 with placeholder map reference.
 
 **Completion criterion:** agent knows whether the map exists, and if so, its URL/number.
 
@@ -64,7 +64,7 @@ The goal contains three mandatory fields:
 2. **Map URL or number** — anchors the contract to a concrete tracker artefact. Include it even when chart mode creates the map mid-flow; update the goal once the map exists.
 3. **STE100 prose** — short sentences, one meaning per word, no hedge. The goal text is re-injected into the agent's context on every turn; ambiguity compounds.
 
-If the harness supports goal fields beyond `objective` (e.g. `description`, `metadata`), put the full STE100 expansion there — the map destination, the destination, the ticket summary, the standing constraints — so the agent reads the contract at full resolution when the goal enters scope.
+If the harness supports goal fields beyond `objective` (e.g. `description`, `metadata`), put the full STE100 expansion there — the map destination, the ticket summary, the standing constraints — so the agent reads the contract at full resolution when the goal enters scope.
 
 **Update rule:** the goal is immutable from the moment it is written. Additions (new tickets, scope changes, map URL corrections) go into the goal's **description** or **metadata**, never into the **objective**. The objective is the contract; everything else is expansion.
 
