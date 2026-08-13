@@ -14,8 +14,7 @@
 # Usage: review-loop.sh <owner/repo#n|branch-or-slug> <worktree-path> [max_iter=5]
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-# shellcheck source=loop.sh
-source "$SCRIPT_DIR/../../loops/scripts/loop.sh"
+LOOPS_DIR="$SCRIPT_DIR/../../loops/scripts"
 
 TARGET="${1:?usage: review-loop.sh <owner/repo#n|branch-or-slug> <worktree-path> [max_iter]}"
 WORKTREE="${2:?usage: review-loop.sh <owner/repo#n|branch-or-slug> <worktree-path> [max_iter]}"
@@ -24,15 +23,28 @@ MAX_ITER="${3:-5}"
 if [[ "$TARGET" == *"#"* ]]; then
     MODE="pr"
     PR_NUM="${TARGET##*#}"
-    SLUG="pr-${PR_NUM}"
+    SLUG="$PR_NUM"
 else
     MODE="local"
     PR_NUM=""
     SLUG="$(basename "$TARGET" | tr '/ ' '--')"
 fi
-SCRATCH="${TMPDIR:-/tmp}/review-${SLUG}.md"
+# Scratch file name aligns with pr-review SKILL.md and forge-cleanup patterns.
+SCRATCH="${TMPDIR:-/tmp}/pr-review-${SLUG}.md"
 
-PROMPT=$("$SCRIPT_DIR/../../loops/scripts/cavemanize.sh" "$SCRIPT_DIR/templates/review-loop.md" \
-    TARGET="$TARGET" MODE="$MODE" PR_NUM="$PR_NUM" WORKTREE="$WORKTREE" SCRATCH="$SCRATCH")
+TEMPLATE="$SCRIPT_DIR/templates/review-loop.md"
+RENDERED="$(mktemp -t review-loop.rendered.XXXXXX.md)"
+trap 'rm -f "$RENDERED"' EXIT
 
-run_loop "review-${SLUG}" "$PROMPT" "$MAX_ITER"
+# Substitute {{...}} placeholders, then cavemanize, then feed to run_loop.sh.
+sed -E \
+    -e "s|\{\{TARGET\}\}|$TARGET|g" \
+    -e "s|\{\{MODE\}\}|$MODE|g" \
+    -e "s|\{\{PR_NUM\}\}|$PR_NUM|g" \
+    -e "s|\{\{WORKTREE\}\}|$WORKTREE|g" \
+    -e "s|\{\{SCRATCH\}\}|$SCRATCH|g" \
+    "$TEMPLATE" \
+    | bash "$LOOPS_DIR/cavemanize.sh" \
+    > "$RENDERED"
+
+"$LOOPS_DIR/run_loop.sh" "$RENDERED" "$MAX_ITER" "$WORKTREE"

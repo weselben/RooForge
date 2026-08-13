@@ -8,13 +8,22 @@
 # Usage: resolve-loop.sh <findings-file> <worktree-path> [max_iter=5]
 set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-# shellcheck source=loop.sh
-source "$SCRIPT_DIR/../../loops/scripts/loop.sh"
+LOOPS_DIR="$SCRIPT_DIR/../../loops/scripts"
 
 FINDINGS="${1:?usage: resolve-loop.sh <findings-file> <worktree-path> [max_iter]}"
 WORKTREE="${2:?usage: resolve-loop.sh <findings-file> <worktree-path> [max_iter]}"
 MAX_ITER="${3:-5}"
 
-PROMPT=$("$SCRIPT_DIR/../../loops/scripts/cavemanize.sh" "$SCRIPT_DIR/templates/resolve-loop.md" FINDINGS="$FINDINGS" WORKTREE="$WORKTREE")
+TEMPLATE="$SCRIPT_DIR/templates/resolve-loop.md"
+RENDERED="$(mktemp -t resolve-loop.rendered.XXXXXX.md)"
+trap 'rm -f "$RENDERED"' EXIT
 
-run_loop "pr-resolve-$(basename "$WORKTREE")" "$PROMPT" "$MAX_ITER"
+# Substitute {{...}} placeholders, then cavemanize, then feed to run_loop.sh.
+sed -E \
+    -e "s|\{\{FINDINGS\}\}|$FINDINGS|g" \
+    -e "s|\{\{WORKTREE\}\}|$WORKTREE|g" \
+    "$TEMPLATE" \
+    | bash "$LOOPS_DIR/cavemanize.sh" \
+    > "$RENDERED"
+
+"$LOOPS_DIR/run_loop.sh" "$RENDERED" "$MAX_ITER" "$WORKTREE"
