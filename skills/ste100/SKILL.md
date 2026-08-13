@@ -1,12 +1,12 @@
 ---
 name: ste100
-description: Write human-facing text in ASD-STE100 Simplified Technical English — short sentences, approved words, one meaning per word. Governs artifacts only (PRs, commits, docs, comments); chat replies are not in scope.
+description: Write human-facing text in ASD-STE100 Simplified Technical English — short sentences, approved words, one meaning per word. Governs PR bodies, docs, and issue/PR comments; chat replies and commit messages are not in scope (caveman-commit owns commits).
 source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/ste100/SKILL.md
 ---
 
 # STE100
 
-All text that faces other humans — PR bodies, commit messages, issue comments, docs — goes out in STE100. Short, direct, unambiguous. The reader is busy; the text does the work, not the reader.
+All text that faces other humans — PR bodies, issue comments, docs — goes out in STE100. Commit messages are the exception: `caveman-commit` owns those. Short, direct, unambiguous. The reader is busy; the text does the work, not the reader.
 
 **Leading word: terse.** STE100 prose is terse by construction: short sentences, one meaning per word, no filler.
 
@@ -38,7 +38,7 @@ All text that faces other humans — PR bodies, commit messages, issue comments,
 - ❌ "You might want to consider updating your dependencies, as there could potentially be vulnerabilities"
 - ✅ "Update the dependencies. Two have known vulnerabilities."
 
-- ❌ "This commit fixes the issue that was previously encountered when users attempted to authenticate"
+- ❌ "This PR description was written to explain the changes made to the authentication module"
 - ✅ "fix(auth): accept tokens with trailing whitespace"
 
 ## Extended rules
