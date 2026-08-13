@@ -1,6 +1,6 @@
 ---
 name: forge
-description: "Forge owns the session-start flow — forge-flow bootstraps (feat branch from main, harness goal), then forge runs: chart or load the wayfinder map, resolve tickets until the way is clear, plan, dispatch one subagent per task into its own worktree, verify, then pr-review → pr-resolve loop until the user merges. Auto-loads on session start."
+description: "Load at every session start. Auto-triggers on 'start a session', 'work on this ticket', 'open the map', or any forge-flow reference. Mandatory while any goal or map is active."
 source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge/SKILL.md
 ---
 
@@ -11,6 +11,8 @@ Forge owns a sequence the agent runs every session: **map → resolve → plan �
 ## Invariant rules
 
 These are binding on every session where forge is active.
+
+- **Mandatory load.** Forge loads at every session start. No chat until forge, caveman (ultra), and wayfinder are loaded. Forge is the orchestrator — the user invokes nothing; the description frontmatter auto-triggers on natural language ("work on this ticket", "start a session", "open the map", or any forge-flow reference). Explicit invocation ("forge", "run forge") also works.
 
 - **Mandates are mandatory.** When any skill uses *must*, *mandatory*, *MUST*, or *always*, follow it exactly. No hedging. The author wrote those words to prevent a concrete failure.
 - **caveman is default.** caveman(ultra) is active every response. Off only on explicit "stop caveman" / "normal mode". Code, commit messages, PR bodies follow their own skill formats; everything else is caveman.
