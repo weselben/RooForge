@@ -1,6 +1,6 @@
 ---
 name: forge-init
-description: Bootstrap the repo for forge — create or smart-append AGENTS.md with forge-mandatory header, glossary, and goal-driven contract; run grilling to capture repo-specifics. One-shot.
+description: "Load when the user brings a new repo — 'set up this repo', 'get this repo ready', or the first session in a repo that has no agent contract yet."
 source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-init/SKILL.md
 disableModelInvocation: true
 ---
