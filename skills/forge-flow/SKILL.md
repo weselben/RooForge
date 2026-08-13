@@ -1,6 +1,6 @@
 ---
 name: forge-flow
-description: "Invoked by forge at session start. Detects the wayfinder map, prepares the feat branch, writes the contract goal, hands off to forge step 1."
+description: "Load when the user starts a new session on an ongoing effort — fresh chat, 'let's continue', 'pick up where we left off', or the first turn of any working session."
 source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-flow/SKILL.md
 ---
 
