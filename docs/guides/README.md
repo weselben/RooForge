@@ -17,6 +17,7 @@ How-to guides for working on this repository. One entry per skill in `skills/`.
 - [forge-docs](forge-docs.md) — reference guide for the forge-docs skill.
 - [forge-eu-accessibility](forge-eu-accessibility.md) — reference guide for the forge-eu-accessibility skill.
 - [forge-flow](forge-flow.md) — reference guide for the forge-flow skill.
+- [forge-seo](forge-seo.md) — reference guide for the forge-seo skill.
 - [forge-init](forge-init.md) — reference guide for the forge-init skill.
 - [forge-setup](forge-setup.md) — reference guide for the forge-setup skill.
 - [forge-tailwindcss-conventions](forge-tailwindcss-conventions.md) — reference guide for the forge-tailwindcss-conventions skill.
