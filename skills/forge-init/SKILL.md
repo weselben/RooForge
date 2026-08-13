@@ -1,6 +1,6 @@
 ---
 name: forge-init
-description: "Load when the user brings a new repo — 'set up this repo', 'get this repo ready', or the first session in a repo that has no agent contract yet."
+description: Repo bootstrap runbook — writes the local agent contract and captures repo specifics. User-invoked only.
 source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-init/SKILL.md
 disableModelInvocation: true
 ---
