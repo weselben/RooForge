@@ -1,12 +1,11 @@
 # forge-flow
 
-Forge Flow is the session-start bootstrap that runs before forge step 1. It prepares the work surface (a `feat/<slug>` branch cut from `main`) and the contract (a long-living harness goal covering the entire wayfinder map), then hands off to forge.
+`forge-flow` is the session-start frontier sub-skill invoked by `forge`. It prepares the work surface (a `feat/<slug>` branch cut from `main`) and the contract (a long-living harness goal covering the entire wayfinder map), then hands off to forge step 1. It runs **once per session** and exits.
 
 ## When to load
 
-- Session start (auto-loaded with `forge`, `caveman(ultra)`, and `wayfinder`)
-- Any new feature work requiring a wayfinder map
-- When no feat branch or harness goal exists for the current map
+- The user starts a new session on an ongoing effort — fresh chat, "let's continue", "pick up where we left off", or the first turn of any working session.
+- `forge` invokes `forge-flow` automatically at session start. You should not invoke it manually.
 
 ## How it works
 
@@ -27,11 +26,11 @@ Forge Flow is the session-start bootstrap that runs before forge step 1. It prep
    git pull
    git checkout -b feat/<slug>   # or: git checkout <existing-feat-slug>
    ```
-   - Always cut from `main` — never from another feat, hotfix, or chore branch (forge SKILL.md:142–143)
+   - Always cut from `main` — never from another feat, hotfix, or chore branch
    - Verify: `git branch --show-current` returns feat branch; `git merge-base --is-ancestor main HEAD` is true
 
 4. **Write the contract goal** (forge-flow SKILL.md:46–70):
-   - Created via `CreateGoal` with STE100-formulated objective covering the **full map** (all tickets, all decisions)
+   - Created via `CreateGoal` (or `GOAL.md` file fallback after `forge-setup`) with STE100-formulated objective covering the **full map** (all tickets, all decisions)
    - Mandatory fields in objective:
      1. `load forge skill (mandatory while goal is active)`
      2. Map URL/number (or explicit placeholder if no map yet)
@@ -41,7 +40,7 @@ Forge Flow is the session-start bootstrap that runs before forge step 1. It prep
 
 5. **Hand off to forge step 1** (forge-flow SKILL.md:72–74):
    - Tell agent: "Continue with forge step 1 — load or chart the wayfinder map."
-   - Forge then runs map → resolve → plan → work → verify → review → resolve (forge SKILL.md:30–115)
+   - Forge then runs map → resolve → plan → work → verify → review → resolve (8 steps)
 
 ## Files in this skill
 
