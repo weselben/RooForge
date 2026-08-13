@@ -1,6 +1,6 @@
 ---
 name: forge-setup
-description: One-shot harness adaptation + repo bootstrap. Clones this repo to a temp directory, discovers every non-harness-agnostic reference, researches the running harness's equivalents, patches with minimal diffs, and optionally installs the adapted skills into the harness's skill directory. Run once on any non-Kimi harness.
+description: "Load on the first session of any harness that is not Kimi Code CLI, or when a skill references a tool the session does not have — e.g. the user runs Claude Code, Codex, Gemini CLI, or says 'adapt these skills to my setup'."
 source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-setup/SKILL.md
 ---
 
