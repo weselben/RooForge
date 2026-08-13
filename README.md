@@ -183,7 +183,7 @@ flowchart LR
 
 ### 4. Work — Subagent-Driven Development
 
-When the frontier is empty, plan, then delegate to SDD. One worktree per task. One subagent per worktree. Squash-merge each task into the feat branch.
+When the frontier empties, **`planning-and-task-breakdown`** breaks the cleared map into ordered tasks and the user approves the plan in plan mode. Then **`subagent-driven-development`** takes over as coordinator: it creates one worktree per task via **`using-git-worktrees`** (under `.worktrees/<task-slug>/`), dispatches all implementer subagents in a single **`dispatching-parallel-agents`** swarm call (each runs `using-git-worktrees` + `conventional-commits` + `caveman-commit` + `verification-before-completion`), reviews each task's diff, runs the fix loop until clean, and merges each branch into the feat branch with `git merge --no-ff`. Conflicts route through **`resolving-merge-conflicts`**. After every squash, **`forge-docs`** updates the docs indexes.
 
 ```mermaid
 flowchart LR
@@ -230,7 +230,7 @@ flowchart LR
 
 ### 5. Review — PR Draft → Review → Resolve Loop
 
-After squash commits land, draft the PR, verify, then run the review-resolve loop until no 🔴/🟡 findings remain.
+After squash commits land, **`creating-pull-requests`** drafts the PR with **`ste100`** prose (draft mode, AI disclosure). **`verification-before-completion`** re-runs the full suite on the merged feat branch. **`pr-review`** runs in a worktree, drives a `kimi -p` loop via **`loops`**, and posts ONE review under the authenticated user's identity in **`caveman-review`** format. If findings come back 🔴 or 🟡, **`pr-resolve`** consumes them: one resolver per finding group, each in its own worktree off the PR head, commits under **`use-git-identity`**, pushes, replies in each review thread, and re-runs `pr-review`. The loop ends when no 🔴/🟡 findings remain.
 
 ```mermaid
 flowchart LR
@@ -268,6 +268,7 @@ Each forge step emits concrete files. The table below shows what gets written wh
 | 4. Work | Worktrees | `.worktrees/<task-slug>/` |
 | 4. Work | Feat branch | `feat/wayfinder-<map>` |
 | 5. PR | PR draft | `gh api` |
+| 6. Verify | Full-suite run output | terminal |
 | 7. Review | Inline comments | PR review threads |
 | 8. Resolve | Resolver worktrees | `.worktrees/<finding>/` |
 
