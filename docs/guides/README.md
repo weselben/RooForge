@@ -15,6 +15,7 @@ How-to guides for working on this repository. One entry per skill in `skills/`.
 - [forge](forge.md) — reference guide for the forge skill.
 - [forge-cleanup](forge-cleanup.md) — reference guide for the forge-cleanup skill.
 - [forge-docs](forge-docs.md) — reference guide for the forge-docs skill.
+- [forge-eu-accessibility](forge-eu-accessibility.md) — reference guide for the forge-eu-accessibility skill.
 - [forge-flow](forge-flow.md) — reference guide for the forge-flow skill.
 - [forge-init](forge-init.md) — reference guide for the forge-init skill.
 - [forge-setup](forge-setup.md) — reference guide for the forge-setup skill.
