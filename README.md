@@ -51,7 +51,7 @@ The skills in this repo have the following external dependencies. Ensure these a
 
 ## The Flow
 
-Forge owns a single path: **map → resolve → plan → work → verify → review → resolve**. Each step ends on a checkable criterion; the next step is the proof.
+Forge owns a single path: **map → resolve → plan → work → verify → review → resolve**. Each step ends on a checkable criterion; the next step is the proof. `forge` is the always-loaded orchestrator — it auto-triggers on session prompts like "work on the next ticket" and invokes `forge-flow` once at session start to bootstrap branch and goal before step 1.
 
 Each step is driven by one skill and supported by others:
 
