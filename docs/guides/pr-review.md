@@ -43,7 +43,7 @@ Review a GitHub PR or local branch inside an isolated worktree — deterministic
 
 ## Notes
 
-- The `templates/review-loop.md` file appears to be a higher-level description (steps, constraints) while `scripts/templates/review-loop.md` is the actual `kimi -p` prompt payload — both exist with similar content but different detail levels
+- The two template copies are intentional: `scripts/templates/review-loop.md` is the scripted payload rendered by `review-loop.sh` (uppercase `{{TARGET}}` placeholders, substituted by sed). `templates/review-loop.md` is the standalone copy (`{{pr-ref}}` placeholders) so the skill can run with only the loops engine and manual rendering — the skill functions alone and together with the loops pipeline.
 - `scripts/validate.sh` checks added lines only; deletion-only diffs yield "PASS: no added lines"
 - Reviewer never modifies code, never approves/requests-changes (`--comment` only), never replaces CI
 - Local mode diff uses `git diff <base>...HEAD` where `<base>` is the integration branch (dev/feat/fix, never main) per `scripts/templates/review-loop.md:2`

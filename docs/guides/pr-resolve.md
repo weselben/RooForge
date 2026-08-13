@@ -38,7 +38,7 @@ Done when: every thread has one reply, summary comment URL exists, worktrees rem
 
 ## Notes
 
-- Two `resolve-loop.md` templates exist: `templates/resolve-loop.md` (coordinator-side, uses `{{findings-file}}`/`{{n}}`) and `scripts/templates/resolve-loop.md` (the one actually rendered by `cavemanize.sh` with `FINDINGS`/`WORKTREE` vars). SKILL.md's Scripts table references `scripts/templates/resolve-loop.md` as the payload — correct.
-- The script sources `../../loops/scripts/loop.sh` (relative from `scripts/`), which loads `run_loop.sh` and `cavemanize.sh`.
+- The two template copies are intentional: `scripts/templates/resolve-loop.md` is the scripted payload rendered by `resolve-loop.sh` (uppercase `{{FINDINGS}}`/`{{WORKTREE}}` placeholders, substituted by sed). `templates/resolve-loop.md` is the standalone copy (`{{findings-file}}`/`{{n}}` placeholders) so the skill can run with only the loops engine and manual rendering — the skill functions alone and together with the loops pipeline.
+- The script invokes `../../loops/scripts/run_loop.sh` directly (not as a sourced function) with the rendered prompt, max_iter, and worktree args.
 - `max_iter` defaults to 5 in the script; can be overridden as third argument.
 - Parallel cap of 10 resolver subagents is stated in SKILL.md but not enforced in the script — orchestration layer (forge / dispatching-parallel-agents) enforces it.
