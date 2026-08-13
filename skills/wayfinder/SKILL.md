@@ -20,7 +20,7 @@ Every map and ticket is an issue, so it has a **name** — its title. In everyth
 
 The map is a single issue on this repo's issue tracker, labelled `wayfinder:map` — the canonical artifact. Its tickets are child issues of the map.
 
-> **Labels:** Before first use, run `./scripts/setup-repo-gh-cli.sh` to create the `wayfinder:*` labels on the remote. This is idempotent — safe to re-run if labels are missing.
+> **Labels:** Before first use, run `skills/wayfinder/scripts/setup-repo-gh-cli.sh` (from the repo root) to create the `wayfinder:*` labels on the remote. This is idempotent — safe to re-run if labels are missing.
 
 The map is an **index**, not a store. It lists the decisions made and points at the tickets that hold their detail; a decision lives in exactly one place — its ticket — so the map never restates it, only gists it and links.
 
