@@ -18,6 +18,7 @@ How-to guides for working on this repository. One entry per skill in `skills/`.
 - [forge-flow](forge-flow.md) — reference guide for the forge-flow skill.
 - [forge-init](forge-init.md) — reference guide for the forge-init skill.
 - [forge-setup](forge-setup.md) — reference guide for the forge-setup skill.
+- [frontend-design](frontend-design.md) — reference guide for the frontend-design skill.
 - [git-issue-tracker](git-issue-tracker.md) — reference guide for the git-issue-tracker skill.
 - [grilling](grilling.md) — reference guide for the grilling skill.
 - [kiss-principle](kiss-principle.md) — reference guide for the kiss-principle skill.
