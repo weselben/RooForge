@@ -8,7 +8,6 @@ See [`docs/dev/CONTEXT.md`](../dev/CONTEXT.md) for the glossary and ADR cross-re
 - [ADR 0001](adr/0001-vendoring-strategy-upstream-adapted.md) — Vendoring strategy: upstream skills get adapted, not symlinked.
 - [ADR 0002](adr/0002-deprecate-setup-matt-pocock-skills.md) — Deprecate `/setup-matt-pocock-skills` command.
 - [ADR 0003](adr/0003-deep-research-replaces-research-subagent.md) — `deep-research` skill replaces upstream `/research` subagent.
-- [ADR 0004](adr/0004-domain-modeling-scope-adr-recording.md) — Domain-modeling scoped to ADR recording; future MCP tool.
 
 </details>
 

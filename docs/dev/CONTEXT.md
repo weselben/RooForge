@@ -23,4 +23,3 @@ This repo is the upstream home of the `forge` skill family. Other skills in the 
 - **ADR 0001** — Vendoring strategy: upstream skills get adapted, not symlinked. Strip implementation details that re-state what loaded skills already expose. See `docs/adr/0001-vendoring-strategy-upstream-adapted.md`.
 - **ADR 0002** — Deprecate `/setup-matt-pocock-skills` command. One less bootstrap step, tracker resolution via `git-issue-tracker` or local-markdown fallback. See `docs/adr/0002-deprecate-setup-matt-pocock-skills.md`.
 - **ADR 0003** — `deep-research` skill replaces upstream `/research` subagent. Single research skill, one convention. Wayfinder references updated. See `docs/adr/0003-deep-research-replaces-research-subagent.md`.
-- **ADR 0004** — Domain-modeling scoped to ADR recording; future MCP tool. Bridge between grilling decisions and programmatic ADR writing; conversational terminology dropped. See `docs/adr/0004-domain-modeling-scope-adr-recording.md`.
