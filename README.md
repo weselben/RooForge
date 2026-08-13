@@ -57,7 +57,7 @@ Each step is driven by one skill and supported by others:
 
 | Step | Driving skill | Supporting skills |
 |------|---------------|-------------------|
-| Bootstrap | `forge-flow` (runs once, exits) | `ste100` |
+| 0. Bootstrap | `forge-flow` | `ste100` |
 | 1. Map | `wayfinder` | `git-issue-tracker`, `grilling`, `domain-modeling`, `deep-research`, `dispatching-parallel-agents` |
 | 2. Resolve | the ticket's type skill (`grilling` / `prototype` / `deep-research` / task) | `domain-modeling` (sweep after every close) |
 | 3. Plan | `planning-and-task-breakdown` | — |
@@ -69,31 +69,28 @@ Each step is driven by one skill and supported by others:
 
 Always-on regardless of step: `forge` (orchestrator), `caveman` (ultra), `wayfinder`.
 
-### 1. Session Start — Forge Flow → Forge Handoff
+### 1. Session Start — Forge Flow Bootstrap
 
-Two distinct skills run at session start. **forge-flow** is the bootstrap that runs once and exits: it detects whether a map exists, names the feat branch, cuts/switches the branch from `main`, and writes the long-living contract goal. Then it hands off to **forge** (the orchestrator), which runs steps 1–8 from there.
+Forge Flow runs before forge step 1. It prepares the work surface (branch) and the contract (goal), then hands off.
 
 ```mermaid
 flowchart TD
-    Start([Session Start]) --> FF["<b>forge-flow</b><br/>session bootstrap (5 steps)"]
-    FF --> FF1["1. Detect map<br/>(yes / no)"]
-    FF1 --> FF2["2. Name feat branch<br/>feat/<slug>"]
-    FF2 --> FF3["3. Cut/switch branch<br/>from main"]
-    FF3 --> FF4["4. Write contract goal<br/>(long-living, <b>ste100</b>)"]
-    FF4 --> FF5["5. Hand off to forge"]
-    FF5 --> Forge["<b>forge</b> step 1<br/>orchestrator begins"]
+    Start([Session Start]) --> Flow["<b>forge-flow</b><br/>session bootstrap"]
+    Flow --> Detect{"Map exists?"}
+    Detect -->|"yes"| LoadMap["<b>wayfinder</b><br/>load map from tracker"]
+    Detect -->|"no"| ChartMap["<b>wayfinder</b> chart mode<br/>via forge step 1"]
+    LoadMap --> Goal["<b>forge-flow</b><br/>write contract goal<br/>(long-living, <b>ste100</b>)"]
+    ChartMap --> Goal
+    Goal --> Handoff["Hand off to<br/><b>forge</b> step 1"]
     
     style Start fill:#95A5A6,color:#fff,stroke:#7F8C8D
-    style FF fill:#4A90D9,color:#fff,stroke:#2C5F8A
-    style FF1 fill:#F39C12,color:#fff,stroke:#B8750E
-    style FF2 fill:#F39C12,color:#fff,stroke:#B8750E
-    style FF3 fill:#F39C12,color:#fff,stroke:#B8750E
-    style FF4 fill:#2C3E50,color:#fff,stroke:#1A252F
-    style FF5 fill:#16A085,color:#fff,stroke:#0E6655
-    style Forge fill:#16A085,color:#fff,stroke:#0E6655
+    style Flow fill:#4A90D9,color:#fff,stroke:#2C5F8A
+    style Detect fill:#F39C12,color:#fff,stroke:#B8750E
+    style LoadMap fill:#27AE60,color:#fff,stroke:#1A7A42
+    style ChartMap fill:#E67E22,color:#fff,stroke:#A05A15
+    style Goal fill:#2C3E50,color:#fff,stroke:#1A252F
+    style Handoff fill:#16A085,color:#fff,stroke:#0E6655
 ```
-
-`forge-flow` does NOT load the map — it only detects whether one exists. The actual map load happens in forge step 1 (see section 2 below).
 
 ### 2. Map — Load or Chart the Wayfinder Map
 
