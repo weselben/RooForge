@@ -39,6 +39,7 @@ You are the coordinator. Dispatch a fresh implementer per task — each in its o
 Dispatch all implementers in ONE `AgentSwarm` call (see `dispatching-parallel-agents`):
 
 - `prompt_template` with `{{item}}` placeholder
+- Reference template: [`implementer-prompt.md`](implementer-prompt.md) — fill in the worktree, branch, and per-task spec where indicated
 - `subagent_type: coder`
 - Each item carries: full task spec, worktree path, branch name, commit instructions, binding global constraints, return contract
 - Up to 10 parallel; independent tasks in one wave, dependent in later waves
@@ -66,7 +67,7 @@ git diff --stat <BASE>..<HEAD>   >> /tmp/review-<task-slug>.diff
 git diff -U10   <BASE>..<HEAD>   >> /tmp/review-<task-slug>.diff
 ```
 
-Dispatch a task reviewer (read-only `explore`) with: task spec, implementer report, diff path, binding global constraints verbatim. Both verdicts required: spec compliance AND task quality. Implementer self-review never replaces this.
+Dispatch a task reviewer (read-only `explore`) with: task spec, implementer report, diff path, binding global constraints verbatim. Reference template: [`task-reviewer-prompt.md`](task-reviewer-prompt.md) — fill in TASK_SPEC, REPORT, BASE_SHA, and the diff path. Both verdicts required: spec compliance AND task quality. Implementer self-review never replaces this.
 
 ⚠️ "cannot verify from diff" items don't block — resolve each yourself before completion.
 
