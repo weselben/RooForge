@@ -3,11 +3,7 @@
 ## adr
 <details><summary>Architecture Decision Records</summary>
 
-See [`docs/dev/CONTEXT.md`](../dev/CONTEXT.md) for the glossary and ADR cross-references.
-
-- [ADR 0001](adr/0001-vendoring-strategy-upstream-adapted.md) — Vendoring strategy: upstream skills get adapted, not symlinked.
-- [ADR 0002](adr/0002-deprecate-setup-matt-pocock-skills.md) — Deprecate `/setup-matt-pocock-skills` command.
-- [ADR 0003](adr/0003-deep-research-replaces-research-subagent.md) — `deep-research` skill replaces upstream `/research` subagent.
+See [`docs/dev/CONTEXT.md`](../dev/CONTEXT.md) for the glossary and ADR cross-references. CONTEXT.md is the ADR index.
 
 </details>
 
