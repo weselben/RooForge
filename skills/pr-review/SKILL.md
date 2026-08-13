@@ -17,7 +17,7 @@ Two modes, picked by the first arg to `scripts/review-loop.sh`:
 
 ## Steps
 
-1. **WORKTREE** — `using-git-worktrees` Step 0. If already isolated on PR head, stay. Otherwise fetch PR head (`gh pr checkout <n>` metadata only) and create `.worktrees/pr-<n>-review/` on a branch tracking PR head.
+1. **WORKTREE** — `using-git-worktrees` Step 0. If already isolated on PR head, stay. Otherwise read PR head metadata (`gh pr view <n> --json headRefName,headRefOid`) and create `.worktrees/pr-<n>-review/` on a branch tracking PR head.
 2. **VALIDATE** — `scripts/validate.sh <diff-file>` where `<diff-file>` comes from `gh pr diff <n>`. Hard rules only: secret patterns, diff sanity. Every `FAIL:` becomes a 🔴 finding.
 3. **REVIEW** — `scripts/review-loop.sh <pr-ref> <worktree> [max_iter]`. Renders `scripts/templates/review-loop.md` via `../loops/scripts/cavemanize.sh`, drives `../loops/scripts/run_loop.sh`. Reviewer loads `caveman-review`; writes findings to `${TMPDIR:-/tmp}/pr-review-<n>.md` — scratch, never committed.
 4. **POST** — submit ONE review with inline comments:
