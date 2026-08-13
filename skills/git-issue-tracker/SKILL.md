@@ -57,3 +57,20 @@ Used by the wayfinder skill. The **map** is a single issue with **child** issues
 - **Claim**: `gh issue edit <number> --add-assignee @me` — the session's first write.
 
 - **Resolve**: `gh issue comment <number> --body "<answer>"`, then `gh issue close <number>`, then append a context pointer (gist + link) to the map's Decisions-so-far.
+
+## Branch association (map ↔ `feat/*` branch)
+
+A wayfinder map may have a `feat/*` branch that lives across the whole effort. The convention is:
+
+1. **Default name**: derived from the map issue's title slug — `feat/<slug>` (lowercased, hyphenated). For map title `"Auth JWT refactor"` → `feat/auth-jwt-refactor`. forge-flow's step 2 uses this rule to name the branch on first cut.
+2. **Optional explicit pointer**: the map issue body may carry a `## Feat branch` heading with the explicit branch name, overriding the default slug derivation. Example:
+   ```markdown
+   ## Feat branch
+   feat/auth-jwt-refactor
+   ```
+3. **Query** — to find an existing branch for a given map issue:
+   - First read the map body and look for the `## Feat branch` heading; if present, treat that as authoritative.
+   - Else compute the slug from the map title and look up `git branch -a --list "feat/<slug>*"`. The first matching branch (local, then remote-tracking) is the one to reuse.
+   - Else fall back to a `gh pr list --head "feat/<slug>" --state open` lookup — an open PR on a matching `feat/*` head is also a hit.
+
+The slug-derived name is the association. The explicit pointer exists for cases where the branch was renamed or doesn't follow the default naming rule.

@@ -32,7 +32,7 @@ Derive the slug from the map name when a map exists, else from the user's first 
 - Map `"Auth JWT refactor"` → `feat/auth-jwt-refactor`
 - No map, user says `"fix cache race"` → `feat/cache-race-fix`
 
-If the map already has an associated `feat/*` branch (queried via tracker convention or git), reuse it. Otherwise create new.
+If the map already has an associated `feat/*` branch, reuse it. The lookup follows the `git-issue-tracker` "Branch association" convention: read the map body for a `## Feat branch` heading; else `git branch -a --list "feat/<slug>*"`; else `gh pr list --head "feat/<slug>" --state open`. Otherwise create a new `feat/<slug>`.
 
 **Completion criterion:** a valid `feat/<slug>` name is determined, or an existing one is identified.
 
