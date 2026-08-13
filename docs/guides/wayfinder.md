@@ -38,7 +38,7 @@ Forge owns the session sequence: `map → resolve → plan → work → verify �
 ## Files in this skill
 
 - `skills/wayfinder/SKILL.md` — Main skill definition: map structure, ticket types (research, prototype, grilling, task, domain-modeling), fog of war, out-of-scope rules, and both invocation modes (chart / work-through-map).
-- `skills/wayfinder/scripts/setup-repo-gh-cli.sh` — Idempotent script to create the five `wayfinder:*` labels (`map`, `research`, `prototype`, `grilling`, `task`) on the GitHub repo using `gh label create`. Run once per repo before first use. (Lines 8–25)
+- `skills/wayfinder/scripts/setup-repo-gh-cli.sh` — Idempotent script to create the six `wayfinder:*` labels (`map`, `research`, `prototype`, `grilling`, `task`, `domain-modeling`) on the GitHub repo using `gh label create`. Run once per repo before first use. (Lines 8–26)
 
 ## See also
 
@@ -53,7 +53,7 @@ Forge owns the session sequence: `map → resolve → plan → work → verify �
 
 ## Notes
 
-- The `domain-modeling` ticket type is listed in Ticket Types (SKILL.md:54) but not created as a label by `setup-repo-gh-cli.sh` (only five labels: map, research, prototype, grilling, task). This may be intentional (domain-modeling runs as a skill alongside grilling, not as a standalone ticket), but the label would be missing if a `wayfinder:domain-modeling` ticket is ever created.
+- The `domain-modeling` ticket type is a full label as of `f9e268f` — `setup-repo-gh-cli.sh` now creates all six `wayfinder:*` labels including `wayfinder:domain-modeling`.
 - The script uses a single color (`0075ca`) for all labels; GitHub UI may not visually distinguish ticket types.
 - "Refer by name" rule (SKILL.md:18–22) mandates using ticket titles (not bare IDs) in all narration and the map's Decisions-so-far — the ID/URL rides inside the name as a link.
 - The skill assumes a GitHub-backed tracker (`gh` CLI). For non-GitHub trackers, it defaults to a local-markdown tracker but no implementation is provided in this skill.

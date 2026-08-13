@@ -39,6 +39,6 @@ A shell framework that drives `kimi -p` review/resolve loops. The calling skill 
 
 ## Notes
 
-- The `LOGFILE` variable in `run_loop.sh:14` is unset (`$LOOPS_LOG` not defined) — may be a benign leftover or intended for external injection; no functional impact observed.
-- `cavemanize.sh` uses `sed` + `awk` for a minimal pre-pass; the full `caveman` skill (loaded by the agent) drives the actual compression style at response time — the shell pass is a fast pre-compression before `kimi -p` sees it (`cavemanize.sh:8-10`).
+- `run_loop.sh` previously aborted under `set -u` on an unset `$LOOPS_LOG` (line 17). Fixed in `09f33e1` — the dead LOGFILE assignment was deleted and SCRIPT_DIR is computed before the workdir `cd`.
+- `cavemanize.sh` is now a pure `sed` filler-drop pass (the earlier awk command was malformed). The full `caveman` skill (loaded by the agent) drives the actual compression style at response time — the shell pass is a fast pre-compression before `kimi -p` sees it.
 - The caller contract requires STE100 prose (one meaning per word, short sentences, active voice) and mandates that the subagent never needs to ask a clarifying question (`skills/loops/SKILL.md:41-42`).

@@ -42,4 +42,4 @@ No companion scripts, templates, or additional files exist in this skill directo
 ## Notes
 
 - The skill directory contains only `SKILL.md`; there are no separate template files or scripts — all templates are inline in the Markdown.
-- The parallelization section (lines 157–159) contains a self-contradictory note: it first mentions `Agent` tool with `run_in_background: true`, then immediately overwrites it with guidance about `dispatching-parallel-agents`. The `dispatching-parallel-agents` version is consistent with forge's architecture and should be treated as authoritative.
+- The parallelization section previously contained a self-contradiction (background subagents vs single AgentSwarm call). Fixed in `89ea88b` — the `dispatching-parallel-agents` / `AgentSwarm` form is now the only execution mode stated.
