@@ -1,6 +1,6 @@
 ---
 name: forge-cleanup
-description: Remove stale forge artefacts — scratch files, unused worktrees, uncommitted changes, untracked files, local branches. Asks before each removal.
+description: "Load when the user wants to tidy up — 'clean up', 'remove stale stuff', after a merged PR, or when worktrees and scratch files pile up."
 source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-cleanup/SKILL.md
 disableModelInvocation: true
 ---
