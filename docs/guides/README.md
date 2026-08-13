@@ -2,6 +2,7 @@
 
 How-to guides for working on this repository. One entry per skill in `skills/`.
 
+- [12-factor-app](12-factor-app.md) — reference guide for the 12-factor-app skill.
 - [caveman](caveman.md) — reference guide for the caveman skill.
 - [caveman-commit](caveman-commit.md) — reference guide for the caveman-commit skill.
 - [caveman-review](caveman-review.md) — reference guide for the caveman-review skill.

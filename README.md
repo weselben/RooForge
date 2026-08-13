@@ -307,6 +307,7 @@ Each forge step emits concrete files. The table below shows what gets written wh
 | [`skills/conventional-commits/SKILL.md`](skills/conventional-commits/SKILL.md) | Conventional Commits v1.0.0 spec — type→SemVer table | on-demand | [local](https://raw.githubusercontent.com/weselben/RooForge/main/skills/conventional-commits/SKILL.md) | [`docs/guides/conventional-commits.md`](docs/guides/conventional-commits.md) |
 | [`skills/use-git-identity/SKILL.md`](skills/use-git-identity/SKILL.md) | Set git identity (weselben/rooforge) before any commit/amend/rebase | on-demand | [local](https://raw.githubusercontent.com/weselben/RooForge/main/skills/use-git-identity/SKILL.md) | [`docs/guides/use-git-identity.md`](docs/guides/use-git-identity.md) |
 | [`skills/resolving-merge-conflicts/SKILL.md`](skills/resolving-merge-conflicts/SKILL.md) | Resolve git merge/rebase conflicts; multi-branch conflicts delegate to SDD | on-demand | [mattpocock/skills](https://raw.githubusercontent.com/mattpocock/skills/main/skills/engineering/resolving-merge-conflicts/SKILL.md) | [`docs/guides/resolving-merge-conflicts.md`](docs/guides/resolving-merge-conflicts.md) |
+| [`skills/12-factor-app/SKILL.md`](skills/12-factor-app/SKILL.md) | SaaS / cloud-native design and review against the 12-Factor methodology and modern extensions | on-demand | [12factor.net](https://12factor.net/) | [`docs/guides/12-factor-app.md`](docs/guides/12-factor-app.md) |
 
 ---
 
