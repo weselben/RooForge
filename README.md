@@ -360,7 +360,7 @@ Each forge step emits concrete files. The table below shows what gets written wh
 │   └── wayfinder/
 ├── src/                  # reserved
 ├── tests/                # reserved
-├── AGENTS.md             # Local agent contract (letter style + install protocol)
+├── AGENTS.md             # Local agent contract (letter style)
 └── README.md             # this file
 ```
 
