@@ -1,6 +1,6 @@
 ---
 name: forge
-description: "Load at every session start. Auto-triggers when the user starts a session, picks up an existing effort, or says things like 'work on this ticket', 'open the map', 'continue', or 'what's next'. Mandatory while any goal or map is active."
+description: "Always load first — before responding to any user prompt — unless the user states otherwise in the prompt itself. Examples that trigger forge: 'let's continue on the auth refactor', 'work on the next ticket', 'open the map for the payment effort', 'what's next', 'start a new effort: <idea>'. Mandatory while any goal or map is active."
 source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge/SKILL.md
 ---
 
