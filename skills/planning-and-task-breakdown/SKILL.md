@@ -200,7 +200,7 @@ When multiple agents or sessions are available:
 - **Must be sequential:** Database migrations, shared state changes, dependency chains
 - **Needs coordination:** Features that share an API contract (define the contract first, then parallelize)
 
-**Execution mode:** Parallel work runs via **background subagents** (one per worktree), each launched with `Agent` tool and `run_in_background: true`. **Parallel work runs via dispatching-parallel-agents — one subagent per worktree, dispatched in a single AgentSwarm call** — each subagent must work in its own git worktree with full context, not share a swarm context.
+**Execution mode:** Parallel work runs via dispatching-parallel-agents — one subagent per worktree, dispatched in a single `AgentSwarm` call. Each subagent must work in its own git worktree with full context, not share a swarm context.
 
 ## Common Rationalizations
 
