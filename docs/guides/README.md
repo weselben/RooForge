@@ -20,6 +20,7 @@ How-to guides for working on this repository. One entry per skill in `skills/`.
 - [forge-setup](forge-setup.md) — reference guide for the forge-setup skill.
 - [git-issue-tracker](git-issue-tracker.md) — reference guide for the git-issue-tracker skill.
 - [grilling](grilling.md) — reference guide for the grilling skill.
+- [kiss-principle](kiss-principle.md) — reference guide for the kiss-principle skill.
 - [loops](loops.md) — reference guide for the loops skill.
 - [planning-and-task-breakdown](planning-and-task-breakdown.md) — reference guide for the planning-and-task-breakdown skill.
 - [prototype](prototype.md) — reference guide for the prototype skill.
