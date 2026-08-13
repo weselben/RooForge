@@ -16,39 +16,4 @@ Read the repo before you change it. When a change introduces a new file, update 
 
 This file is a local contract between us. It is not a skill, not a tool, not part of the public surface. Treat its rules as you would treat the ones in any other skill: read once at the start of a session, follow them, do not negotiate.
 
----
-
-## Forge-Setup Install Protocol (inline reference)
-
-When running the `forge-setup` skill on a non-Kimi harness, the adapted skills are installed to the harness skill directory. This section mirrors the install logic so the local contract stays in sync with the repo's `skills/` directory.
-
-**Harness skill directory resolution (in order):**
-1. `$HOME/.claude/skills`
-2. `$HOME/.codex/skills`
-3. `$HOME/.kimi-code/skills`
-4. `$HOME/.opencode/skills`
-5. `$HOME/.agents/skills` (fallback)
-
-**Install procedure (run from the adapted clone's `skills/`):**
-
-```bash
-# 1. Ensure target dir exists
-mkdir -p "$HARNESS_SKILLS_DIR"
-
-# 2. Remove existing RooForge skill directories (clean update on re-run)
-for skill in $(ls "adapted_clone/skills/"); do
-  [ -d "$HARNESS_SKILLS_DIR/$skill" ] && rm -rf "$HARNESS_SKILLS_DIR/$skill"
-done
-
-# 3. Copy adapted skills one-by-one (exclude forge-setup — it documents the Kimi baseline)
-for skill in $(ls "adapted_clone/skills/"); do
-  [ "$skill" = "forge-setup" ] && continue
-  cp -r "adapted_clone/skills/$skill" "$HARNESS_SKILLS_DIR/$skill"
-done
-
-# 4. Verify identity in use-git-identity was personalized
-grep -q 'name:.*weselben/rooforge' "$HARNESS_SKILLS_DIR/use-git-identity/SKILL.md" \
-  && echo "Note: use-git-identity still has default identity — user should personalize"
-```
-
-This mirrors `forge-setup/SKILL.md` steps 6–7. Keep in sync when that skill changes.
+The `forge-setup` skill lives at `skills/forge-setup/SKILL.md`. That file is the single source of truth for the harness-adaptation procedure — load it from there when needed; do not duplicate its contents in this contract.
