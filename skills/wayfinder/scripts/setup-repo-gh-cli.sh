@@ -16,6 +16,7 @@ LABELS=(
   "wayfinder:prototype"
   "wayfinder:grilling"
   "wayfinder:task"
+  "wayfinder:domain-modeling"
 )
 
 # Colors (GitHub label color hex)
