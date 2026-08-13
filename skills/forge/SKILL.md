@@ -1,6 +1,6 @@
 ---
 name: forge
-description: "Load at every session start. Auto-triggers on 'start a session', 'work on this ticket', 'open the map', or any forge-flow reference. Mandatory while any goal or map is active."
+description: "Load at every session start. Auto-triggers when the user starts a session, picks up an existing effort, or says things like 'work on this ticket', 'open the map', 'continue', or 'what's next'. Mandatory while any goal or map is active."
 source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge/SKILL.md
 ---
 
