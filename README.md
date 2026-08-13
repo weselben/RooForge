@@ -24,7 +24,7 @@ Raw skill URL:
 https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-setup/SKILL.md
 ```
 
-After forge-setup completes, run `forge-init` (if not already done) then `forge-flow` to start a session.
+After forge-setup completes, invoke `forge-init` by name (once per repo — it is user-invoked, not auto-triggered). Then just start working: write something like "work on the next ticket" or "let's continue the auth refactor". The always-loaded `forge` skill auto-triggers on that, invokes `forge-flow` to bootstrap the session (branch + goal), and runs the full flow from there.
 
 ---
 
