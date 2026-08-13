@@ -154,3 +154,14 @@ This ensures subagents know their place in the single path. It also makes it **p
 
 - `loops` is the **single home** for all `kimi -p` iteration. Used by: pr-review, pr-resolve. No other skill uses `kimi -p` loops — deep-research refinement passes use `dispatching-parallel-agents`, not `loops`.
 - `dispatching-parallel-agents` is the **single home** for all parallel subagent swarms. Used by: map charting (fog areas), deep-research (parallel research), SDD (per-task swarm), resolving-merge-conflicts (multi-branch conflicts).
+
+## Sidecar skills
+
+Domain skills that ride alongside the flow — load them when the task touches their domain:
+
+- `12-factor-app` — SaaS / cloud-native / microservice design or review
+- `kiss-principle` — design or code smells over-engineered
+- `frontend-design` — building or reshaping UI with a distinctive visual direction
+- `forge-tailwindcss-conventions` — Tailwind CSS work
+- `forge-eu-accessibility` — EU accessibility (BFSG/EAA/WCAG) work
+- `forge-seo` — SEO work (meta, sitemaps, structured data, Core Web Vitals)
