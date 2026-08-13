@@ -1,6 +1,6 @@
 ---
 name: forge-docs
-description: "Load before code changes, before writing docs or an ADR, when a user question exposes a missing how-to, and when closing a chunk of work."
+description: Load before code changes, before writing docs or an ADR, when a user question exposes a missing how-to, and when closing a chunk of work; also loaded by forge after each squash-merge and by deep-research after a report.
 source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-docs/SKILL.md
 ---
 
