@@ -7,6 +7,9 @@ PROMPT_FILE="${1:?run_loop.sh requires a prompt template path}"
 MAX_ITER="${2:-10}"
 WORKDIR="${3:-$(pwd)}"
 
+# Compute SCRIPT_DIR before any cd, so the relative BASH_SOURCE still resolves.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 [ -f "$PROMPT_FILE" ] || { echo "BLOCKED: prompt file not found: $PROMPT_FILE" >&2; exit 2; }
 
 cd "$WORKDIR"
@@ -14,10 +17,7 @@ cd "$WORKDIR"
 LOGS=".loops/$(basename "$PROMPT_FILE" .md)"
 mkdir -p "$LOGS"
 RENDERED="$LOGS/prompt.rendered.md"
-LOGFILE="$LOOPS_LOG"
-
 # Render the template (cavemanize on initial render)
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 bash "$SCRIPT_DIR/cavemanize.sh" < "$PROMPT_FILE" > "$RENDERED"
 
 for i in $(seq 1 "$MAX_ITER"); do
@@ -33,14 +33,15 @@ for i in $(seq 1 "$MAX_ITER"); do
   # Append reply to running prompt for next iteration
   echo "$REPLY" >> "$RENDERED"
 
-  # Check contract
-  if echo "$REPLY" | grep -q "^DONE:"; then
+  # Check contract. kimi often wraps its reply with bullets/prose/footers, so accept
+  # DONE: / BLOCKED: at line start OR after a single leading bullet marker.
+  if echo "$REPLY" | grep -qE "(^|^\s*[-*•]\s)DONE:"; then
     echo "$REPLY" > "$LOGS/done.out"
     echo "[run_loop] DONE on iter $i — artifact: $LOGS/done.out"
     exit 0
   fi
 
-  if echo "$REPLY" | grep -q "^BLOCKED:"; then
+  if echo "$REPLY" | grep -qE "(^|^\s*[-*•]\s)BLOCKED:"; then
     echo "$REPLY" > "$LOGS/blocked.out"
     echo "[run_loop] BLOCKED on iter $i — reason: $LOGS/blocked.out"
     exit 2
