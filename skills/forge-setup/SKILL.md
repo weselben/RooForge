@@ -1,7 +1,8 @@
 ---
 name: forge-setup
-description: "Load on the first session of any harness that is not Kimi Code CLI, or when a skill references a tool the session does not have — e.g. the user runs Claude Code, Codex, Gemini CLI, or says 'adapt these skills to my setup'."
+description: Harness adaptation runbook — clone the repo, find harness-specific references, patch them for the running harness. User-invoked only.
 source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-setup/SKILL.md
+disableModelInvocation: true
 ---
 
 # Forge Setup
