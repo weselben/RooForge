@@ -1,6 +1,6 @@
 ---
 name: forge-docs
-description: Maintain the docs directory — structure, update rules, index files, ADR mandate. Load before code changes, before researching the codebase, before closing a chunk of work, and when writing an ADR.
+description: "Load before code changes, before writing docs or an ADR, when a user question exposes a missing how-to, and when closing a chunk of work."
 source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-docs/SKILL.md
 ---
 
