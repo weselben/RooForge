@@ -310,6 +310,7 @@ Each forge step emits concrete files. The table below shows what gets written wh
 | [`skills/12-factor-app/SKILL.md`](skills/12-factor-app/SKILL.md) | SaaS / cloud-native design and review against the 12-Factor methodology and modern extensions | on-demand | [12factor.net](https://12factor.net/) | [`docs/guides/12-factor-app.md`](docs/guides/12-factor-app.md) |
 | [`skills/kiss-principle/SKILL.md`](skills/kiss-principle/SKILL.md) | Simplicity guardrails — over-engineering, premature abstraction, accidental complexity | on-demand | [Wikipedia](https://en.wikipedia.org/wiki/KISS_principle) | [`docs/guides/kiss-principle.md`](docs/guides/kiss-principle.md) |
 | [`skills/frontend-design/SKILL.md`](skills/frontend-design/SKILL.md) | Distinctive, intentional visual design — typography, palette, layout, anti-templated defaults | on-demand | [anthropics/skills](https://raw.githubusercontent.com/anthropics/skills/main/skills/frontend-design/SKILL.md) | [`docs/guides/frontend-design.md`](docs/guides/frontend-design.md) |
+| [`skills/forge-tailwindcss-conventions/SKILL.md`](skills/forge-tailwindcss-conventions/SKILL.md) | Tailwind CSS v4 conventions — CSS-first, utility-first, class ordering, framework patterns | on-demand | [local](https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-tailwindcss-conventions/SKILL.md) | [`docs/guides/forge-tailwindcss-conventions.md`](docs/guides/forge-tailwindcss-conventions.md) |
 
 ---
 
