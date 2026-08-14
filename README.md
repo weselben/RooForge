@@ -13,18 +13,34 @@ The repo has two layers:
 
 ---
 
-## Install — copy this prompt to your agent
+## Token budget
+
+Counts use OpenAI `o200k_base`, which Tiktokenizer marks compatible with GPT-5.6.
+
+| Scope | Count |
+|---|---:|
+| Session-start `SKILL.md` bodies (`forge`, `forge-flow`, `caveman`, `wayfinder`) | 7,547 tokens |
+| Session-start `name` and `description` values | 262 tokens |
+| All 35 `SKILL.md` bodies, excluding frontmatter | 39,018 tokens |
+| All 35 `name` and `description` values | 1,188 words, 1,803 tokens |
+
+Counts cover prompt text only. They exclude tool schemas, chat framing, and harness overhead.
+
+---
+
+## Install
+
+Copy this prompt into a new agent session:
 
 ```text
-Install the forge-setup skill from the raw URL below into my harness's skill directory (preferred: `<harness-config-dir>/skills/forge-setup/SKILL.md`; fallback: `~/.agents/skills/forge-setup/SKILL.md`), then load it in this chat and run it. The skill handles everything: it clones this repo to a temp directory, identifies the running harness, discovers and patches all non-harness-agnostic references, verifies the adapted skills, and optionally installs them into the harness skill directory.
+Download the forge-setup skill from https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-setup/SKILL.md.
+
+Install it at `<harness-config-dir>/skills/forge-setup/SKILL.md`. If no harness-specific skill directory exists, install it at `~/.agents/skills/forge-setup/SKILL.md`.
+
+Load the skill and follow its procedure exactly. Use a temporary clone for discovery and patches. Ask before changing my harness configuration.
 ```
 
-Raw skill URL:
-```
-https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-setup/SKILL.md
-```
-
-After forge-setup completes, invoke `forge-init` by name (once per repo — it is user-invoked, not auto-triggered). Then just start working: write something like "work on the next ticket" or "let's continue the auth refactor". The always-loaded `forge` skill auto-triggers on that, invokes `forge-flow` to bootstrap the session (branch + goal), and runs the full flow from there.
+After forge-setup completes, invoke `forge-init` by name once per repo. `forge-init` is user-invoked. Then start working with a prompt like "work on the next ticket" or "let's continue the auth refactor". The always-loaded `forge` skill invokes `forge-flow` and runs the full flow.
 
 ---
 
