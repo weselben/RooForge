@@ -1,6 +1,7 @@
 ---
 name: planning-and-task-breakdown
 description: Breaks work into ordered tasks. Use when you have a spec or clear requirements and need to break work into implementable tasks. Use when a task feels too large to start, when you need to estimate scope, or when parallel work is possible.
+source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/planning-and-task-breakdown/SKILL.md
 ---
 
 # Planning and Task Breakdown
@@ -30,7 +31,9 @@ Before writing any code, operate in read-only mode:
 - Map dependencies between components
 - Note risks and unknowns
 
-**Do NOT write code during planning.** The output is a plan document, not implementation.
+**Do NOT write code during planning.** The output is a plan proposed via the harness planning tool, not a memory file.
+
+**Enter plan mode**, write the plan to the plan file, then **request plan approval** from the user. Do not exit plan mode yourself — the plan is only implemented after the user has reviewed and approved it.
 
 ### Step 2: Identify the Dependency Graph
 
@@ -142,6 +145,8 @@ If a task is L or larger, it should be broken into smaller tasks. An agent perfo
 
 ## Plan Document Template
 
+Write the plan to the **plan file** (the harness planning tool manages this). The template below is what you write into that file:
+
 ```markdown
 # Implementation Plan: [Feature/Project Name]
 
@@ -185,6 +190,8 @@ If a task is L or larger, it should be broken into smaller tasks. An agent perfo
 - [Question needing human input]
 ```
 
+**After writing the plan file, request approval from the user.** The harness will present the plan for review; implementation only begins once the user approves.
+
 ## Parallelization Opportunities
 
 When multiple agents or sessions are available:
@@ -192,6 +199,8 @@ When multiple agents or sessions are available:
 - **Safe to parallelize:** Independent feature slices, tests for already-implemented features, documentation
 - **Must be sequential:** Database migrations, shared state changes, dependency chains
 - **Needs coordination:** Features that share an API contract (define the contract first, then parallelize)
+
+**Execution mode:** Parallel work runs via dispatching-parallel-agents — one subagent per worktree, dispatched in a single `AgentSwarm` call. Each subagent must work in its own git worktree with full context, not share a swarm context.
 
 ## Common Rationalizations
 
