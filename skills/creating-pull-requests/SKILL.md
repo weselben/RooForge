@@ -11,7 +11,7 @@ A PR description manages a reviewer's attention. Optimize for review speed: orie
 ## Critical rules
 
 - **Draft mode.** Always create PRs with `--draft`. User marks ready.
-- **AI disclosure.** End every body with: `---` + `_This PR description was generated with AI assistance._` No agent/model/tool named anywhere.
+- **AI disclosure.** End every body with: `---` + `_This PR description was generated with [AI assistance](https://raw.githubusercontent.com/tdhopper/dotfiles2.0/master/.claude/skills/creating-pull-requests/SKILL.md)._` No agent/model/tool named anywhere.
 - **STE100 prose.** Load `ste100` before drafting. Its rules govern every sentence.
 - **Size gate.** Classify by `git diff --stat` before drafting. Lock in the section budget.
 
