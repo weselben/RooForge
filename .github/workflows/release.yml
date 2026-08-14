@@ -5,10 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "agents/**"
-      - "commands/**"
       - "skills/**"
-      - "rules/**"
       - "mcp/**"
 
 permissions:
@@ -39,9 +36,7 @@ jobs:
       - name: Create zip archives
         if: steps.semantic.outputs.new_tag != steps.semantic.outputs.previous_tag
         run: |
-          zip -r commands.zip commands/
           zip -r skills.zip skills/
-          zip -r rules.zip rules/
           zip -r mcp.zip mcp/
 
       - name: Create GitHub Release
@@ -54,43 +49,25 @@ jobs:
           body: |
             ## 📦 Release Assets
 
-            ### Agent Modes (individual YAML files)
+            RooForge is a skills-only collection after the rebuild in PR #24. Each release ships the full `skills/` set and the `mcp/` helper scripts; the previous Roo Code mode YAMLs, slash-command pack, and native rule are gone.
 
-            | File | Description |
-            |------|-------------|
-            | `orchestrator-export.yaml` | Strategic planning & task bounding |
-            | `subtask-orchestrator-export.yaml` | Atomic subtask decomposition |
-            | `architect-export.yaml` | Technical design & planning |
-            | `ask-export.yaml` | Research & intelligence gathering |
-            | `code-export.yaml` | Implementation & code modification |
-            | `git-export.yaml` | Conventional commits & version control |
-
-            ### Slash Commands, Skills & Rules (zip archives)
+            ### Skills & MCP (zip archives)
 
             | Archive | Contents |
             |---------|----------|
-            | `commands.zip` | All 13 slash commands — copy to `~/.roo/commands/` |
-            | `skills.zip` | All 6 skills (forge, caveman, grill-me, planning-and-task-breakdown, deep-research, conventional-commits) — copy to `~/.roo/skills/` |
-            | `rules.zip` | Native git commit guardrail rule — copy to `~/.roo/rules-git/` |
-            | `mcp.zip` | MCP server scripts (pdf-curl-server.sh, pdf-curl-server.ps1) — copy to `~/.roo/mcp/` |
+            | `skills.zip` | All 35 forge skills (orchestrator: `forge`; bootstrap: `forge-flow`, `forge-setup`; sidecars: `caveman`, `conventional-commits`, `deep-research`, `planning-and-task-breakdown`, `kiss-principle`, plus the rest of the curated set) — extract to your harness skills directory |
+            | `mcp.zip` | MCP server scripts (`pdf-curl-server.sh`, `pdf-curl-server.ps1`) — extract to your harness MCP directory |
 
             ### Installation
 
-            1. Download agent YAMLs and import into Roo Code → Settings → Custom Modes
-            2. Download `commands.zip` and extract to `~/.roo/commands/`
-            3. Download `skills.zip` and extract to `~/.roo/skills/`
-            4. Download `rules.zip` and extract to `~/.roo/rules-git/`
-            5. Download `mcp.zip` and extract to `~/.roo/mcp/`
+            1. Download `skills.zip` and extract to your harness skills directory (e.g. `~/.kimi-code/skills/`, `~/.roo/skills/`, etc.).
+            2. Download `mcp.zip` and extract to your harness MCP directory (e.g. `~/.kimi-code/mcp/`, `~/.roo/mcp/`).
+            3. Load the `forge` skill — it is the always-on orchestrator and entry point for the flow.
+            4. On non-Kimi harnesses, follow `skills/forge-setup/SKILL.md` for portable adaptation.
+
+            See `README.md` in the repo root for the full install guide and `docs/guides/` for per-skill references.
           files: |
-            agents/orchestrator-export.yaml
-            agents/subtask-orchestrator-export.yaml
-            agents/architect-export.yaml
-            agents/ask-export.yaml
-            agents/code-export.yaml
-            agents/git-export.yaml
-            commands.zip
             skills.zip
-            rules.zip
             mcp.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
