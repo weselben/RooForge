@@ -5,10 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "agents/**"
-      - "commands/**"
       - "skills/**"
-      - "rules/**"
       - "mcp/**"
 
 permissions:
@@ -39,9 +36,7 @@ jobs:
       - name: Create zip archives
         if: steps.semantic.outputs.new_tag != steps.semantic.outputs.previous_tag
         run: |
-          zip -r commands.zip commands/
           zip -r skills.zip skills/
-          zip -r rules.zip rules/
           zip -r mcp.zip mcp/
 
       - name: Create GitHub Release
@@ -82,15 +77,7 @@ jobs:
             4. Download `rules.zip` and extract to `~/.roo/rules-git/`
             5. Download `mcp.zip` and extract to `~/.roo/mcp/`
           files: |
-            agents/orchestrator-export.yaml
-            agents/subtask-orchestrator-export.yaml
-            agents/architect-export.yaml
-            agents/ask-export.yaml
-            agents/code-export.yaml
-            agents/git-export.yaml
-            commands.zip
             skills.zip
-            rules.zip
             mcp.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
