@@ -12,9 +12,9 @@ Forge owns a sequence the agent runs every session: **map → resolve → plan �
 
 These are binding on every session where forge is active.
 
-- **Mandatory load.** Forge loads at every session start. No chat until forge, caveman (ultra), and wayfinder are loaded. Forge is the orchestrator — the user invokes nothing; the description frontmatter auto-triggers on natural language ("work on this ticket", "start a session", "open the map", or any forge-flow reference). Explicit invocation ("forge", "run forge") also works.
+- **Mandatory load.** Forge loads at every session start. No chat until forge-flow, caveman (ultra), and wayfinder are loaded. Forge is the orchestrator.
 
-- **Mandates are mandatory.** When any skill uses *must*, *mandatory*, *MUST*, or *always*, follow it exactly. No hedging. The author wrote those words to prevent a concrete failure.
+- **Mandates are mandatory.** When any skill or message uses *must*, *mandatory*, *MUST*, or *always*, follow it exactly. No hedging. The author wrote those words to prevent a concrete failure.
 - **caveman is default.** caveman(ultra) is active every response. Off only on explicit "stop caveman" / "normal mode". Code, commit messages, PR bodies follow their own skill formats; everything else is caveman.
 - **Own repos only.** Forge operates only in repos owned by the user's git identity. No pushes, no issues, no PRs in unfamiliar or public repos. For an upstream repo (`x/y`): `gh repo fork x/y --clone && gh repo edit --visibility private --accept-visibility-change-consequences`. Private `z/y` is the work surface.
 - **Single path.** One flow through the steps. No branching in the orchestrator. Each step ends on a checkable criterion; the next step is the proof.
