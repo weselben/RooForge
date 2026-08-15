@@ -24,7 +24,7 @@ Each round earns its keep — new dimensions, not synonym-shuffled queries. Pref
 
 After each round, write a short **Think** and **Summary** (see recursion above).
 
-**Parallel research:** when the question splits into independent sub-questions (e.g. compare 5 auth providers, survey 3 frameworks), invoke `Skill(skill='dispatching-parallel-agents')` with one item per sub-question. Each subagent runs its own 10-round loop, writes to its own `docs/dev/agents/<sub-topic>.md`, and returns a summary. Aggregate results in step 3.
+**Parallel research:** when the question splits into independent sub-questions (e.g. compare 5 auth providers, survey 3 frameworks), load `Skill(skill='dispatching-parallel-agents')` with one item per sub-question. Each subagent runs its own 10-round loop, writes to its own `docs/dev/agents/<sub-topic>.md`, and returns a summary. Aggregate results in step 3.
 
 **Done when:** 10 rounds complete per stream; every round's Think shows diminishing new information.
 

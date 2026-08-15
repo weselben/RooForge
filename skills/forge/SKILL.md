@@ -89,7 +89,7 @@ Run `Skill(skill='pr-review')` in PR mode (`owner/repo#n`). It runs in a worktre
 
 ### 8. Resolve findings — `Skill(skill='pr-resolve')`
 
-`Skill(skill='pr-resolve')` loads `Skill(skill='pr-review')` output. One resolver per finding group, each in its own worktree off the PR head, commits under `Skill(skill='use-git-identity')`, pushes, replies in each review thread. Then re-run `Skill(skill='pr-review')`. The loop ends when no 🔴 or 🟡 findings remain.
+`Skill(skill='pr-resolve')` loads `Skill(skill='pr-review')` output. One resolver per finding group, each in its own worktree off the PR head, commits under `Skill(skill='use-git-identity')`, pushes, replies in each review thread. Then load `Skill(skill='pr-review')` again. The loop ends when no 🔴 or 🟡 findings remain.
 
 **If merge conflicts occur during push**, load `Skill(skill='resolving-merge-conflicts')` — it runs steps 1–3, and for multi-branch conflicts delegates to `Skill(skill='subagent-driven-development')` to unblock in parallel.
 
@@ -156,7 +156,7 @@ MANDATORY ROLE MANDATE — your role in forge's orchestration:
 
 This ensures subagents know their place in the single path. It also makes it **possible** (not implied) for future parallel map work: when one fog area unblocks, another can start because the role mandate defines the boundary.
 
-- `Skill(skill='loops')` is the **single home** for all `kimi -p` iteration. Used by: `Skill(skill='pr-review')`, `Skill(skill='pr-resolve')`. No other skill loads `kimi -p` loops — deep-research refinement passes use `Skill(skill='dispatching-parallel-agents')`, not `Skill(skill='loops')`.
+- `Skill(skill='loops')` is the **single home** for all `kimi -p` iteration. Used by: `Skill(skill='pr-review')`, `Skill(skill='pr-resolve')`. No other skill loads `kimi -p` loops — deep-research refinement passes load `Skill(skill='dispatching-parallel-agents')`, not `Skill(skill='loops')`.
 - `Skill(skill='dispatching-parallel-agents')` is the **single home** for all parallel subagent swarms. Used by: map charting (fog areas), deep-research (parallel research), SDD (per-task swarm), `Skill(skill='resolving-merge-conflicts')` (multi-branch conflicts).
 
 ## Sidecar skills

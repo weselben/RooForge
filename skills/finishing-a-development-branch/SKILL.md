@@ -22,7 +22,7 @@ Pick the variant that matches your role:
 
 You run inside a worktree the coordinator assigned. You do not merge, push, or present options.
 
-1. **Commit all work.** Stage everything; use `Skill(skill='caveman-commit')` + `Skill(skill='conventional-commits')`.
+1. **Commit all work.** Stage everything; load `Skill(skill='caveman-commit')` + `Skill(skill='conventional-commits')`.
 2. **Verify a clean tree.** `git status` must show nothing to commit, working tree clean.
 3. **Run the test suite.** `npm test` / `cargo test` / `pytest` / `go test ./...`. If tests fail, fix or report verbatim — do not claim completion on a red suite.
 4. **Report these four items:**
