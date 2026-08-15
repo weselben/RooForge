@@ -6,7 +6,7 @@ source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/ste100/S
 
 # STE100
 
-All text that faces other humans — PR bodies, issue comments, docs — goes out in STE100. Commit messages are the exception: `caveman-commit` owns those. Short, direct, unambiguous. The reader is busy; the text does the work, not the reader.
+All text that faces other humans — PR bodies, issue comments, docs — goes out in STE100. Commit messages are the exception: `Skill(skill='caveman-commit')` owns those. Short, direct, unambiguous. The reader is busy; the text does the work, not the reader.
 
 **Leading word: terse.** STE100 prose is terse by construction: short sentences, one meaning per word, no filler.
 
