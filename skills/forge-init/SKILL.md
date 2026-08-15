@@ -17,7 +17,7 @@ Read `./agents.template.md`. Use it as the base.
 
 **If AGENTS.md does not exist at repo root:**
 - Write the template content verbatim as `AGENTS.md` at repo root.
-- Load `use-git-identity` to check ownership. If repo is under the configured identity, proceed. If unclear, ask: "Create AGENTS.md with forge contract at repo root?"
+- Load `Skill(skill='use-git-identity')` to check ownership. If repo is under the configured identity, proceed. If unclear, ask: "Create AGENTS.md with forge contract at repo root?"
 
 **If AGENTS.md exists:**
 - Smart-append: preserve existing content, prepend the template's mandatory header (forge load rule + mandates rule) if absent, merge jargon entries (skip duplicates), keep letter-style prose.
@@ -35,7 +35,7 @@ Read `./agents.template.md`. Use it as the base.
 
 ### 2. Grilling session for repo-specifics
 
-Load `grilling` skill. Interview the user about this repo.
+Load `Skill(skill='grilling')` skill. Interview the user about this repo.
 
 After every grilling wave (4 questions answered), adapt AGENTS.md:
 - Amend only non-obvious facts not inferable from reading the repo.
