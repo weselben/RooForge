@@ -15,7 +15,7 @@ This skill is the **discovery + adaptation + bootstrap procedure**: it clones th
 
 - First session on any harness that is **not** Kimi Code CLI.
 - After upgrading the harness, when a skill's referenced tool/flag no longer exists.
-- When `loops`, `pr-review`, `pr-resolve`, `forge-flow`, `dispatching-parallel-agents`, or `subagent-driven-development` reference tooling the current session does not have.
+- When `Skill(skill='loops')`, `Skill(skill='pr-review')`, `Skill(skill='pr-resolve')`, `Skill(skill='forge-flow')`, `Skill(skill='dispatching-parallel-agents')`, or `Skill(skill='subagent-driven-development')` reference tooling the current session does not have.
 
 ## Step 0 — Clone the repo to a temp directory
 
@@ -52,9 +52,9 @@ Known surfaces today (verify against the grep — the grep is the truth, this li
 
 | Surface | Where | Kimi form | What it needs |
 |---------|-------|-----------|---------------|
-| Non-interactive CLI loop | `loops/scripts/run_loop.sh`, `loops/SKILL.md`, `pr-review`, `pr-resolve` (scripts + templates) | `kimi -p "<prompt>"` | The harness CLI's headless one-shot-prompt flag that prints the reply to stdout |
+| Non-interactive CLI loop | `loops/scripts/run_loop.sh`, `loops/SKILL.md`, `Skill(skill='pr-review')`, `Skill(skill='pr-resolve')` (scripts + templates) | `kimi -p "<prompt>"` | The harness CLI's headless one-shot-prompt flag that prints the reply to stdout |
 | Goal / contract persistence | `forge-flow/SKILL.md` | `CreateGoal` tool | A long-living goal/contract mechanism, or a file fallback |
-| Plan mode with approval gate | `forge/SKILL.md`, `planning-and-task-breakdown/SKILL.md`, `pr-review`/`pr-resolve` templates | `EnterPlanMode` / plan file / user approval | The harness's plan-mode equivalent, or a file-based plan contract |
+| Plan mode with approval gate | `forge/SKILL.md`, `planning-and-task-breakdown/SKILL.md`, `Skill(skill='pr-review')`/`Skill(skill='pr-resolve')` templates | `EnterPlanMode` / plan file / user approval | The harness's plan-mode equivalent, or a file-based plan contract |
 | Parallel subagent dispatch | `dispatching-parallel-agents/SKILL.md`, `subagent-driven-development/SKILL.md` (+ prompt templates), `planning-and-task-breakdown/SKILL.md` | `AgentSwarm` with `{{item}}` template, `subagent_type: coder/explore/plan`, `Agent(resume=…)`, `run_in_background` | The harness's subagent/parallel-task API: batch dispatch, agent roles, resume, background runs |
 | Skill loading | `AGENTS.md`, several SKILL.md "load X" instructions | Skills read as plain files from `skills/` | Nothing — file reads are harness-agnostic. Only patch if the harness has a native skills dir the repo should be symlinked/copied into |
 
@@ -100,14 +100,14 @@ Patch rules:
 
 ## Step 5 — Verify the adapted clone
 
-1. Re-run the step-2 grep from `$WORKDIR`. Expected: zero hits for the old harness's terms outside `forge-setup` itself (this file documents the Kimi forms on purpose — leave it).
+1. Re-run the step-2 grep from `$WORKDIR`. Expected: zero hits for the old harness's terms outside `Skill(skill='forge-setup')` itself (this file documents the Kimi forms on purpose — leave it).
 2. Syntax-check every patched script: `find skills/ -name '*.sh' -exec bash -n {} \;`.
 3. Smoke-test the loop engine if the harness CLI exists: one `run_loop.sh` call with a trivial prompt template that answers `DONE: ok` on iteration 1.
 4. Report the mapping table (old → new, per surface) to the user.
 
 ## Step 6 — Prepare identity for commit authorship
 
-Before installing skills, the user must set their git identity. If the user wants the adapted `use-git-identity` skill to reflect their own identity (not the RooForge default), prompt:
+Before installing skills, the user must set their git identity. If the user wants the adapted `Skill(skill='use-git-identity')` skill to reflect their own identity (not the RooForge default), prompt:
 
 ```
 The adapted use-git-identity skill currently sets:
@@ -171,6 +171,6 @@ Ask the user before copying. If they decline, the adapted clone remains at `$WOR
 Forge Setup does not:
 - Install the harness CLI or change harness config
 - Rewrite skill behavior, contracts, or prompt templates beyond the harness reference
-- Run `forge-init` (repo bootstrap) or `forge-flow` (session bootstrap) — those come after, using the adapted skills
+- Run `Skill(skill='forge-init')` (repo bootstrap) or `Skill(skill='forge-flow')` (session bootstrap) — those come after, using the adapted skills
 - Commit anything without the user's go-ahead
 - Modify the original GitHub repo (works on a local clone only)
