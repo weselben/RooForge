@@ -20,6 +20,14 @@ RENDERED="$LOGS/prompt.rendered.md"
 # Render the template (cavemanize on initial render)
 bash "$SCRIPT_DIR/cavemanize.sh" < "$PROMPT_FILE" > "$RENDERED"
 
+# Pre-kimi gate: ensure cavemanize preserved structural invariants
+# (headings, code blocks, URLs, inline codes). Errors block; warnings log.
+if ! bash "$SCRIPT_DIR/validate.sh" "$PROMPT_FILE" "$RENDERED" > "$LOGS/validate.out" 2>&1; then
+  echo "BLOCKED: pre-kimi validate failed (see $LOGS/validate.out)" >&2
+  head -1 "$LOGS/validate.out" >&2 || true
+  exit 2
+fi
+
 for i in $(seq 1 "$MAX_ITER"); do
   echo "[run_loop] iter $i / $MAX_ITER — calling kimi -p"
 
