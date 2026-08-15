@@ -41,7 +41,7 @@ Used by the wayfinder skill. The **map** is a single issue with **child** issues
     -F sub_issue_id=<child-database-id>
   ```
 
-  The map's children are then queryable via `gh api repos/<owner>/<repo>/issues/<map-number>/sub_issues --jq '.[].number'` and render as sub-issues in the GitHub UI. Labels: `wayfinder:<type>` (`research`/`prototype`/`grilling`/`task`/`domain-modeling`). Once claimed, the ticket is assigned to the driving dev.
+  The map's children are then queryable via `gh api repos/<owner>/<repo>/issues/<map-number>/sub_issues --jq '.[].number'` and render as sub-issues in the GitHub UI. Labels: `wayfinder:<type>` (`research`/`Skill(skill='prototype')`/`Skill(skill='grilling')`/`task`/`Skill(skill='domain-modeling')`). Once claimed, the ticket is assigned to the driving dev.
 
 - **Blocking**: GitHub's **native issue dependencies** — the canonical, UI-visible representation:
 
