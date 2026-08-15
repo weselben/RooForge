@@ -23,7 +23,7 @@ source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-se
 
 ## Rules
 
-- **No rigid sequence** — load this skill, read the relevant reference, then decide which companion skills fit the task. Only `forge-eu-accessibility` is mandatory for UI/UX work.
+- **No rigid sequence** — load this skill, read the relevant reference, then decide which companion skills fit the task. Only `Skill(skill='forge-eu-accessibility')` is mandatory for UI/UX work.
 - **Do NOT read both references** unless the task explicitly spans both UX/UI and technical SEO domains.
 - **Verify live sources** — use the harness's `WebSearch` / `FetchURL` tools to check Google docs, Schema.org, or legal sources before making compliance claims.
 - **Paths are relative to this SKILL.md** — the references live beside it under `references/`, wherever the skill is installed.
