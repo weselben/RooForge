@@ -1,7 +1,7 @@
 ---
 name: creating-pull-requests
 source: https://raw.githubusercontent.com/tdhopper/dotfiles2.0/master/.claude/skills/creating-pull-requests/SKILL.md
-description: "Write clear, size-gated PR descriptions with mandatory AI disclosure. Load `ste100` for prose. Triggers: \"create a PR\", \"open a pull request\", \"update PR description\", or pushes a branch with PR intent."
+description: "Write clear, size-gated PR descriptions with mandatory AI disclosure. Load `Skill(skill='ste100')` for prose. Triggers: \"create a PR\", \"open a pull request\", \"update PR description\", or pushes a branch with PR intent."
 ---
 
 # Creating & Updating Pull Requests
@@ -12,7 +12,7 @@ A PR description manages a reviewer's attention. Optimize for review speed: orie
 
 - **Draft mode.** Always create PRs with `--draft`. User marks ready.
 - **AI disclosure.** End every body with: `---` + `_This PR description was generated with [AI assistance](https://raw.githubusercontent.com/tdhopper/dotfiles2.0/master/.claude/skills/creating-pull-requests/SKILL.md)._` No agent/model/tool named anywhere.
-- **STE100 prose.** Load `ste100` before drafting. Its rules govern every sentence.
+- **STE100 prose.** Load `Skill(skill='ste100')` before drafting. Its rules govern every sentence.
 - **Size gate.** Classify by `git diff --stat` before drafting. Lock in the section budget.
 
 ## Steps
