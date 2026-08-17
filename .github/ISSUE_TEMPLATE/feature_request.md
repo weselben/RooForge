@@ -1,7 +1,7 @@
 ---
 name: Feature Request
-about: Propose a new mode or enhancement to the agent stack
-title: "feat(<mode-slug>): <brief description>"
+about: Propose a new skill or enhancement to the skill set
+title: "feat(<skill-name>): <brief description>"
 labels: enhancement, triage
 assignees: ''
 ---
@@ -10,24 +10,25 @@ assignees: ''
 
 A clear description of the feature or enhancement you'd like to propose.
 
-## 🤖 Affected Mode(s)
+## 🤖 Affected Skill(s)
 
-Which mode(s) would this affect?
+Which skill(s) would this affect?
 
-- [ ] Orchestrator (`orchestrator`)
-- [ ] Ask (`ask`)
-- [ ] Architect (`architect`)
-- [ ] Subtask Orchestrator (`subtask-orchestrator`)
-- [ ] Git (`git`)
-- [ ] **New mode** — proposed slug: ``
+- [ ] Orchestration flow (forge, forge-flow, loops)
+- [ ] Communication (caveman, caveman-commit, caveman-review, ste100, conventional-commits)
+- [ ] Planning (wayfinder, grilling, prototype, deep-research, planning-and-task-breakdown, domain-modeling)
+- [ ] Execution (using-git-worktrees, subagent-driven-development, dispatching-parallel-agents, finishing-a-development-branch, verification-before-completion, pr-review, pr-resolve, creating-pull-requests, resolving-merge-conflicts, use-git-identity)
+- [ ] Bootstrap (forge-init, forge-setup, forge-docs, forge-cleanup, git-issue-tracker)
+- [ ] Sidecars (12-factor-app, kiss-principle, frontend-design, forge-tailwindcss-conventions, forge-eu-accessibility, forge-seo)
+- [ ] **New skill** — proposed name: ``
 
 ## 🎯 Problem Statement
 
-What problem does this solve? What limitation have you encountered in the current agent stack?
+What problem does this solve? What limitation have you encountered in the current skill set?
 
-## 🔄 Pipeline Integration
+## 🔄 Flow Integration
 
-How would this feature integrate into the existing orchestration pipeline?
+How would this feature integrate into the existing forge flow (map → resolve → plan → work → verify → review → resolve)?
 
 ```mermaid
 flowchart LR
@@ -42,15 +43,15 @@ Describe the expected behavior in detail:
 1. **Trigger:** When should this behavior activate?
 2. **Input:** What context does it need?
 3. **Output:** What should it produce?
-4. **Handoff:** How does it pass control to the next mode?
+4. **Handoff:** Which skills does it load or hand off to?
 
 ## 🧪 Testing Plan
 
-How would you verify this works correctly within the full pipeline?
+How would you verify this works correctly within the full skill set?
 
-- [ ] Tested in isolation with the mode imported
-- [ ] Tested within the full pipeline (all modes active)
-- [ ] Verified no regression in other modes
+- [ ] Loaded and exercised in Kimi Code CLI (`/skill:<name>`)
+- [ ] Exercised alongside the skills it interacts with
+- [ ] Verified no regression in referencing skills
 
 ## 📝 Additional Context
 
