@@ -81,9 +81,10 @@ handle_curl_download() {
 
     _basename=$(basename "$_url" | sed 's/[^a-zA-Z0-9._-]/_/g')
     _timestamp=$(date +%s)
-    _output_path=".memory/pdf-${_timestamp}-${_basename}"
+    _out_dir="${PDF_CURL_OUTPUT_DIR:-.}"
+    _output_path="${_out_dir}/pdf-${_timestamp}-${_basename}"
 
-    mkdir -p .memory
+    mkdir -p "$_out_dir"
 
     if ! curl -sfL --max-time 30 -o "$_output_path" "$_url" 2>/dev/null; then
         send_error "$_id" -32602 "Download failed for $_url"
