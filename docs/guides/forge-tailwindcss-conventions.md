@@ -59,4 +59,4 @@ Tailwind v4 (released January 2025) is CSS-first and zero-config: no `tailwind.c
 
 ## Notes
 
-- The skill was rewritten for Kimi Code CLI. Previously referenced Roo Code "code mode" and `[UXUI]` prefixes; the trigger now lives in the description frontmatter only.
+- The skill was rewritten for Kimi Code CLI; the trigger lives in the description frontmatter only.
