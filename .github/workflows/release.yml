@@ -50,7 +50,7 @@ jobs:
           body: |
             ## 📦 Release Assets
 
-            RooForge is a skills-only collection after the rebuild in PR #24. Each release ships the full `skills/` set and the `mcp/` helper scripts; the previous Roo Code mode YAMLs, slash-command pack, and native rule are gone.
+            This release ships the full `skills/` set and the `mcp/` helper scripts.
 
             ### Skills & MCP (zip archives)
 
@@ -61,8 +61,8 @@ jobs:
 
             ### Installation
 
-            1. Download `skills.zip` and extract to your harness skills directory (e.g. `~/.kimi-code/skills/`, `~/.roo/skills/`, etc.).
-            2. Download `mcp.zip` and extract to your harness MCP directory (e.g. `~/.kimi-code/mcp/`, `~/.roo/mcp/`).
+            1. Download `skills.zip` and extract to your harness skills directory (e.g. `~/.kimi-code/skills/` or `~/.agents/skills/`).
+            2. Download `mcp.zip` and extract to your harness MCP directory (e.g. `~/.kimi-code/mcp/`).
             3. Load the `forge` skill — it is the always-on orchestrator and entry point for the flow.
             4. On non-Kimi harnesses, follow `skills/forge-setup/SKILL.md` for portable adaptation.
 
