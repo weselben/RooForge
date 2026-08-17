@@ -11,7 +11,7 @@ Ultra-compressed communication mode that reduces output tokens by ~65% (measured
 
 ## How it works
 
-1. **Mode selection** — Default intensity is `full`. Switch via `/skill:caveman lite|full|ultra|wenyan-lite|wenyan-full|wenyan-ultra|off` (SKILL.md:21)
+1. **Mode selection** — Default intensity is `full`. Switch via `/skill:caveman lite|full|ultra|wenyan-lite|wenyan-full|wenyan-ultra|off` (SKILL.md:18)
 2. **Compression rules applied** (SKILL.md:23–43):
    - Drop articles (a/an/the), filler (just/really/basically/actually/simply), pleasantries (sure/certainly/of course/happy to), hedging
    - Use fragments; short synonyms (big not extensive, fix not "implement a solution for")

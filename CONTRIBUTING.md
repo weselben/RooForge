@@ -32,9 +32,9 @@ Use descriptive feature branches with a conventional prefix:
 | Prefix | Purpose | Example |
 |--------|---------|---------|
 | `feat/` | New skill or skill feature | `feat/new-skill-name` |
-| `fix/` | Bug fix | `fix(forge): correct step order` |
+| `fix/` | Bug fix | `fix/forge-step-order` |
 | `docs/` | Documentation changes | `docs/update-installation-guide` |
-| `refactor/` | Skill refactoring | `refactor(wayfinder): simplify ticket rules` |
+| `refactor/` | Skill refactoring | `refactor/wayfinder-ticket-rules` |
 | `chore/` | Maintenance tasks | `chore/update-workflow` |
 
 > Branch descriptions must use **technical language only**.

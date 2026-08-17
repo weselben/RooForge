@@ -86,18 +86,17 @@ The Kimi Code CLI uses MCP servers defined in `mcp.json`. Add the entire block b
 On Windows, replace the `curl-download` entry in the config above with the PowerShell version:
 
 ```json
-{
   "curl-download": {
     "command": "powershell",
     "args": [
       "-NoProfile",
       "-ExecutionPolicy", "Bypass",
-      "-File", "C:\\Users\\%username%\\.kimi-code\\mcp\\pdf-curl-server.ps1"
+      "-File", "C:\\Users\\<your-username>\\.kimi-code\\mcp\\pdf-curl-server.ps1"
     ],
     "enabledTools": ["curl_download"]
   }
-}
 ```
+*Replace <your-username> with your Windows username.*
 
 > Requires the [`pdf-curl-server.ps1`](mcp/pdf-curl-server.ps1) script to be copied to `~/.kimi-code/mcp/`.
 
