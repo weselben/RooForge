@@ -61,7 +61,7 @@ The base is whatever the forked work split from — integration branch for swarm
 
 ### 4. Merge each subagent branch
 
-For each branch a subagent reported (cross-reference `Skill(skill='subagent-driven-development')`):
+For each branch a subagent reported (load `Skill(skill='subagent-driven-development')`):
 
 ```bash
 MAIN_ROOT=$(git -C "$(git rev-parse --git-common-dir)/.." rev-parse --show-toplevel)
@@ -77,7 +77,7 @@ After all branches merged, run full suite on the merged result. **Red:** stop, l
 
 ### 5. Push and create PR
 
-`git push -u origin <integration-branch>` (detached: `git push origin HEAD:refs/heads/<new>`), follow `Skill(skill='creating-pull-requests')`. Keep worktrees for PR feedback.
+`git push -u origin <integration-branch>` (detached: `git push origin HEAD:refs/heads/<new>`), load `Skill(skill='creating-pull-requests')`. Keep worktrees for PR feedback.
 
 **Done when:** PR URL returned, AI disclosure in place, worktrees preserved for PR feedback.
 
