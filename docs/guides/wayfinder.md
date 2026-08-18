@@ -13,7 +13,7 @@ Wayfinder charts a huge chunk of work — too large for one agent session — as
 
 ### Chart the map (first session for a new effort)
 
-1. **Name the destination** — run `Skill(skill='grilling')` + `Skill(skill='domain-modeling')` to pin down what this map is finding its way to (a spec, decision, or change). The destination fixes scope. (SKILL.md:84–86)
+1. **Name the destination** — load `Skill(skill='grilling')` + `Skill(skill='domain-modeling')` to pin down what this map is finding its way to (a spec, decision, or change). The destination fixes scope. (SKILL.md:84–86)
 2. **Map the frontier** — grill breadth-first across the whole space to surface open decisions and first takeable steps. If no fog surfaces, stop: the journey fits one session. (SKILL.md:87–89)
 3. **Create the map issue** — label `wayfinder:map` with Destination, Notes, empty Decisions-so-far, and fog sketched into **Not yet specified**. (SKILL.md:90)
 4. **Create tickets as child issues** — then wire blocking edges in a second pass (issues need IDs first). Unspecifiable items stay in **Not yet specified**. (SKILL.md:91)
@@ -33,7 +33,7 @@ Wayfinder charts a huge chunk of work — too large for one agent session — as
 
 Forge owns the session sequence: `map → resolve → plan → work → verify → review → resolve`. Wayfinder provides steps 1–2 (Map and Resolve):
 - **Map**: load existing map or invoke wayfinder chart mode (grilling + domain-modeling → map + tickets). Forge may dispatch parallel agents for independent fog patches via `Skill(skill='dispatching-parallel-agents')`. (forge/SKILL.md:33–38)
-- **Resolve**: invoke the skill named by the ticket's `wayfinder:<type>` label (`Skill(skill='grilling')`, `Skill(skill='prototype')`, `Skill(skill='deep-research')`, `Skill(skill='domain-modeling')`, `task`). After every grilling ticket closes, invoke `Skill(skill='domain-modeling')` to sweep for new terms (update `docs/dev/CONTEXT.md`) and decisions (add ADR to `docs/adr/`). (forge/SKILL.md:40–44)
+- **Resolve**: invoke the skill named by the ticket's `wayfinder:<type>` label (`Skill(skill='grilling')`, `Skill(skill='prototype')`, `Skill(skill='deep-research')`, `Skill(skill='domain-modeling')`, `task`). After every grilling ticket closes, load `Skill(skill='domain-modeling')` to sweep for new terms (update `docs/dev/CONTEXT.md`) and decisions (add ADR to `docs/adr/`). (forge/SKILL.md:40–44)
 
 ## Files in this skill
 

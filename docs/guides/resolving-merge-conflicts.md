@@ -21,7 +21,7 @@ Resolves in-progress git merge/rebase conflicts hunk-by-hunk, preserving both ch
 
 5. **Finish the merge/rebase** — Stage all resolved files and commit. If rebasing, continue until all commits are rebased (`skills/resolving-merge-conflicts/SKILL.md:12-13`).
 
-6. **Multi-branch conflict escalation** — When conflicts touch multiple pending subagent branches (not just one), resume steps 1–3 for immediate hunks, then invoke `Skill(skill='subagent-driven-development')` to dispatch one fix subagent per remaining conflicting file in its own worktree off the integration branch, with conflict markers and conflicting commit intents as context (`skills/resolving-merge-conflicts/SKILL.md:15-22`).
+6. **Multi-branch conflict escalation** — When conflicts touch multiple pending subagent branches (not just one), resume steps 1–3 for immediate hunks, then load `Skill(skill='subagent-driven-development')` to dispatch one fix subagent per remaining conflicting file in its own worktree off the integration branch, with conflict markers and conflicting commit intents as context (`skills/resolving-merge-conflicts/SKILL.md:15-22`).
 
 7. **Verify integrated result** — Run the project's test suite via `Skill(skill='verification-before-completion')` on the integrated result before committing (`skills/resolving-merge-conflicts/SKILL.md:23-24`).
 

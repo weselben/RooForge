@@ -9,7 +9,7 @@ Active discipline for building and sharpening the project's domain model as you 
 - Another skill (notably `Skill(skill='forge')` and `Skill(skill='wayfinder')`) needs the domain model maintained.
 - `Skill(skill='forge')` orchestration calls it in two spots (see `skills/forge/SKILL.md`):
   - **Step 1 — Map:** `Skill(skill='wayfinder')` chart mode uses `Skill(skill='domain-modeling')` together with `Skill(skill='grilling')` to produce the map + tickets.
-  - **Step 2 — Resolve:** "After every grilling ticket closes, invoke `Skill(skill='domain-modeling')` to sweep for new terms (update `docs/dev/CONTEXT.md`) and decisions worth recording (add ADR to `docs/adr/`). Don't wait for the user — the model crystallises the moment a decision lands."
+  - **Step 2 — Resolve:** "After every grilling ticket closes, load `Skill(skill='domain-modeling')` to sweep for new terms (update `docs/dev/CONTEXT.md`) and decisions worth recording (add ADR to `docs/adr/`). Don't wait for the user — the model crystallises the moment a decision lands."
 
 ## How it works
 
@@ -41,4 +41,4 @@ Active discipline for building and sharpening the project's domain model as you 
 
 - The skill's `source` frontmatter points at `https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md` (`SKILL.md:3`) — not verified live; treat as provenance, not a checked link.
 - `skills/domain-modeling/` contains only the three `.md` files above; there are no scripts or templates to invoke directly. The "templates" are the format specimens embedded in `CONTEXT-FORMAT.md` and `ADR-FORMAT.md`.
-- `forge/SKILL.md` line numbers reference `Skill(skill='domain-modeling')` from step 1 (chart mode) and step 2 (post-grilling sweep); step 4 (work) does not re-invoke it — ADRs are committed to the feat branch as they are written, not bundled into the work subagent swarms.
+- `forge/SKILL.md` line numbers load `Skill(skill='domain-modeling')` from step 1 (chart mode) and step 2 (post-grilling sweep); step 4 (work) does not re-invoke it — ADRs are committed to the feat branch as they are written, not bundled into the work subagent swarms.

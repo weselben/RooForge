@@ -10,7 +10,7 @@ Exhaustive evidence-based research skill that runs a minimum of 10 search iterat
 
 ## How it works
 
-1. **Explore (minimum 10 search rounds)** — Each round targets new dimensions, not synonym-shuffled queries. Primary sources preferred (government, peer-reviewed, official docs). After every round, write a **Think** (what's still unknown, next questions) and **Summary** (what's known now), each under 5 lines. Done when 10 rounds complete per stream and Think shows diminishing new information. For parallel sub-questions, invoke `Skill(skill='dispatching-parallel-agents')`; each subagent runs its own 10-round loop and writes to `docs/dev/agents/<sub-topic>.md`.
+1. **Explore (minimum 10 search rounds)** — Each round targets new dimensions, not synonym-shuffled queries. Primary sources preferred (government, peer-reviewed, official docs). After every round, write a **Think** (what's still unknown, next questions) and **Summary** (what's known now), each under 5 lines. Done when 10 rounds complete per stream and Think shows diminishing new information. For parallel sub-questions, load `Skill(skill='dispatching-parallel-agents')`; each subagent runs its own 10-round loop and writes to `docs/dev/agents/<sub-topic>.md`.
 
 2. **Analyze** — Synthesize findings into markdown-native representations: comparison tables for entities/metrics, Mermaid diagrams for flows/relationships, **bold** for key metrics and conclusions. Data analysis via web research and codebase search.
 

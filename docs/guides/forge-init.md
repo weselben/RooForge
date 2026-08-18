@@ -43,6 +43,6 @@ One-shot bootstrap skill that prepares a repository for forge by creating or sma
 
 ## Notes
 
-- The `forge/SKILL.md` does not explicitly reference `Skill(skill='forge-init')`; forge-init runs before forge as a one-time setup.
+- The `forge/SKILL.md` does not explicitly load `Skill(skill='forge-init')`; forge-init runs before forge as a one-time setup.
 - `agents.template.md` contains 15 lines covering the mandatory header and glossary; the "rest of this letter" placeholder is where grilling output is appended.
 - The no-commit footer is a hard rule — AGENTS.md is a local contract, not a repo artifact.

@@ -58,4 +58,4 @@ One-shot adaptation skill that rewrites this repo's skills for the harness actua
 - The skill does not ship a per-harness mapping table. Harnesses change faster than any table stays true; the agent running on the target harness is the best researcher for that harness.
 - Step 1's "ask the user" is a hard rule. Never guess and patch blind — the user knows their CLI better than any snapshot.
 - Step 5's grep excludes `Skill(skill='forge-setup')` itself — that file names the Kimi forms as the reference baseline, so the matches there are documentation, not anything to fix.
-- After forge-setup runs, invoke `Skill(skill='forge-init')` by name (user-invoked, once per repo). Then start a session — `Skill(skill='forge')` auto-triggers and invokes `Skill(skill='forge-flow')` itself.
+- After forge-setup runs, load `Skill(skill='forge-init')` by name (user-invoked, once per repo). Then start a session — `Skill(skill='forge')` auto-triggers and invokes `Skill(skill='forge-flow')` itself.

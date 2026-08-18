@@ -13,7 +13,7 @@ Finishes a development branch by committing, verifying, pushing, and opening a P
 
 ### Subagent Variant (inside assigned worktree)
 
-1. **Commit all work** — Stage everything; use `Skill(skill='caveman-commit')` + `Skill(skill='conventional-commits')` (skills/caveman-commit/, skills/conventional-commits/)
+1. **Commit all work** — Stage everything; load `Skill(skill='caveman-commit')` + `Skill(skill='conventional-commits')` (skills/caveman-commit/, skills/conventional-commits/)
 2. **Verify a clean tree** — `git status` must show nothing to commit, working tree clean
 3. **Run the test suite** — `npm test` / `cargo test` / `pytest` / `go test ./...`; if tests fail, fix or report verbatim
 4. **Report four items:**
@@ -43,7 +43,7 @@ Finishes a development branch by committing, verifying, pushing, and opening a P
 
 3. **Confirm base branch** — The base is what the forked work split from (integration branch for swarm). If unknown, ask: "This branch split from `<best guess>` — correct?"
 
-4. **Merge each subagent branch** — For each branch a subagent reported (cross-reference `Skill(skill='subagent-driven-development')`):
+4. **Merge each subagent branch** — For each branch a subagent reported (cross-load `Skill(skill='subagent-driven-development')`):
    ```bash
    MAIN_ROOT=$(git -C "$(git rev-parse --git-common-dir)/.." rev-parse --show-toplevel)
    cd "$MAIN_ROOT"
@@ -53,7 +53,7 @@ Finishes a development branch by committing, verifying, pushing, and opening a P
    After all merges, run full suite on merged result. **Red:** stop, leave everything in place, investigate (nothing pushed, local + recoverable).
    If merge conflicts occur, load `Skill(skill='resolving-merge-conflicts')` — handles steps 1–3, delegates multi-branch conflicts to `Skill(skill='subagent-driven-development')`.
 
-5. **Push and create PR** — `git push -u origin <integration-branch>` (detached: `git push origin HEAD:refs/heads/<new>`), follow `Skill(skill='creating-pull-requests')`. Keep worktrees for PR feedback.
+5. **Push and create PR** — `git push -u origin <integration-branch>` (detached: `git push origin HEAD:refs/heads/<new>`), load `Skill(skill='creating-pull-requests')`. Keep worktrees for PR feedback.
    **Done when:** PR URL returned, AI disclosure in place, worktrees preserved.
 
 6. **Cleanup workspaces** — Runs only if work is discarded (explicit request).
