@@ -1,0 +1,70 @@
+# Project-local config for RooForge determinism effort.
+# This file is per-project (this repo's `.kimi-code/local.toml`); the user-level
+# `~/.kimi-code/config.toml` carries credentials and identity, not this snippet.
+# See docs/adr/0008 + T17 (#78) for the full motivation.
+#
+# Enable the experimental subagent model pool BEFORE this file takes effect:
+#   export KIMI_CODE_EXPERIMENTAL_SECONDARY_MODEL=1
+# (or the master `KIMI_CODE_EXPERIMENTAL_FLAG=1`).
+#
+# Without the flag, the [secondary_model] table is inert — subagents inherit
+# the caller's model. The flag is read at startup; restart the session after
+# setting it.
+
+# --- Subagent model pool (experimental) ------------------------------------
+
+[secondary_model]
+# Default subagent model. The cheap-fast one; AgentSwarm sweeps land here.
+default_model = "kimi-code/kimi-for-coding-highspeed"
+
+# The pool the main agent can pick from. Keys must resolve to configured
+# [models] entries. The descriptions appear in the Agent / AgentSwarm tool
+# description so the main agent picks with intent.
+[secondary_model.models]
+"kimi-code/kimi-for-coding-highspeed" = "Fast and cheap. Good for daily refactoring, code explanation, small edits, summaries, and simple batch tasks — the AgentSwarm sweep workhorse."
+"kimi-code/kimi-for-coding" = "A balanced coding workhorse. Good for most feature development, code-change tasks, and the pr-review / pr-resolve custom agents."
+"kimi-code/k3" = "Pick this for hard problems. Strong at complex reasoning, architecture, deep debugging, math, and systematic challenges — the domain-judgment residue from the T1 sampling."
+"kimi-code/kimi-for-coding-highspeed-deep" = "The same fast model at high thinking effort. Good for harder subtasks where the highspeed model alone stalls."
+
+# --- Thinking defaults -----------------------------------------------------
+
+[thinking]
+enabled = true
+# Use the model-level default effort per the docs; do not set a global
+# `effort` here, so pool variants like `...-highspeed-deep` keep their own
+# default_effort override.
+keep = "all"
+
+# --- Background tasks ------------------------------------------------------
+
+[background]
+# Default 4. Subagents can also be background tasks via run_in_background=true.
+max_running_tasks = 6
+keep_alive_on_exit = false
+print_background_mode = "steer"
+
+[subagent]
+# Subagent timeout default is 2h. Per docs: above 2147483647 ms is clamped
+# to ~24.8 days by the runtime. Leave default for the determinism sweep.
+# timeout_ms = 7200000
+
+# --- MCP defaults ----------------------------------------------------------
+
+[mcp]
+startup_timeout_ms = 30000
+tool_timeout_ms = 60000
+
+# --- Notes -----------------------------------------------------------------
+
+# - The forge flow chain uses the three custom agents from
+#   .kimi-code/agents/{explore,pr-review,pr-resolve}.md. Their `subagents`
+#   allowlist limits which types they can dispatch — combine with the pool
+#   to pick the right model per spawn.
+# - The pool entries above are illustrative. Add or remove as the
+#   /secondary-model command (or `kimi --agent <name>`) confirms which
+#   aliases are provisioned by /login.
+# - To force one model for every subagent regardless of caller intent, add
+#   `force = true` to [secondary_model]. Cannot combine with the models
+#   table.
+# - "primary" is reserved — always binds the caller's own model and is
+#   always valid even when not in the pool.
