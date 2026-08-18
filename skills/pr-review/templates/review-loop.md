@@ -6,9 +6,9 @@ You are reviewing a pull request. The review runs inside a worktree on the PR he
 
 Load these skills before any work:
 
-- `caveman-review` — the output format
-- `verification-before-completion` — verify before claiming the review is complete
-- `using-git-worktrees` — you are inside a worktree; stay there
+- `Skill(skill='caveman-review')` — the output format
+- `Skill(skill='verification-before-completion')` — verify before claiming the review is complete
+- `Skill(skill='using-git-worktrees')` — you are inside a worktree; stay there
 
 ## Mode: PR
 
@@ -32,13 +32,13 @@ Target: `{{pr-ref}}` — the pull request under review.
 - One line per finding. Location, problem, fix.
 - Group findings by file. The posted review body groups them by file in one `gh pr review --comment`.
 - Never one comment per finding. The scratch file is the source; the review body is one comment.
-- Public GitHub text goes through `ste100` — every finding line follows its rules.
+- Public GitHub text goes through `Skill(skill='ste100')` — every finding line follows its rules.
 
 ## No ambiguity
 
 You have zero context beyond this prompt. Everything you need is here:
 
-- **Broader context:** You are reviewing a PR inside a worktree on the PR head branch. The coordinator (forge) has already set up the worktree, run validation, and dispatched you. Your findings will be posted as ONE review under the authenticated user's identity. `pr-resolve` will read your findings to fix them.
+- **Broader context:** You are reviewing a PR inside a worktree on the PR head branch. The coordinator (forge) has already set up the worktree, run validation, and dispatched you. Your findings will be posted as ONE review under the authenticated user's identity. `Skill(skill='pr-resolve')` will read your findings to fix them.
 - **Task context:** The exact diff is at `gh pr diff {{pr-ref}}`. The validation script output is at `scripts/validate.sh <diff-file>`. Your findings go to `${TMPDIR:-/tmp}/pr-review-<n>.md`.
 
 Do not infer anything not stated here. If a fact is missing, state the assumption explicitly in the finding.
