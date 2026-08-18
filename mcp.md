@@ -6,7 +6,7 @@
 
 [![SearXNG](https://img.shields.io/badge/SearXNG-Web%20Search-blue)](#searxng)
 [![Curl Download](https://img.shields.io/badge/Curl%20Download-PDF%20Fetch-green)](#curl-download-mcp)
-[![PDF Reader](https://img.shields.io/badge/PDF%20Reader-Text%20Extraction-purple)](#pdf-reader-mcp)
+[![PDF Reader](https://img.shields.io/badge/PDF%20Reader-Text%20Extraction-purple)](#citra-pdf-reader)
 [![Git MCP](https://img.shields.io/badge/Git%20MCP-Structured%20Git-orange)](#git-mcp-server)
 
 *Privacy-respecting search · PDF download · PDF text extraction · Structured git access · MCP-first*
@@ -35,10 +35,10 @@ The Kimi Code CLI uses MCP servers defined in `mcp.json`. Add the entire block b
       "args": ["-c", "exec ~/.kimi-code/mcp/pdf-curl-server.sh"],
       "enabledTools": ["curl_download"]
     },
-    "pdf-reader-mcp": {
+    "citra": {
       "command": "npx",
-      "args": ["-y", "@sylphx/pdf-reader-mcp"],
-      "enabledTools": ["read_pdf", "search_pdf", "inspect_pdf", "ocr_pages", "analyze_regions", "extract_regions", "render_page"]
+      "args": ["-y", "@sylphx/citra"],
+      "enabledTools": ["read_pdf", "search_pdf", "pdf_evidence"]
     },
     "git-mcp-server": {
       "command": "npx",
@@ -187,31 +187,27 @@ python3 --version
 
 ### When to use
 
-- Pulling a PDF from a URL so `pdf-reader-mcp` can extract its text.
+- Pulling a PDF from a URL so `citra` can extract its text.
 - Saving a remote document locally for offline reference without leaving the TUI.
 
 ---
 
-## PDF Reader MCP
+## Citra (PDF Reader)
 
 **Used by:** Research workflows (e.g. the deep-research skill) when the harness has no built-in web search / PDF tooling
 **Purpose:** Extract and parse text from downloaded PDFs
 
-The agent uses [`@sylphx/pdf-reader-mcp`](https://www.npmjs.com/package/@sylphx/pdf-reader-mcp) for reading and extracting structured text from PDF files after they have been downloaded by the `curl-download` server.
+The agent uses [`@sylphx/citra`](https://www.npmjs.com/package/@sylphx/citra) for reading and extracting structured text from PDF files after they have been downloaded by the `curl-download` server. The package was rebranded from `@sylphx/pdf-reader-mcp` (a transitional package id).
 
 | Tool | Purpose | Key Parameters |
 |------|---------|--------------|
-| `read_pdf` | Extract full text or Markdown from a PDF | `sources`, `include_full_text`, `include_markdown`, `maxLength` |
-| `search_pdf` | Search for specific terms within a PDF | `query`, `sources`, `case_sensitive`, `max_matches_per_source` |
-| `inspect_pdf` | Get metadata and structure overview | `sources` |
-| `ocr_pages` | OCR text from scanned/image pages | `sources`, `pages`, `language`, `include_ocr_text_layer` |
-| `analyze_regions` | Analyze document layout regions | `sources`, `pages`, `region_types`, `include_image` |
-| `extract_regions` | Extract specific regions from pages | `sources`, `pages`, `regions`, `include_image` |
-| `render_page` | Render page as image or preview | `sources`, `pages`, `format`, `dpi`, `include_image` |
+| `read_pdf` | Smart default: markdown, tables, structure, OCR, citations | `sources` (required) |
+| `search_pdf` | Find page and snippet matches before deep reading | `query`, `sources` (required) |
+| `pdf_evidence` | Crops, renders, inspect, focused evidence operations | `sources` (required) |
 
 ### Setup
 
-The MCP config block above connects the CLI to the PDF reader server. No additional setup required — `npx` handles the installation automatically. Restart Kimi Code CLI (new session) and run `/mcp` to confirm the server connected before invoking any of its tools.
+The MCP config block above connects the CLI to the Citra server. No additional setup required — `npx` handles the installation automatically. Restart Kimi Code CLI (new session), run `/mcp` to confirm the server connected, then invoke `mcp__citra__read_pdf` in a session.
 
 ### When to use
 
