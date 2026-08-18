@@ -104,7 +104,14 @@ function Handle-CurlDownload {
         return
     }
 
-    $result = "{`"content`":[{`"type`":`"text`",`"text`":`"Downloaded PDF to $outputPath (Content-Type: $contentType)`"}],`"isError`":false}"
+    $resultObj = @{
+        content = @(@{
+            type = 'text'
+            text = "Downloaded PDF to $outputPath (Content-Type: $contentType)"
+        })
+        isError = $false
+    }
+    $result = $resultObj | ConvertTo-Json -Compress
     Send-Result $Id $result
 }
 
