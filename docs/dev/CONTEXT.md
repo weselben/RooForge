@@ -16,7 +16,7 @@ An `ADR` is an Architecture Decision Record under `docs/adr/NNNN-slug.md` that c
 
 ## Forge
 
-This repo is the upstream home of the `Skill(skill='forge')` skill family. Other skills in the collection reference `Skill(skill='forge')` and cascade through it. The orchestrator flow itself is `map → resolve → plan → work → verify → review → resolve`, and is described in `skills/forge/SKILL.md`.
+This repo is the upstream home of the `Skill(skill='forge')` skill family. Other skills in the collection load `Skill(skill='forge')` and cascade through it. The orchestrator flow itself is `map → resolve → plan → work → verify → review → resolve`, and is described in `skills/forge/SKILL.md`.
 
 ## ADRs
 

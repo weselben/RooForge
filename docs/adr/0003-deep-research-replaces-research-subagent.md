@@ -17,7 +17,7 @@ workflow.
 
 Two near-identical edit patterns made the replacement mechanical: the
 ticket-type description (line 77) and the chart-the-map step 5
-(line 115). Both were rewritten to reference `Skill(skill='deep-research')` rather
+(line 115). Both were rewritten to load `Skill(skill='deep-research')` rather
 than `/research`.
 
 ## Decision
