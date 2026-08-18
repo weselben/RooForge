@@ -1,6 +1,6 @@
 # Framework-Specific Patterns
 
-Disclosed reference for `forge-tailwindcss-conventions`. Load this when the project uses React/Next.js, Vue/Nuxt, or Svelte.
+Disclosed reference for `Skill(skill='forge-tailwindcss-conventions')`. Load this when the project uses React/Next.js, Vue/Nuxt, or Svelte.
 
 ## React / Next.js
 
