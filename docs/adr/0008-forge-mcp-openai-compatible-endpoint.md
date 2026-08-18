@@ -1,41 +1,20 @@
 # ADR 0008: `forge-mcp` exposes an OpenAI-compatible endpoint, BYO upstream
 
-Status: Accepted
-Date: 2026-08-18
-Decision Makers: weselben + agent
-
-## Context
-
-Some pipeline work is "model in the middle": take structured input,
-let an LLM transform it, take structured output. The canonical example
-is PR body creation — a pre-formatted prompt (diff summary, task list,
-disclosure line) compressed by one LLM pass into a ready-to-post body.
-Today this kind of work lives inside skill prose, executed by whatever
-agent happens to be running — same customization-surface problem as the
-tracker operations.
-
-If `forge-mcp` (ADR 0006) already exists as a tool gateway, giving it a
-second surface — an LLM gateway — collapses these model-in-the-middle
-steps into single tool calls, with provenance tagging (e.g. an
-LLM-generated marker) applied centrally.
+Status: Deferred (2026-08-18)
+Superseded-by: none — will be reactivated when the chat-completions endpoint is planned
 
 ## Decision
 
 `forge-mcp` exposes `/v1/chat/completions`, OpenAI-compatible, as a
-second surface alongside its MCP tools (ticket #39).
+second surface alongside its MCP tools.
 
-- **BYO upstream only**: the server ships no bundled default LLM.
-  Upstream URL, key, and model come from environment config
-  (`FORGE_MCP_LLM_URL`, `FORGE_MCP_LLM_API_KEY`,
-  `FORGE_MCP_LLM_MODEL`). Missing config → the server fails loudly at
-  startup.
-- The server can run an internal LLM tool-calling loop against its own
-  MCP tools — it is both MCP server and chat-completions gateway.
-- Outputs the server transforms carry a provenance prefix/suffix tag
-  declaring them LLM-generated.
-
-First validated caller: deterministic PR body generation
-(ticket #40).
+**Status: deferred per user direction (2026-08-18).** The feature is
+non-blocking and can be planned later. The endpoint, its BYO upstream,
+the provenance tagging, and the redaction story all pause here. Tickets
+#39 (T8) and #40 (T9) are closed with `deferred` labels. ADR 0008 is
+amended to `Deferred` status — the architectural questions (provenance
+tagging, redaction, data-boundary policy) remain open for a future
+effort, not this map's scope.
 
 ## Consequences
 
@@ -46,17 +25,16 @@ First validated caller: deterministic PR body generation
 - BYO keeps the server free of provider lock-in and credentials.
 
 **Negative**
-- Two surfaces (MCP + chat-completions) double the server's contract
-  surface; both need documentation and smoke tests.
-- Fail-loud startup means environments without a configured upstream
-  cannot run the server at all, even for tool-only use — acceptable
-  trade-off per the decision, but worth revisiting if tool-only
-  deployments emerge.
+- Deferred: the trust model, privacy model, and data-boundary policy
+  for the endpoint are all open questions for a future effort.
+- Tickets #39 (T8 endpoint build) and #40 (T9 PR-body prototype) are
+  closed as deferred; they reactivate when the endpoint is planned.
+- Provenance tagging, redaction, and BYO upstream details remain
+  undecided.
 
 **Risks**
-- The endpoint invites scope creep ("just one more LLM feature"). The
-  map's Not-yet-specified section, not this ADR, absorbs new use cases
-  — each must graduate through its own ticket.
+- The deferral is explicit — a future porter reactivating the endpoint
+  must re-open T19 (#84) and re-grill the trust/privacy questions.
 
 ## Related
 
