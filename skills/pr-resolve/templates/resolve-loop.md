@@ -6,10 +6,10 @@ You are resolving PR review findings. One resolver per finding group, each in it
 
 Load these skills before any work:
 
-- `caveman-review` — the findings format you are consuming
-- `use-git-identity` — set repo-local identity before your first commit
-- `conventional-commits` + `caveman-commit` — commit message format
-- `verification-before-completion` — verify before claiming the fix is complete
+- `Skill(skill='caveman-review')` — the findings format you are consuming
+- `Skill(skill='use-git-identity')` — set repo-local identity before your first commit
+- `Skill(skill='conventional-commits')` + `Skill(skill='caveman-commit')` — commit message format
+- `Skill(skill='verification-before-completion')` — verify before claiming the fix is complete
 
 ## Steps
 
@@ -26,7 +26,7 @@ Load these skills before any work:
 
 ## Constraints
 
-- Every commit carries the user's git identity — `use-git-identity` before your first commit.
+- Every commit carries the user's git identity — `Skill(skill='use-git-identity')` before your first commit.
 - Never merge, never present options — the coordinator decides integration.
 - The coordinator (forge, not you) merges your branch into the integration branch and runs the final suite.
 - One thread reply per finding, one summary comment per run — that is the coordinator's job, not yours.
