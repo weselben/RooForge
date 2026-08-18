@@ -227,9 +227,9 @@ When rules change, verify against these authoritative sources (use the harness's
 
 After reading this reference, also load:
 
-- `forge-eu-accessibility` — EU legal compliance (BFSG, EAA, WCAG). **MANDATORY** for
+- `Skill(skill='forge-eu-accessibility')` — EU legal compliance (BFSG, EAA, WCAG). **MANDATORY** for
 all UI/UX work. Always load last to apply legal guardrails.
-- `frontend-design` — Design philosophy, typography, color, composition,
+- `Skill(skill='frontend-design')` — Design philosophy, typography, color, composition,
 anti-generic guardrails. Load when creative direction is needed.
-- `forge-tailwindcss-conventions` — Tailwind v4 CSS-first conventions, class ordering,
+- `Skill(skill='forge-tailwindcss-conventions')` — Tailwind v4 CSS-first conventions, class ordering,
 framework-specific patterns. Load when using Tailwind.
