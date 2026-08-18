@@ -1,6 +1,6 @@
 # Practical Compliance Checklist — Framework-Agnostic
 
-Disclosed reference for `forge-eu-accessibility`. Load when auditing or building for EU accessibility compliance. Every item maps to WCAG 2.1 Level AA via EN 301 549 V3.2.1.
+Disclosed reference for `Skill(skill='forge-eu-accessibility')`. Load when auditing or building for EU accessibility compliance. Every item maps to WCAG 2.1 Level AA via EN 301 549 V3.2.1.
 
 ## A. Perceivable
 
