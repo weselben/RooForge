@@ -90,11 +90,10 @@ function Handle-CurlDownload {
     # Sanitize basename and build output path (matches shell behavior)
     $basename = [System.IO.Path]::GetFileName($Url) -replace '[^a-zA-Z0-9._-]', '_'
     $timestamp = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
-    $outputPath = ".memory/pdf-$timestamp-$basename"
+    $outputDir = if ($env:PDF_CURL_OUTPUT_DIR) { $env:PDF_CURL_OUTPUT_DIR } else { '.' }
+    $outputPath = Join-Path $outputDir "pdf-$timestamp-$basename"
 
-    if (-not (Test-Path ".memory")) {
-        New-Item -ItemType Directory -Path ".memory" -Force | Out-Null
-    }
+    New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
 
     try {
         Invoke-WebRequest -Uri $Url -OutFile $outputPath `
@@ -105,7 +104,14 @@ function Handle-CurlDownload {
         return
     }
 
-    $result = "{`"content`":[{`"type`":`"text`",`"text`":`"Downloaded PDF to $outputPath (Content-Type: $contentType)`"}],`"isError`":false}"
+    $resultObj = @{
+        content = @(@{
+            type = 'text'
+            text = "Downloaded PDF to $outputPath (Content-Type: $contentType)"
+        })
+        isError = $false
+    }
+    $result = $resultObj | ConvertTo-Json -Compress
     Send-Result $Id $result
 }
 

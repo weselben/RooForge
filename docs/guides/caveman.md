@@ -5,13 +5,13 @@ Ultra-compressed communication mode that reduces output tokens by ~65% (measured
 ## When to load
 
 - User explicitly says: "caveman mode", "talk like caveman", "use caveman", "less tokens", "be brief"
-- User invokes `/caveman` slash command
+- User invokes `/skill:caveman` slash command
 - Token efficiency is explicitly requested
 - Auto-loads as **caveman(ultra)** on every session start via `forge` (mandatory per forge's invariant rules)
 
 ## How it works
 
-1. **Mode selection** — Default intensity is `full`. Switch via `/caveman lite|full|ultra|wenyan-lite|wenyan-full|wenyan-ultra|off` (SKILL.md:21)
+1. **Mode selection** — Default intensity is `full`. Switch via `/skill:caveman lite|full|ultra|wenyan-lite|wenyan-full|wenyan-ultra|off` (SKILL.md:18)
 2. **Compression rules applied** (SKILL.md:23–43):
    - Drop articles (a/an/the), filler (just/really/basically/actually/simply), pleasantries (sure/certainly/of course/happy to), hedging
    - Use fragments; short synonyms (big not extensive, fix not "implement a solution for")

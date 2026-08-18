@@ -42,5 +42,5 @@ SEO hub skill with two reference deep-dives: UX/UI SEO (design decisions that im
 
 ## Notes
 
-- The skill was rewritten for Kimi Code CLI. Previously referenced Roo Code's `run_slash_command` + `web`, `read_file`, and `~/.roo/skills/` paths; those now use the harness's `WebSearch` / `FetchURL` tools and relative paths.
+- The skill was rewritten for Kimi Code CLI; it uses the harness's `WebSearch` / `FetchURL` tools and relative paths.
 - The two reference files are unchanged except for the verification-tool substitution.

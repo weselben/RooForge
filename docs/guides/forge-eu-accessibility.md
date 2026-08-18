@@ -43,5 +43,5 @@ EU accessibility compliance — BFSG (German transposition of EAA Directive 2019
 
 ## Notes
 
-- The skill was rewritten for Kimi Code CLI. Previously referenced Roo Code's `run_slash_command` + `web`; verification now uses the harness's native `WebSearch` / `FetchURL` tools.
+- The skill was rewritten for Kimi Code CLI; verification uses the harness's native `WebSearch` / `FetchURL` tools.
 - Framework-agnostic by design — no React/Vue/Angular/Svelte specifics.
