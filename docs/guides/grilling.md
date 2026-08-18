@@ -25,7 +25,7 @@ Grilling is an interrogation skill that relentlessly questions the user about a 
 7. **Repeat** — chain additional waves as needed; no limit on wave count (`skills/grilling/SKILL.md:22-23`)
 8. **Done when frontier is empty** — every branch visited, nothing silently assumed; wait for user confirmation of shared understanding before acting (`skills/grilling/SKILL.md:17-18`)
 
-In forge's orchestration (`skills/forge/SKILL.md:51-56`), after a grilling ticket closes, forge invokes `domain-modeling` to sweep for new terms (update `docs/dev/CONTEXT.md`) and decisions worth recording (add ADR to `docs/adr/`).
+In forge's orchestration (`skills/forge/SKILL.md:51-56`), after a grilling ticket closes, forge invokes `Skill(skill='domain-modeling')` to sweep for new terms (update `docs/dev/CONTEXT.md`) and decisions worth recording (add ADR to `docs/adr/`).
 
 ## Files in this skill
 

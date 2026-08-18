@@ -6,7 +6,7 @@ One-shot adaptation skill that rewrites this repo's skills for the harness actua
 
 - First session after cloning this repo, when the harness is not Kimi Code CLI.
 - After upgrading the harness and a skill's referenced tool/flag no longer exists.
-- When `loops`, `pr-review`, `pr-resolve`, `forge-flow`, `dispatching-parallel-agents`, or `subagent-driven-development` reference tooling the current session does not have.
+- When `Skill(skill='loops')`, `Skill(skill='pr-review')`, `Skill(skill='pr-resolve')`, `Skill(skill='forge-flow')`, `Skill(skill='dispatching-parallel-agents')`, or `Skill(skill='subagent-driven-development')` reference tooling the current session does not have.
 
 ## How it works
 
@@ -35,7 +35,7 @@ One-shot adaptation skill that rewrites this repo's skills for the harness actua
    - Commit as one `chore(forge-setup): adapt skills to <harness>` per repo convention
 
 5. **Verify** (SKILL.md:118–127)
-   - Re-run the step-2 grep; expect zero hits for the old harness's terms outside `forge-setup` itself (the file is exempted — it documents the Kimi forms on purpose)
+   - Re-run the step-2 grep; expect zero hits for the old harness's terms outside `Skill(skill='forge-setup')` itself (the file is exempted — it documents the Kimi forms on purpose)
    - `find skills/ -name '*.sh' -exec bash -n {} \;`
    - Smoke-test the loop engine if the harness CLI exists
    - Report the mapping table to the user
@@ -46,16 +46,16 @@ One-shot adaptation skill that rewrites this repo's skills for the harness actua
 
 ## See also
 
-- `forge-init` — Runs once per repo to create the local AGENTS.md contract; forge-setup runs before it on a non-Kimi harness
-- `forge-flow` — Session bootstrap (branch + goal); after forge-setup has patched the harness references, forge-flow's `CreateGoal` call becomes a valid invocation
-- `loops` — The `kimi -p` loop engine — the most patched target in this repo
-- `pr-review` / `pr-resolve` — Consumers of `loops`; their templates and scripts reference `kimi -p` too
-- `dispatching-parallel-agents` / `subagent-driven-development` — Reference the `AgentSwarm` and `Agent` subagent APIs that vary per harness
-- `forge` — The orchestrator that drives the whole flow; mentions plan mode and `AgentSwarm` mechanically
+- `Skill(skill='forge-init')` — Runs once per repo to create the local AGENTS.md contract; forge-setup runs before it on a non-Kimi harness
+- `Skill(skill='forge-flow')` — Session bootstrap (branch + goal); after forge-setup has patched the harness references, forge-flow's `CreateGoal` call becomes a valid invocation
+- `Skill(skill='loops')` — The `kimi -p` loop engine — the most patched target in this repo
+- `Skill(skill='pr-review')` / `Skill(skill='pr-resolve')` — Consumers of `Skill(skill='loops')`; their templates and scripts reference `kimi -p` too
+- `Skill(skill='dispatching-parallel-agents')` / `Skill(skill='subagent-driven-development')` — Reference the `AgentSwarm` and `Agent` subagent APIs that vary per harness
+- `Skill(skill='forge')` — The orchestrator that drives the whole flow; mentions plan mode and `AgentSwarm` mechanically
 
 ## Notes
 
 - The skill does not ship a per-harness mapping table. Harnesses change faster than any table stays true; the agent running on the target harness is the best researcher for that harness.
 - Step 1's "ask the user" is a hard rule. Never guess and patch blind — the user knows their CLI better than any snapshot.
-- Step 5's grep excludes `forge-setup` itself — that file names the Kimi forms as the reference baseline, so the matches there are documentation, not anything to fix.
-- After forge-setup runs, invoke `forge-init` by name (user-invoked, once per repo). Then start a session — `forge` auto-triggers and invokes `forge-flow` itself.
+- Step 5's grep excludes `Skill(skill='forge-setup')` itself — that file names the Kimi forms as the reference baseline, so the matches there are documentation, not anything to fix.
+- After forge-setup runs, invoke `Skill(skill='forge-init')` by name (user-invoked, once per repo). Then start a session — `Skill(skill='forge')` auto-triggers and invokes `Skill(skill='forge-flow')` itself.

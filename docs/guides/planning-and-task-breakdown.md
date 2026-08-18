@@ -35,11 +35,11 @@ No companion scripts, templates, or additional files exist in this skill directo
 
 ## See also
 
-- `forge` — The orchestrator that invokes this skill at step 3 (Plan) when the wayfinder map is clear. Forge's step 3 reads: "Invoke `planning-and-task-breakdown`. Enter plan mode, write the plan file, request user approval." (`forge/SKILL.md`, lines 72–76).
-- `dispatching-parallel-agents` — This skill references parallelization via `dispatching-parallel-agents` for concurrent subagent work, one subagent per worktree (`SKILL.md`, lines 157–159).
-- `planning-and-task-breakdown` references verifying against `verification-before-completion` implicitly through its checkpoint verification checklist (`SKILL.md`, lines 225–231).
+- `Skill(skill='forge')` — The orchestrator that invokes this skill at step 3 (Plan) when the wayfinder map is clear. Forge's step 3 reads: "Invoke `Skill(skill='planning-and-task-breakdown')`. Enter plan mode, write the plan file, request user approval." (`forge/SKILL.md`, lines 72–76).
+- `Skill(skill='dispatching-parallel-agents')` — This skill references parallelization via `Skill(skill='dispatching-parallel-agents')` for concurrent subagent work, one subagent per worktree (`SKILL.md`, lines 157–159).
+- `Skill(skill='planning-and-task-breakdown')` references verifying against `Skill(skill='verification-before-completion')` implicitly through its checkpoint verification checklist (`SKILL.md`, lines 225–231).
 
 ## Notes
 
 - The skill directory contains only `SKILL.md`; there are no separate template files or scripts — all templates are inline in the Markdown.
-- The parallelization section previously contained a self-contradiction (background subagents vs single AgentSwarm call). Fixed in `89ea88b` — the `dispatching-parallel-agents` / `AgentSwarm` form is now the only execution mode stated.
+- The parallelization section previously contained a self-contradiction (background subagents vs single AgentSwarm call). Fixed in `89ea88b` — the `Skill(skill='dispatching-parallel-agents')` / `AgentSwarm` form is now the only execution mode stated.

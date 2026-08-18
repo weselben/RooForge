@@ -51,8 +51,8 @@ Keep It Simple, Stupid — coined by Kelly Johnson (Lockheed Skunk Works, 1960s)
 
 ## See also
 
-- `12-factor-app` — applies to architecture review under KISS
-- `forge-docs` — load before recording a KISS-derived ADR
+- `Skill(skill='12-factor-app')` — applies to architecture review under KISS
+- `Skill(skill='forge-docs')` — load before recording a KISS-derived ADR
 
 ## Notes
 

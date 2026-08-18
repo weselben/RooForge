@@ -5,7 +5,7 @@ Ultra-compressed code review comments that cut noise from PR feedback while pres
 ## When to load
 
 - User says "review this PR", "code review", "review the diff", "/review", or invokes `/caveman-review`
-- Auto-triggers when reviewing pull requests (forge step 7: `pr-review` runs in PR mode and posts review in caveman-review format)
+- Auto-triggers when reviewing pull requests (forge step 7: `Skill(skill='pr-review')` runs in PR mode and posts review in caveman-review format)
 - When you need terse, actionable review output without throat-clearing
 
 ## How it works
@@ -28,10 +28,10 @@ Ultra-compressed code review comments that cut noise from PR feedback while pres
 
 ## See also
 
-- `forge` — Orchestrator that invokes caveman-review in step 7 (`pr-review` posts review in this format) and step 8 (`pr-resolve` consumes its output)
-- `caveman` — Default communication mode (ultra) active every session; caveman-review follows same terseness conventions
-- `pr-review` — Runs `kimi -p` loop via `loops`, posts ONE review under authenticated identity in caveman-review format
-- `pr-resolve` — Consumes `pr-review` output; one resolver per finding group in its own worktree
+- `Skill(skill='forge')` — Orchestrator that invokes caveman-review in step 7 (`Skill(skill='pr-review')` posts review in this format) and step 8 (`Skill(skill='pr-resolve')` consumes its output)
+- `Skill(skill='caveman')` — Default communication mode (ultra) active every session; caveman-review follows same terseness conventions
+- `Skill(skill='pr-review')` — Runs `kimi -p` loop via `Skill(skill='loops')`, posts ONE review under authenticated identity in caveman-review format
+- `Skill(skill='pr-resolve')` — Consumes `Skill(skill='pr-review')` output; one resolver per finding group in its own worktree
 
 ## Notes
 

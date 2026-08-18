@@ -57,8 +57,8 @@ Heroku's methodology for portable, scalable, maintainable SaaS apps. Twelve core
 
 ## See also
 
-- `kiss-principle` — applies to architecture review under 12-factor
-- `forge-docs` — load before writing system-design notes that cite 12-factor
+- `Skill(skill='kiss-principle')` — applies to architecture review under 12-factor
+- `Skill(skill='forge-docs')` — load before writing system-design notes that cite 12-factor
 
 ## Notes
 

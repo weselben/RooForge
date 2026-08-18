@@ -1,6 +1,6 @@
 # forge-docs
 
-Owns the `docs/` directory of a repo: its fixed structure, per-subfolder update rules, README index maintenance, and the ADR (Architecture Decision Record) mandate. It is the single source of truth for these rules — no other skill duplicates them. It runs after work chunks (e.g. squash merges in `forge` step 4) so docs travel with the code change, and whenever research reports or ADRs are written.
+Owns the `docs/` directory of a repo: its fixed structure, per-subfolder update rules, README index maintenance, and the ADR (Architecture Decision Record) mandate. It is the single source of truth for these rules — no other skill duplicates them. It runs after work chunks (e.g. squash merges in `Skill(skill='forge')` step 4) so docs travel with the code change, and whenever research reports or ADRs are written.
 
 ## When to load
 
@@ -8,9 +8,9 @@ From the skill's frontmatter description (`skills/forge-docs/SKILL.md:2-3`):
 
 - Before code changes
 - Before researching the codebase
-- Before closing a chunk of work (e.g. after a squash merge — `forge` loads it at step 4, "Docs updates travel with the squash commit", `skills/forge/SKILL.md:84`)
+- Before closing a chunk of work (e.g. after a squash merge — `Skill(skill='forge')` loads it at step 4, "Docs updates travel with the squash commit", `skills/forge/SKILL.md:84`)
 - When writing an ADR
-- Also loaded by `deep-research` (per `SKILL.md:5`)
+- Also loaded by `Skill(skill='deep-research')` (per `SKILL.md:5`)
 
 ## How it works
 
@@ -35,11 +35,11 @@ Additional mandates:
 
 ## See also
 
-- `forge` — loads `forge-docs` after every squash merge in step 4 so docs updates travel with the squash commit (`skills/forge/SKILL.md:84`).
-- `deep-research` — named in `forge-docs`'s frontmatter as a loader (`SKILL.md:5`); its reports land in `docs/dev/agents/<topic>.md`.
-- `domain-modeling` — maintains the glossary terms in `docs/dev/CONTEXT.md` and decides ADR content; `forge-docs` explicitly delegates that work to it (`SKILL.md:131-133`).
-- `subagent-driven-development` / `pr-review` — explicitly out of scope; cited as boundary examples of code-writing/reviewing skills (`SKILL.md:128-129`).
+- `Skill(skill='forge')` — loads `Skill(skill='forge-docs')` after every squash merge in step 4 so docs updates travel with the squash commit (`skills/forge/SKILL.md:84`).
+- `Skill(skill='deep-research')` — named in `Skill(skill='forge-docs')`'s frontmatter as a loader (`SKILL.md:5`); its reports land in `docs/dev/agents/<topic>.md`.
+- `Skill(skill='domain-modeling')` — maintains the glossary terms in `docs/dev/CONTEXT.md` and decides ADR content; `Skill(skill='forge-docs')` explicitly delegates that work to it (`SKILL.md:131-133`).
+- `Skill(skill='subagent-driven-development')` / `Skill(skill='pr-review')` — explicitly out of scope; cited as boundary examples of code-writing/reviewing skills (`SKILL.md:128-129`).
 
 ## Notes
 
-- The skill's frontmatter description says "Load before code changes" (`SKILL.md:3`), while the invocation steps and `forge`'s usage load it *after* a change lands. Both readings are compatible (docs assessment precedes, write-up follows), but the source does not reconcile them explicitly.
+- The skill's frontmatter description says "Load before code changes" (`SKILL.md:3`), while the invocation steps and `Skill(skill='forge')`'s usage load it *after* a change lands. Both readings are compatible (docs assessment precedes, write-up follows), but the source does not reconcile them explicitly.

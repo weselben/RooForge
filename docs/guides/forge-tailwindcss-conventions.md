@@ -53,9 +53,9 @@ Tailwind v4 (released January 2025) is CSS-first and zero-config: no `tailwind.c
 
 ## See also
 
-- `frontend-design` — load when the work is visual design, not just Tailwind implementation
-- `forge-eu-accessibility` — mandatory companion for UI work
-- `forge-docs` — load before writing system-design notes that cite Tailwind conventions
+- `Skill(skill='frontend-design')` — load when the work is visual design, not just Tailwind implementation
+- `Skill(skill='forge-eu-accessibility')` — mandatory companion for UI work
+- `Skill(skill='forge-docs')` — load before writing system-design notes that cite Tailwind conventions
 
 ## Notes
 

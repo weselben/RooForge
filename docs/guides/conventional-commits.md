@@ -25,7 +25,7 @@ The skill is a single self-contained `SKILL.md`; there are no scripts or templat
 
 ## See also
 
-- `forge` — orchestrator whose Work step requires every squash-merge to land as one natural Conventional Commit (e.g. `feat(api): add user profile endpoint`, not `ticket-1`).
+- `Skill(skill='forge')` — orchestrator whose Work step requires every squash-merge to land as one natural Conventional Commit (e.g. `feat(api): add user profile endpoint`, not `ticket-1`).
 
 ## Notes
 

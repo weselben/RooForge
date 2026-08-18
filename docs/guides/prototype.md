@@ -43,7 +43,7 @@ Common rules that apply to both branches, from `SKILL.md` lines 17–23:
 
 ## See also
 
-- `skills/forge/SKILL.md` — orchestrator; step 2 (Resolve) invokes `prototype` when a wayfinder ticket carries the `wayfinder:prototype` label.
+- `skills/forge/SKILL.md` — orchestrator; step 2 (Resolve) invokes `Skill(skill='prototype')` when a wayfinder ticket carries the `wayfinder:prototype` label.
 - `skills/prototype/LOGIC.md` — the logic branch (referenced from `SKILL.md` and `UI.md` for routing the other kind of question).
 - `skills/prototype/UI.md` — the UI branch (referenced from `SKILL.md` and `LOGIC.md` for routing the other kind of question).
 - `skills/wayfinder/` (referenced via `skills/forge/SKILL.md`) — charters the map whose `wayfinder:prototype` tickets dispatch this skill.

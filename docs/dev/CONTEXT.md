@@ -16,10 +16,10 @@ An `ADR` is an Architecture Decision Record under `docs/adr/NNNN-slug.md` that c
 
 ## Forge
 
-This repo is the upstream home of the `forge` skill family. Other skills in the collection reference `forge` and cascade through it. The orchestrator flow itself is `map → resolve → plan → work → verify → review → resolve`, and is described in `skills/forge/SKILL.md`.
+This repo is the upstream home of the `Skill(skill='forge')` skill family. Other skills in the collection reference `Skill(skill='forge')` and cascade through it. The orchestrator flow itself is `map → resolve → plan → work → verify → review → resolve`, and is described in `skills/forge/SKILL.md`.
 
 ## ADRs
 
 - **ADR 0001** — Vendoring strategy: upstream skills get adapted, not symlinked. Strip implementation details that re-state what loaded skills already expose. See `docs/adr/0001-vendoring-strategy-upstream-adapted.md`.
-- **ADR 0002** — Deprecate `/setup-matt-pocock-skills` command. One less bootstrap step, tracker resolution via `git-issue-tracker` or local-markdown fallback. See `docs/adr/0002-deprecate-setup-matt-pocock-skills.md`.
-- **ADR 0003** — `deep-research` skill replaces upstream `/research` subagent. Single research skill, one convention. Wayfinder references updated. See `docs/adr/0003-deep-research-replaces-research-subagent.md`.
+- **ADR 0002** — Deprecate `/setup-matt-pocock-skills` command. One less bootstrap step, tracker resolution via `Skill(skill='git-issue-tracker')` or local-markdown fallback. See `docs/adr/0002-deprecate-setup-matt-pocock-skills.md`.
+- **ADR 0003** — `Skill(skill='deep-research')` skill replaces upstream `/research` subagent. Single research skill, one convention. Wayfinder references updated. See `docs/adr/0003-deep-research-replaces-research-subagent.md`.

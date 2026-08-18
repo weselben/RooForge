@@ -22,7 +22,7 @@ SEO hub skill with two reference deep-dives: UX/UI SEO (design decisions that im
 
 **Rules**:
 
-- No rigid sequence — read the relevant reference, then decide which companion skills fit. Only `forge-eu-accessibility` is mandatory for UI/UX work.
+- No rigid sequence — read the relevant reference, then decide which companion skills fit. Only `Skill(skill='forge-eu-accessibility')` is mandatory for UI/UX work.
 - Do NOT read both references unless the task spans both domains.
 - Verify live sources — use `WebSearch` / `FetchURL` on Google docs, Schema.org, or legal sources before making compliance claims.
 - Paths are relative to SKILL.md — the references live under `references/` wherever the skill is installed.
@@ -35,10 +35,10 @@ SEO hub skill with two reference deep-dives: UX/UI SEO (design decisions that im
 
 ## See also
 
-- `forge-eu-accessibility` — mandatory companion for UI/UX work (accessibility ranking overlaps)
-- `frontend-design` — visual design companion; design decisions impact SEO
-- `forge-tailwindcss-conventions` — Tailwind implementation companion (Core Web Vitals, CLS)
-- `forge-docs` — load before writing system-design notes that cite SEO choices
+- `Skill(skill='forge-eu-accessibility')` — mandatory companion for UI/UX work (accessibility ranking overlaps)
+- `Skill(skill='frontend-design')` — visual design companion; design decisions impact SEO
+- `Skill(skill='forge-tailwindcss-conventions')` — Tailwind implementation companion (Core Web Vitals, CLS)
+- `Skill(skill='forge-docs')` — load before writing system-design notes that cite SEO choices
 
 ## Notes
 

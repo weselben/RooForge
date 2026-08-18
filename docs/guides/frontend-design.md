@@ -47,10 +47,10 @@ The skill frames the agent as the design lead at a small studio known for distin
 
 ## See also
 
-- `forge-eu-accessibility` — mandatory companion for UI work (a11y is structural, not cosmetic)
-- `kiss-principle` — applies when the design reads as over-engineered
-- `forge-tailwindcss-conventions` — Tailwind-specific implementation companion
-- `forge-docs` — load before writing system-design notes that cite frontend-design choices
+- `Skill(skill='forge-eu-accessibility')` — mandatory companion for UI work (a11y is structural, not cosmetic)
+- `Skill(skill='kiss-principle')` — applies when the design reads as over-engineered
+- `Skill(skill='forge-tailwindcss-conventions')` — Tailwind-specific implementation companion
+- `Skill(skill='forge-docs')` — load before writing system-design notes that cite frontend-design choices
 
 ## Notes
 

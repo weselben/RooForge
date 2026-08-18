@@ -1,12 +1,12 @@
 # loops
 
-A shell framework that drives `kimi -p` review/resolve loops. The calling skill supplies a prompt template; loops renders it, compresses it via `cavemanize.sh`, then iterates `kimi -p` until the subagent emits `DONE:` (success with artifact path) or `BLOCKED:` (failure with reason). Used exclusively by `pr-review` and `pr-resolve` — no other skill uses `kimi -p` loops.
+A shell framework that drives `kimi -p` review/resolve loops. The calling skill supplies a prompt template; loops renders it, compresses it via `cavemanize.sh`, then iterates `kimi -p` until the subagent emits `DONE:` (success with artifact path) or `BLOCKED:` (failure with reason). Used exclusively by `Skill(skill='pr-review')` and `Skill(skill='pr-resolve')` — no other skill uses `kimi -p` loops.
 
 ## When to load
 
 - "kimi -p loop" / "review loop" / "resolve loop" — trigger phrases from the skill frontmatter
-- Running PR review cycles (`pr-review` skill) — it invokes `loops` to drive the `kimi -p` review iterations
-- Running PR resolve cycles (`pr-resolve` skill) — it invokes `loops` to drive the `kimi -p` fix iterations
+- Running PR review cycles (`Skill(skill='pr-review')` skill) — it invokes `Skill(skill='loops')` to drive the `kimi -p` review iterations
+- Running PR resolve cycles (`Skill(skill='pr-resolve')` skill) — it invokes `Skill(skill='loops')` to drive the `kimi -p` fix iterations
 - Any skill needing a bounded `kimi -p` loop with `DONE:`/`BLOCKED:` contract (currently only the two above)
 
 ## How it works
@@ -26,19 +26,19 @@ A shell framework that drives `kimi -p` review/resolve loops. The calling skill 
 
 ## Files in this skill
 
-- `skills/loops/SKILL.md` — main skill definition: usage, steps, caller contract, boundaries, and example wiring from `pr-review`
+- `skills/loops/SKILL.md` — main skill definition: usage, steps, caller contract, boundaries, and example wiring from `Skill(skill='pr-review')`
 - `skills/loops/scripts/run_loop.sh` — the loop driver: renders prompt, runs `kimi -p` iterations, checks `DONE:`/`BLOCKED:`, manages `.loops/` logs
 - `skills/loops/scripts/cavemanize.sh` — pre-compression filter: strips filler words, collapses whitespace, preserves fenced code blocks; reads stdin, writes stdout
 
 ## See also
 
-- `pr-review` — consumes `loops` to drive the `kimi -p` review loop; its `review-loop.sh` renders `templates/review-loop.md` → `cavemanize.sh` → `run_loop.sh` (`skills/loops/SKILL.md:44-48`)
-- `pr-resolve` — consumes `loops` to drive the `kimi -p` resolve/fix loop; same invocation pattern
-- `forge` — orchestrator that mandates `loops` as the single home for all `kimi -p` iteration (not `dispatching-parallel-agents`); deep-research refinement uses DPA, not loops (`skills/forge/SKILL.md:123-128`)
-- `caveman` — the compression style `cavemanize.sh` approximates; the agent loads `caveman(ultra)` at session start per forge invariants (`skills/forge/SKILL.md:16`)
+- `Skill(skill='pr-review')` — consumes `Skill(skill='loops')` to drive the `kimi -p` review loop; its `review-loop.sh` renders `templates/review-loop.md` → `cavemanize.sh` → `run_loop.sh` (`skills/loops/SKILL.md:44-48`)
+- `Skill(skill='pr-resolve')` — consumes `Skill(skill='loops')` to drive the `kimi -p` resolve/fix loop; same invocation pattern
+- `Skill(skill='forge')` — orchestrator that mandates `Skill(skill='loops')` as the single home for all `kimi -p` iteration (not `Skill(skill='dispatching-parallel-agents')`); deep-research refinement uses DPA, not loops (`skills/forge/SKILL.md:123-128`)
+- `Skill(skill='caveman')` — the compression style `cavemanize.sh` approximates; the agent loads `caveman(ultra)` at session start per forge invariants (`skills/forge/SKILL.md:16`)
 
 ## Notes
 
 - `run_loop.sh` previously aborted under `set -u` on an unset `$LOOPS_LOG` (line 17). Fixed in `09f33e1` — the dead LOGFILE assignment was deleted and SCRIPT_DIR is computed before the workdir `cd`.
-- `cavemanize.sh` is now a pure `sed` filler-drop pass (the earlier awk command was malformed). The full `caveman` skill (loaded by the agent) drives the actual compression style at response time — the shell pass is a fast pre-compression before `kimi -p` sees it.
+- `cavemanize.sh` is now a pure `sed` filler-drop pass (the earlier awk command was malformed). The full `Skill(skill='caveman')` skill (loaded by the agent) drives the actual compression style at response time — the shell pass is a fast pre-compression before `kimi -p` sees it.
 - The caller contract requires STE100 prose (one meaning per word, short sentences, active voice) and mandates that the subagent never needs to ask a clarifying question (`skills/loops/SKILL.md:41-42`).

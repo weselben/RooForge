@@ -6,10 +6,10 @@ Active discipline for building and sharpening the project's domain model as you 
 
 - The user wants to pin down domain terminology or pick a ubiquitous language.
 - The user wants to record an architectural decision.
-- Another skill (notably `forge` and `wayfinder`) needs the domain model maintained.
-- `forge` orchestration calls it in two spots (see `skills/forge/SKILL.md`):
-  - **Step 1 — Map:** `wayfinder` chart mode uses `domain-modeling` together with `grilling` to produce the map + tickets.
-  - **Step 2 — Resolve:** "After every grilling ticket closes, invoke `domain-modeling` to sweep for new terms (update `docs/dev/CONTEXT.md`) and decisions worth recording (add ADR to `docs/adr/`). Don't wait for the user — the model crystallises the moment a decision lands."
+- Another skill (notably `Skill(skill='forge')` and `Skill(skill='wayfinder')`) needs the domain model maintained.
+- `Skill(skill='forge')` orchestration calls it in two spots (see `skills/forge/SKILL.md`):
+  - **Step 1 — Map:** `Skill(skill='wayfinder')` chart mode uses `Skill(skill='domain-modeling')` together with `Skill(skill='grilling')` to produce the map + tickets.
+  - **Step 2 — Resolve:** "After every grilling ticket closes, invoke `Skill(skill='domain-modeling')` to sweep for new terms (update `docs/dev/CONTEXT.md`) and decisions worth recording (add ADR to `docs/adr/`). Don't wait for the user — the model crystallises the moment a decision lands."
 
 ## How it works
 
@@ -30,10 +30,10 @@ Active discipline for building and sharpening the project's domain model as you 
 
 ## See also
 
-- `skills/forge/SKILL.md` — orchestrator that calls `domain-modeling` after every grilling ticket (step 2) and uses it in chart mode (step 1) to build the map + tickets.
-- `skills/wayfinder/` — owns the map; its **chart** mode pairs `grilling` with `domain-modeling` to produce the initial map and frontier tickets.
-- `skills/grilling/` — surfaces the decisions and terms that `domain-modeling` then records; its closed tickets are the trigger for the `forge` step-2 sweep.
-- `skills/planning-and-task-breakdown` — runs after the map's frontier is empty; the glossary and ADRs from `domain-modeling` feed its inputs.
+- `skills/forge/SKILL.md` — orchestrator that calls `Skill(skill='domain-modeling')` after every grilling ticket (step 2) and uses it in chart mode (step 1) to build the map + tickets.
+- `skills/wayfinder/` — owns the map; its **chart** mode pairs `Skill(skill='grilling')` with `Skill(skill='domain-modeling')` to produce the initial map and frontier tickets.
+- `skills/grilling/` — surfaces the decisions and terms that `Skill(skill='domain-modeling')` then records; its closed tickets are the trigger for the `Skill(skill='forge')` step-2 sweep.
+- `skills/planning-and-task-breakdown` — runs after the map's frontier is empty; the glossary and ADRs from `Skill(skill='domain-modeling')` feed its inputs.
 - `docs/dev/CONTEXT.md` (per project) — the glossary this skill maintains; format spec lives in `CONTEXT-FORMAT.md`.
 - `docs/adr/` (per project) — the ADR directory this skill populates; format spec lives in `ADR-FORMAT.md`.
 
@@ -41,4 +41,4 @@ Active discipline for building and sharpening the project's domain model as you 
 
 - The skill's `source` frontmatter points at `https://github.com/mattpocock/skills/blob/main/skills/engineering/domain-modeling/SKILL.md` (`SKILL.md:3`) — not verified live; treat as provenance, not a checked link.
 - `skills/domain-modeling/` contains only the three `.md` files above; there are no scripts or templates to invoke directly. The "templates" are the format specimens embedded in `CONTEXT-FORMAT.md` and `ADR-FORMAT.md`.
-- `forge/SKILL.md` line numbers reference `domain-modeling` from step 1 (chart mode) and step 2 (post-grilling sweep); step 4 (work) does not re-invoke it — ADRs are committed to the feat branch as they are written, not bundled into the work subagent swarms.
+- `forge/SKILL.md` line numbers reference `Skill(skill='domain-modeling')` from step 1 (chart mode) and step 2 (post-grilling sweep); step 4 (work) does not re-invoke it — ADRs are committed to the feat branch as they are written, not bundled into the work subagent swarms.
