@@ -36,10 +36,10 @@ EU accessibility compliance — BFSG (German transposition of EAA Directive 2019
 
 ## See also
 
-- `frontend-design` — visual design companion; a11y is structural
-- `forge-seo` — accessibility ranking factors overlap
-- `forge-tailwindcss-conventions` — Tailwind implementation companion
-- `forge-docs` — load before writing compliance docs or accessibility statements
+- `Skill(skill='frontend-design')` — visual design companion; a11y is structural
+- `Skill(skill='forge-seo')` — accessibility ranking factors overlap
+- `Skill(skill='forge-tailwindcss-conventions')` — Tailwind implementation companion
+- `Skill(skill='forge-docs')` — load before writing compliance docs or accessibility statements
 
 ## Notes
 

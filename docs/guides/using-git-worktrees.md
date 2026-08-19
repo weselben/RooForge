@@ -1,14 +1,14 @@
 # using-git-worktrees
 
-`using-git-worktrees` (`skills/using-git-worktrees/SKILL.md`) creates an isolated git worktree for feature work — but only after detecting whether the session is already isolated (linked worktree, submodule, or harness-managed workspace). It covers the full lifecycle: detection, creation, project setup, baseline test verification, one-worktree-per-subagent dispatch, and coordinator-run cleanup once work has landed. Upstream source: `https://github.com/obra/superpowers/tree/main/skills/using-git-worktrees` (frontmatter, line 3).
+`Skill(skill='using-git-worktrees')` (`skills/using-git-worktrees/SKILL.md`) creates an isolated git worktree for feature work — but only after detecting whether the session is already isolated (linked worktree, submodule, or harness-managed workspace). It covers the full lifecycle: detection, creation, project setup, baseline test verification, one-worktree-per-subagent dispatch, and coordinator-run cleanup once work has landed. Upstream source: `https://github.com/obra/superpowers/tree/main/skills/using-git-worktrees` (frontmatter, line 3).
 
 ## When to load
 
 Trigger phrases from the frontmatter `description` (line 4): `"worktree"`, `"isolate"`, `"parallel implementation"`, `"subagent dispatch"`. In practice, load it when:
 
 - Starting feature work that should not touch the main checkout.
-- A coordinator (forge, `subagent-driven-development`) is about to dispatch parallel subagents — each gets its own worktree.
-- `pr-review` / `pr-resolve` need a worktree on the PR head (both invoke Step 0 explicitly).
+- A coordinator (forge, `Skill(skill='subagent-driven-development')`) is about to dispatch parallel subagents — each gets its own worktree.
+- `Skill(skill='pr-review')` / `Skill(skill='pr-resolve')` need a worktree on the PR head (both invoke Step 0 explicitly).
 - Work has landed (PR opened or branch merged) and worktrees/branches need cleanup.
 
 ## How it works
@@ -44,15 +44,15 @@ The skill is a single `SKILL.md` (145 lines, no scripts or templates). Main flow
 
 ## See also
 
-- `forge` (`skills/forge/SKILL.md`) — referenced at `SKILL.md:115` as the coordinator that runs cleanup; forge step 4 delegates worktree creation to `subagent-driven-development`, which uses this skill.
-- `subagent-driven-development` (`skills/subagent-driven-development/SKILL.md:28`) — calls this skill to create one worktree per task; lists it as a MANDATORY skill in every implementer subagent prompt.
-- `dispatching-parallel-agents` (`skills/dispatching-parallel-agents/SKILL.md:56`) — names this skill in the mandatory first block of implementer prompts.
-- `pr-review` (`skills/pr-review/SKILL.md:20`) — invokes Step 0 to isolate on the PR head in `.worktrees/pr-<n>-review/`.
-- `pr-resolve` (`skills/pr-resolve/SKILL.md:15,20`) — invokes Step 0 for `.worktrees/pr-<n>-resolve/` and uses this skill's cleanup (`git worktree remove` + `git branch -d`).
-- `loops` (`skills/loops/SKILL.md:70`) — explicitly does not manage worktrees; defers to this skill.
+- `Skill(skill='forge')` (`skills/forge/SKILL.md`) — referenced at `SKILL.md:115` as the coordinator that runs cleanup; forge step 4 delegates worktree creation to `Skill(skill='subagent-driven-development')`, which uses this skill.
+- `Skill(skill='subagent-driven-development')` (`skills/subagent-driven-development/SKILL.md:28`) — calls this skill to create one worktree per task; lists it as a MANDATORY skill in every implementer subagent prompt.
+- `Skill(skill='dispatching-parallel-agents')` (`skills/dispatching-parallel-agents/SKILL.md:56`) — names this skill in the mandatory first block of implementer prompts.
+- `Skill(skill='pr-review')` (`skills/pr-review/SKILL.md:20`) — invokes Step 0 to isolate on the PR head in `.worktrees/pr-<n>-review/`.
+- `Skill(skill='pr-resolve')` (`skills/pr-resolve/SKILL.md:15,20`) — invokes Step 0 for `.worktrees/pr-<n>-resolve/` and uses this skill's cleanup (`git worktree remove` + `git branch -d`).
+- `Skill(skill='loops')` (`skills/loops/SKILL.md:70`) — explicitly does not manage worktrees; defers to this skill.
 
 ## Notes
 
 - The sync block (`SKILL.md:50-54`) hardcodes `main` alongside `$BASE_BRANCH`; repos whose default branch is not `main` must adapt the first `git pull --ff-only` line.
 - `git branch --show-current` (line 19) returns empty on a detached HEAD; the skill does not address that case.
-- The skill's own text references only `forge` by name; all other "See also" entries are callers identified by searching the skills tree, not links from within the skill.
+- The skill's own text references only `Skill(skill='forge')` by name; all other "See also" entries are callers identified by searching the skills tree, not links from within the skill.

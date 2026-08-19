@@ -6,7 +6,7 @@ Ultra-compressed commit message generator. Produces Conventional Commits format 
 
 - User says: "write a commit", "commit message", "generate commit", "/commit", or invokes `/caveman-commit`
 - Auto-triggers when staging changes (skill description)
-- Forge mandates `caveman` (ultra) as default for all responses; commit messages follow their own skill format (forge/SKILL.md:5-6, 147)
+- Forge mandates `Skill(skill='caveman')` (ultra) as default for all responses; commit messages follow their own skill format (forge/SKILL.md:5-6, 147)
 
 ## How it works
 
@@ -22,9 +22,9 @@ Ultra-compressed commit message generator. Produces Conventional Commits format 
 
 ## See also
 
-- `caveman` — Default communication mode (ultra) mandated by forge; caveman-commit uses the same terseness philosophy for commit messages specifically
-- `forge` — Orchestrator that mandates caveman(ultra) and enforces Conventional Commits for every squash commit (e.g., `feat(api): add user profile endpoint`) — forge/SKILL.md:5, 147
-- `conventional-commits` — Specification reference for commit types, SemVer mapping, breaking-change syntax (`!`), and trailer conventions
+- `Skill(skill='caveman')` — Default communication mode (ultra) mandated by forge; caveman-commit uses the same terseness philosophy for commit messages specifically
+- `Skill(skill='forge')` — Orchestrator that mandates caveman(ultra) and enforces Conventional Commits for every squash commit (e.g., `feat(api): add user profile endpoint`) — forge/SKILL.md:5, 147
+- `Skill(skill='conventional-commits')` — Specification reference for commit types, SemVer mapping, breaking-change syntax (`!`), and trailer conventions
 
 ## Notes
 

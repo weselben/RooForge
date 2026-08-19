@@ -12,21 +12,21 @@ Two phases: **validate** (deterministic hard rules) then **review** (a `kimi -p`
 
 Two modes, picked by the first arg to `scripts/review-loop.sh`:
 
-- **PR mode** (target = `owner/repo#n`) — full pipeline: validate → review → post → handoff. The remote PR is the source of truth; `pr-resolve` reads it.
+- **PR mode** (target = `owner/repo#n`) — full pipeline: validate → review → post → handoff. The remote PR is the source of truth; `Skill(skill='pr-resolve')` reads it.
 - **local mode** (target = branch or slug) — review only. Findings land in a scratch file for the calling orchestrator's fix loop.
 
 ## Steps
 
-1. **WORKTREE** — `using-git-worktrees` Step 0. If already isolated on PR head, stay. Otherwise read PR head metadata (`gh pr view <n> --json headRefName,headRefOid`) and create `.worktrees/pr-<n>-review/` on a branch tracking PR head.
+1. **WORKTREE** — `Skill(skill='using-git-worktrees')` Step 0. If already isolated on PR head, stay. Otherwise read PR head metadata (`gh pr view <n> --json headRefName,headRefOid`) and create `.worktrees/pr-<n>-review/` on a branch tracking PR head.
 2. **VALIDATE** — `scripts/validate.sh <diff-file>` where `<diff-file>` comes from `gh pr diff <n>`. Hard rules only: secret patterns, diff sanity. Every `FAIL:` becomes a 🔴 finding.
-3. **REVIEW** — `scripts/review-loop.sh <pr-ref> <worktree> [max_iter]`. Renders `scripts/templates/review-loop.md` via `../loops/scripts/cavemanize.sh`, drives `../loops/scripts/run_loop.sh`. Reviewer loads `caveman-review`; writes findings to `${TMPDIR:-/tmp}/pr-review-<n>.md` — scratch, never committed.
+3. **REVIEW** — `scripts/review-loop.sh <pr-ref> <worktree> [max_iter]`. Renders `scripts/templates/review-loop.md` via `../loops/scripts/cavemanize.sh`, drives `../loops/scripts/run_loop.sh`. Reviewer loads `Skill(skill='caveman-review')`; writes findings to `${TMPDIR:-/tmp}/pr-review-<n>.md` — scratch, never committed.
 4. **POST** — submit ONE review with inline comments:
    - Get head SHA: `HEAD_SHA=$(gh pr view <n> --json headRefOid --jq '.headRefOid')`
    - Submit review with inline comments via `gh api repos/{owner}/{repo}/pulls/<n>/reviews --method POST` (passes inline comments in JSON `comments[]` array: `{path, line, side: "RIGHT", body}` for each finding). The top-level review body holds the summary; inline comments appear as line-anchored annotations in the GitHub UI Files tab.
    - Author identity from `gh api user -q .login` (weselben on this host) — never bot, never agent self-branding.
    - Fallback when `gh pr review` doesn't accept inline payload: post top-level `gh pr review <n> --comment --body-file <scratch-file>` plus a `gh api repos/{owner}/{repo}/pulls/<n>/comments` per finding for inline visibility.
    - Group findings by file. Delete scratch file after.
-5. **HANDOFF** — report: review URL, counts by severity, next step (`pr-resolve` for 🔴/🟡). Run `using-git-worktrees` cleanup on the review worktree.
+5. **HANDOFF** — report: review URL, counts by severity, next step (`Skill(skill='pr-resolve')` for 🔴/🟡). Run `Skill(skill='using-git-worktrees')` cleanup on the review worktree.
 
 **Done when:** review URL returned (with inline comments visible in the PR Files tab), scratch file deleted, worktree removed.
 
@@ -41,15 +41,15 @@ Two modes, picked by the first arg to `scripts/review-loop.sh`:
 ## Hard rules
 
 - Reviews run inside a worktree. Reviewer subagent that never entered one is a process violation.
-- Reviewer never modifies code. Findings only; fixes are `pr-resolve`'s job.
+- Reviewer never modifies code. Findings only; fixes are `Skill(skill='pr-resolve')`'s job.
 - ONE review per run. All findings in a single `gh pr review --comment` body.
 - Posted review is the source of truth. Findings never committed; scratch lives outside tree.
-- `kimi -p` machinery (cavemanize, run_loop, status contract) lives in `loops` — load it.
-- Comment format lives in `caveman-review` — load it.
-- Public GitHub text — everything posted — goes through `ste100`.
+- `kimi -p` machinery (cavemanize, run_loop, status contract) lives in `Skill(skill='loops')` — load it.
+- Comment format lives in `Skill(skill='caveman-review')` — load it.
+- Public GitHub text — everything posted — goes through `Skill(skill='ste100')`.
 
 ## Boundaries
 
 - Does not approve or request-changes — `--comment` reviews only; verdict is the user's.
-- Does not fix findings — that is `pr-resolve`.
+- Does not fix findings — that is `Skill(skill='pr-resolve')`.
 - Does not replace CI — `validate.sh` is hard rules, not a build.

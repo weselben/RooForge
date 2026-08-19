@@ -16,8 +16,8 @@ You are the coordinator. Dispatch a fresh implementer per task — each in its o
 - One worktree per task: `.worktrees/<task-slug>/`, branch `<task-slug>`, off the integration branch.
 - Worktrees share the object store: subagent commits are visible to you immediately. Integration is local merge — no push between subagents and coordinator.
 - Subagents never merge, never present options. They commit in their worktree, verify, report. **You** decide integration.
-- **MANDATORY FIRST** in every subagent prompt. Implementer: `using-git-worktrees` + `conventional-commits` + `caveman-commit` + `verification-before-completion`. Reviewer: add `caveman-review`.
-- **No-ambiguity prompts** — see `dispatching-parallel-agents` "Prompt rules". Every subagent prompt includes **broader context** (plan, why, what came before, what comes after) AND **task context** (exact files, exact commands, exact output). STE100 prose: one meaning per word, short sentences, active voice. The subagent must never need to ask a clarifying question — that signal means the prompt was incomplete.
+- **MANDATORY FIRST** in every subagent prompt. Implementer: `Skill(skill='using-git-worktrees')` + `Skill(skill='conventional-commits')` + `Skill(skill='caveman-commit')` + `Skill(skill='verification-before-completion')`. Reviewer: add `Skill(skill='caveman-review')`.
+- **No-ambiguity prompts** — see `Skill(skill='dispatching-parallel-agents')` "Prompt rules". Every subagent prompt includes **broader context** (plan, why, what came before, what comes after) AND **task context** (exact files, exact commands, exact output). STE100 prose: one meaning per word, short sentences, active voice. The subagent must never need to ask a clarifying question — that signal means the prompt was incomplete.
 
 ## Steps
 
@@ -25,7 +25,7 @@ You are the coordinator. Dispatch a fresh implementer per task — each in its o
 
 1. Read the plan once. Note Global Constraints. Create a todo per task.
 2. Determine the PR integration branch (`dev`/`feat/*`/`fix/*`, never `main`/`master`). If unclear, ask before any work.
-3. Create one worktree per task via `using-git-worktrees`:
+3. Create one worktree per task via `Skill(skill='using-git-worktrees')`:
    ```bash
    git worktree add ".worktrees/$TASK_SLUG" -b "$TASK_SLUG" "$INTEGRATION_BRANCH"
    ```
@@ -36,7 +36,7 @@ You are the coordinator. Dispatch a fresh implementer per task — each in its o
 
 ### 2. Dispatch the swarm
 
-Dispatch all implementers in ONE `AgentSwarm` call (see `dispatching-parallel-agents`):
+Dispatch all implementers in ONE `AgentSwarm` call (see `Skill(skill='dispatching-parallel-agents')`):
 
 - `prompt_template` with `{{item}}` placeholder
 - Reference template: [`implementer-prompt.md`](implementer-prompt.md) — fill in the worktree, branch, and per-task spec where indicated
@@ -103,9 +103,9 @@ If findings return, dispatch ONE fix subagent with the complete list. Then one s
 
 1. Merge each task branch into the integration branch locally via squash: `git checkout <integration-branch> && git merge --squash <task-slug> && git commit -m "<conventional-commit>"`. One commit per task on the integration branch, each a natural Conventional Commit (e.g. `feat(api): add user profile endpoint`). **Never `main`/`master`.**
 2. Run full test suite on merged result. **Red:** stop, leave everything in place, investigate (nothing pushed, merge is local + recoverable).
-3. **Green:** load `finishing-a-development-branch` for cleanup and PR creation.
+3. **Green:** load `Skill(skill='finishing-a-development-branch')` for cleanup and PR creation.
 
-Before declaring integration complete, load `verification-before-completion` — check each subagent's claimed state against `git status` and full suite run, not against the summary it returned.
+Before declaring integration complete, load `Skill(skill='verification-before-completion')` — check each subagent's claimed state against `git status` and full suite run, not against the summary it returned.
 
 ## Failure modes (no-ops → positive form)
 

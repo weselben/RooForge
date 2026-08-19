@@ -16,7 +16,7 @@ Subagents start blank — zero context. Construct exactly the context each one n
 - 3+ test files failing with different root causes
 - Multiple subsystems broken independently
 - Same kind of task over many inputs (per-file reviews, per-module audits)
-- Any task `forge` hands off to a phase
+- Any task `Skill(skill='forge')` hands off to a phase
 
 **Stay sequential** when failures might be related (one fix may fix others), when agents would edit the same files, or when you don't yet know what's broken.
 
@@ -53,7 +53,7 @@ Good prompts are focused, self-contained, specific about the return value.
 - **Investigations get questions, not scripts.** Prescribed steps become dead weight when the premise is wrong.
 - **Delegate work, not understanding.** If the task hinges on a file/line, find it yourself first.
 - **Name the deliverable.** "Return: root cause + what you changed" beats "fix it".
-- **MANDATORY FIRST block.** Name the skills to load — implementer: `using-git-worktrees` + `conventional-commits` + `caveman-commit` + `verification-before-completion`; reviewer: add `caveman-review`.
+- **MANDATORY FIRST block.** Name the skills to load — implementer: `Skill(skill='using-git-worktrees')` + `Skill(skill='conventional-commits')` + `Skill(skill='caveman-commit')` + `Skill(skill='verification-before-completion')`; reviewer: add `Skill(skill='caveman-review')`.
 
 ### Example
 
@@ -84,4 +84,4 @@ items:
 3. Run the full test suite — fixes must work together.
 4. Spot-check one claim per agent — subagents make systematic errors.
 
-Before reporting integration done, load `verification-before-completion` — every "agent said success" must be checked against the actual diff and test run.
+Before reporting integration done, load `Skill(skill='verification-before-completion')` — every "agent said success" must be checked against the actual diff and test run.

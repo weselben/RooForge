@@ -10,7 +10,7 @@ Actively build and sharpen the project's domain model as you design. This is the
 
 ## File structure
 
-All domain-model artifacts live under `docs/dev/` (global docs structure is owned by `forge-docs`):
+All domain-model artifacts live under `docs/dev/` (global docs structure is owned by `Skill(skill='forge-docs')`):
 
 ```
 /
@@ -26,13 +26,13 @@ All domain-model artifacts live under `docs/dev/` (global docs structure is owne
 
 **Multiple contexts:** A `CONTEXT-MAP.md` at `docs/dev/CONTEXT-MAP.md` lists the contexts and where they live. Each context has its own `CONTEXT.md` under its own directory.
 
-Create files lazily — only when you have something to write. If no `CONTEXT.md` exists at `docs/dev/CONTEXT.md`, create one when the first term is resolved. If no `docs/adr/` exists, create it when the first ADR is needed. The global docs structure and index conventions are defined by `forge-docs` — follow its templates and update rules.
+Create files lazily — only when you have something to write. If no `CONTEXT.md` exists at `docs/dev/CONTEXT.md`, create one when the first term is resolved. If no `docs/adr/` exists, create it when the first ADR is needed. The global docs structure and index conventions are defined by `Skill(skill='forge-docs')` — follow its templates and update rules.
 
 ## ADR mandate — commit actively to feat branches
 
 ADRs are **living documents** until the branch merges. Commit them to the feat branch as you create them — they are mutable there. Once the feat branch merges to `main`, ADRs become **immutable**: do not amend, rewrite, or alter them after merge. If a decision changes, create a new ADR with a superseding status and link back to the original.
 
-Do not batch ADRs or hold them until the branch is "done". Each decision is recorded at the moment it crystallises and committed immediately. The `forge-docs` skill enforces the global ADR conventions (flat `docs/adr/`, glossary cross-references, no `docs/adr/README.md`); follow its rules.
+Do not batch ADRs or hold them until the branch is "done". Each decision is recorded at the moment it crystallises and committed immediately. The `Skill(skill='forge-docs')` skill enforces the global ADR conventions (flat `docs/adr/`, glossary cross-references, no `docs/adr/README.md`); follow its rules.
 
 ## During the session
 

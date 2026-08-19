@@ -6,7 +6,7 @@ source: https://raw.githubusercontent.com/weselben/RooForge/main/skills/forge-do
 
 # Forge Docs
 
-Owns the docs directory. Single source for structure, update rules, index maintenance, and the ADR mandate. Loaded by `forge` (step 4) and `deep-research`.
+Owns the docs directory. Single source for structure, update rules, index maintenance, and the ADR mandate. Loaded by `Skill(skill='forge')` (step 4) and `Skill(skill='deep-research')`.
 
 ## Directory structure
 
@@ -138,8 +138,8 @@ An ADR records a hard-to-reverse, surprising, trade-off decision. New things are
 
 Forge Docs does not:
 - Run code, write code, or review code (those are forge, SDD, pr-review)
-- Maintain the glossary's terms (`domain-modeling` does that)
-- Decide what an ADR should say (the engineer + `domain-modeling` decide)
+- Maintain the glossary's terms (`Skill(skill='domain-modeling')` does that)
+- Decide what an ADR should say (the engineer + `Skill(skill='domain-modeling')` decide)
 - Maintain the issue tracker or the wayfinder map
 
 It only ensures the docs directory, its index files, and the ADR mandate stay current after each write.

@@ -14,7 +14,7 @@ adds a non-trivial bootstrap step before any real work can happen.
 
 Removing the command creates a minor gap: an agent dropped into a fresh
 repo with no tracker context still needs guidance. The replacement is to
-trust that the relevant tracker-specific skill (`git-issue-tracker` for
+trust that the relevant tracker-specific skill (`Skill(skill='git-issue-tracker')` for
 GitHub repos) is loaded when needed, and fall back to a local-markdown
 tracker when nothing else applies.
 
@@ -40,7 +40,7 @@ Tracker resolution simplifies to:
 - Smaller install footprint.
 
 **Negative**
-- An agent that doesn't auto-load `git-issue-tracker` may lack GitHub
+- An agent that doesn't auto-load `Skill(skill='git-issue-tracker')` may lack GitHub
   operations context when first asked to chart a map.
 - Local-markdown fallback is the only out-of-the-box alternative; other
   trackers (GitLab, Jira) require the user to provide their own skill.

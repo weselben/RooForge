@@ -12,10 +12,10 @@ A skill is a loadable unit of behaviour, not a library. You read its `SKILL.md`,
 
 The conventional commit format governs every commit on this repo. The type is one of the standard Conventional Commits types. The scope, when there is one, is the name of the skill the commit touches, in parentheses. The title is a short imperative summary, no trailing period. A body goes below when the why is not obvious from the title.
 
-`docs/` follows a small fixed structure owned by `forge-docs`: `adr/` for architecture decision records (no subfolders, no index file — the glossary in `docs/dev/CONTEXT.md` is the index), `dev/` for internal artefacts with a `CONTEXT.md` glossary, `dev/agents/` for deep research reports, `guides/` for how-to notes, `system-design/` for architecture notes, `public/` for external-facing text. Every subfolder that holds files keeps a `README.md` that lists its contents. The global `docs/README.md` lists the subfolders.
+`docs/` follows a small fixed structure owned by `Skill(skill='forge-docs')`: `adr/` for architecture decision records (no subfolders, no index file — the glossary in `docs/dev/CONTEXT.md` is the index), `dev/` for internal artefacts with a `CONTEXT.md` glossary, `dev/agents/` for deep research reports, `guides/` for how-to notes, `system-design/` for architecture notes, `public/` for external-facing text. Every subfolder that holds files keeps a `README.md` that lists its contents. The global `docs/README.md` lists the subfolders.
 
 Read the repo before you change it. When a change introduces a new file, update the matching subfolder's `README.md` in the same commit. When a change introduces a new architectural decision, write an ADR in `docs/adr/` and cross-reference it from `docs/dev/CONTEXT.md`.
 
 This file is a local contract between us. It is not a skill, not a tool, not part of the public surface. Treat its rules as you would treat the ones in any other skill: read once at the start of a session, follow them, do not negotiate.
 
-The `forge-setup` skill lives at `skills/forge-setup/SKILL.md`. That file is the single source of truth for the harness-adaptation procedure — load it from there when needed; do not duplicate its contents in this contract.
+The `Skill(skill='forge-setup')` skill lives at `skills/forge-setup/SKILL.md`. That file is the single source of truth for the harness-adaptation procedure — load it from there when needed; do not duplicate its contents in this contract.

@@ -24,7 +24,7 @@ Each round earns its keep — new dimensions, not synonym-shuffled queries. Pref
 
 After each round, write a short **Think** and **Summary** (see recursion above).
 
-**Parallel research:** when the question splits into independent sub-questions (e.g. compare 5 auth providers, survey 3 frameworks), invoke `dispatching-parallel-agents` with one item per sub-question. Each subagent runs its own 10-round loop, writes to its own `docs/dev/agents/<sub-topic>.md`, and returns a summary. Aggregate results in step 3.
+**Parallel research:** when the question splits into independent sub-questions (e.g. compare 5 auth providers, survey 3 frameworks), load `Skill(skill='dispatching-parallel-agents')` with one item per sub-question. Each subagent runs its own 10-round loop, writes to its own `docs/dev/agents/<sub-topic>.md`, and returns a summary. Aggregate results in step 3.
 
 **Done when:** 10 rounds complete per stream; every round's Think shows diminishing new information.
 
@@ -48,9 +48,9 @@ The report IS the artifact. Structure:
 - **References:** ~10 high-quality formatted references at the end
 - **Conditional TL;DR** at the top only if the question can be answered in a few sentences
 
-**After writing**, load `forge-docs` — it updates `docs/dev/README.md` and any affected index files.
+**After writing**, load `Skill(skill='forge-docs')` — it updates `docs/dev/README.md` and any affected index files.
 
-**Done when:** report written to output path, every claim traceable, tables/mermaid/citations in place, references formatted, and `forge-docs` applied.
+**Done when:** report written to output path, every claim traceable, tables/mermaid/citations in place, references formatted, and `Skill(skill='forge-docs')` applied.
 
 ## Report modes
 

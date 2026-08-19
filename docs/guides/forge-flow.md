@@ -1,18 +1,18 @@
 # forge-flow
 
-`forge-flow` is the session-start frontier sub-skill invoked by `forge`. It prepares the work surface (a `feat/<slug>` branch cut from `main`) and the contract (a long-living harness goal covering the entire wayfinder map), then hands off to forge step 1. It runs **once per session** and exits.
+`Skill(skill='forge-flow')` is the session-start frontier sub-skill invoked by `Skill(skill='forge')`. It prepares the work surface (a `feat/<slug>` branch cut from `main`) and the contract (a long-living harness goal covering the entire wayfinder map), then hands off to forge step 1. It runs **once per session** and exits.
 
 ## When to load
 
 - The user starts a new session on an ongoing effort — fresh chat, "let's continue", "pick up where we left off", or the first turn of any working session.
-- `forge` invokes `forge-flow` automatically at session start. You should not invoke it manually.
+- `Skill(skill='forge')` invokes `Skill(skill='forge-flow')` automatically at session start. You should not invoke it manually.
 
 ## How it works
 
 1. **Detect the wayfinder map** — three cases (forge-flow SKILL.md:16–27):
    - Map URL/number provided → load it
    - Map exists in tracker → query for open `wayfinder:map` issue
-   - No map → hand off to forge step 1 (invokes `wayfinder` chart mode); goal written with placeholder map reference
+   - No map → hand off to forge step 1 (invokes `Skill(skill='wayfinder')` chart mode); goal written with placeholder map reference
 
 2. **Name the feat branch** (forge-flow SKILL.md:29–37):
    - Pattern: `feat/<slug>`
@@ -30,7 +30,7 @@
    - Verify: `git branch --show-current` returns feat branch; `git merge-base --is-ancestor main HEAD` is true
 
 4. **Write the contract goal** (forge-flow SKILL.md:46–70):
-   - Created via `CreateGoal` (or `GOAL.md` file fallback after `forge-setup`) with STE100-formulated objective covering the **full map** (all tickets, all decisions)
+   - Created via `CreateGoal` (or `GOAL.md` file fallback after `Skill(skill='forge-setup')`) with STE100-formulated objective covering the **full map** (all tickets, all decisions)
    - Mandatory fields in objective:
      1. `load forge skill (mandatory while goal is active)`
      2. Map URL/number (or explicit placeholder if no map yet)
@@ -48,16 +48,16 @@
 
 ## See also
 
-- `forge` — The orchestrator that runs after forge-flow; owns the full session flow (map → resolve → plan → work → verify → review → resolve)
-- `wayfinder` — Chart/load the wayfinder map; invoked by forge step 1 when no map exists
-- `caveman` — Default communication mode (ultra); auto-loaded with forge at session start
-- `planning-and-task-breakdown` — Invoked by forge step 3 to break the cleared map into ordered tasks
-- `subagent-driven-development` — Owns worktree creation, per-task subagent swarm, integration, and squash-merging (forge step 4)
-- `creating-pull-requests` — Opens PR draft with AI disclosure and STE100 description (forge step 5)
-- `verification-before-completion` — Runs full test suite on merged feat branch (forge step 6)
-- `pr-review` / `pr-resolve` — Review/resolve loop until user merges (forge steps 7–8)
-- `dispatching-parallel-agents` — Single home for parallel subagent swarms (map charting, deep-research, SDD, conflict resolution)
-- `loops` — Single home for `kimi -p` iteration (used by pr-review, pr-resolve)
+- `Skill(skill='forge')` — The orchestrator that runs after forge-flow; owns the full session flow (map → resolve → plan → work → verify → review → resolve)
+- `Skill(skill='wayfinder')` — Chart/load the wayfinder map; invoked by forge step 1 when no map exists
+- `Skill(skill='caveman')` — Default communication mode (ultra); auto-loaded with forge at session start
+- `Skill(skill='planning-and-task-breakdown')` — Invoked by forge step 3 to break the cleared map into ordered tasks
+- `Skill(skill='subagent-driven-development')` — Owns worktree creation, per-task subagent swarm, integration, and squash-merging (forge step 4)
+- `Skill(skill='creating-pull-requests')` — Opens PR draft with AI disclosure and STE100 description (forge step 5)
+- `Skill(skill='verification-before-completion')` — Runs full test suite on merged feat branch (forge step 6)
+- `Skill(skill='pr-review')` / `Skill(skill='pr-resolve')` — Review/resolve loop until user merges (forge steps 7–8)
+- `Skill(skill='dispatching-parallel-agents')` — Single home for parallel subagent swarms (map charting, deep-research, SDD, conflict resolution)
+- `Skill(skill='loops')` — Single home for `kimi -p` iteration (used by pr-review, pr-resolve)
 
 ## Notes
 

@@ -10,13 +10,13 @@ Coordinates parallel implementation by dispatching one implementer subagent per 
 
 ## How it works
 
-1. **Setup** — Read the plan, create a todo per task, confirm integration branch (never `main`/`master`), create one worktree per task via `using-git-worktrees`:
+1. **Setup** — Read the plan, create a todo per task, confirm integration branch (never `main`/`master`), create one worktree per task via `Skill(skill='using-git-worktrees')`:
    ```bash
    git worktree add ".worktrees/$TASK_SLUG" -b "$TASK_SLUG" "$INTEGRATION_BRANCH"
    ```
    Run project setup + baseline tests in each. Pre-flight scan for conflicting tasks; batch into one user question.
 
-2. **Dispatch swarm** — One `AgentSwarm` call (`dispatching-parallel-agents`, `subagent_type: coder`) with `prompt_template` from `implementer-prompt.md`. Each item carries: full task spec (verbatim), worktree path, branch name, commit instructions, binding global constraints, return contract. Up to 10 parallel; independent tasks in one wave.
+2. **Dispatch swarm** — One `AgentSwarm` call (`Skill(skill='dispatching-parallel-agents')`, `subagent_type: coder`) with `prompt_template` from `implementer-prompt.md`. Each item carries: full task spec (verbatim), worktree path, branch name, commit instructions, binding global constraints, return contract. Up to 10 parallel; independent tasks in one wave.
 
 3. **Handle implementer report** — Implementer returns one of:
    - `DONE` → dispatch task reviewer
@@ -40,7 +40,7 @@ Coordinates parallel implementation by dispatching one implementer subagent per 
 
 6. **Final whole-branch review** — After all tasks complete, dispatch ONE final reviewer on most capable model over full branch range. Point at deferred-minor and parked findings. If findings return, dispatch ONE fix subagent with complete list, then one scoped re-review. No second fix wave — residual load-bearing findings surface to user.
 
-7. **Integrate & finish** — Squash each task branch locally: `git checkout <integration-branch> && git merge --squash <task-slug> && git commit -m "<conventional-commit>"` (never `main`/`master`). One squash commit per task, each a natural Conventional Commit. Run full test suite on the merged result. Red → stop, investigate. Green → load `finishing-a-development-branch` for cleanup and PR creation. Before declaring complete, load `verification-before-completion` — check each subagent's claimed state against `git status` and full suite run.
+7. **Integrate & finish** — Squash each task branch locally: `git checkout <integration-branch> && git merge --squash <task-slug> && git commit -m "<conventional-commit>"` (never `main`/`master`). One squash commit per task, each a natural Conventional Commit. Run full test suite on the merged result. Red → stop, investigate. Green → load `Skill(skill='finishing-a-development-branch')` for cleanup and PR creation. Before declaring complete, load `Skill(skill='verification-before-completion')` — check each subagent's claimed state against `git status` and full suite run.
 
 ## Files in this skill
 
@@ -51,20 +51,20 @@ Coordinates parallel implementation by dispatching one implementer subagent per 
 
 ## See also
 
-- `using-git-worktrees` — Creates isolated worktrees per task (`.worktrees/<task-slug>/`)
-- `dispatching-parallel-agents` — Runs the `AgentSwarm` call that launches all implementers in one wave
-- `conventional-commits` — Mandatory for every implementer commit (loaded before first commit)
-- `caveman-commit` — Mandatory for every implementer commit (loaded before first commit)
-- `verification-before-completion` — Mandatory for implementers (self-review) and coordinator (final integration check)
-- `caveman-review` — Loaded by task reviewers for review formatting
-- `finishing-a-development-branch` — Runs after green integration for cleanup and PR creation
-- `planning-and-task-breakdown` — Produces the approved plan with Global Constraints that SDD consumes
-- `resolving-merge-conflicts` — Loaded by forge if conflicts occur during parallel worktree integration (step 4 of forge flow)
-- `forge` — Orchestrator that hands off to SDD at step 4 ("Work") after plan approval
+- `Skill(skill='using-git-worktrees')` — Creates isolated worktrees per task (`.worktrees/<task-slug>/`)
+- `Skill(skill='dispatching-parallel-agents')` — Runs the `AgentSwarm` call that launches all implementers in one wave
+- `Skill(skill='conventional-commits')` — Mandatory for every implementer commit (loaded before first commit)
+- `Skill(skill='caveman-commit')` — Mandatory for every implementer commit (loaded before first commit)
+- `Skill(skill='verification-before-completion')` — Mandatory for implementers (self-review) and coordinator (final integration check)
+- `Skill(skill='caveman-review')` — Loaded by task reviewers for review formatting
+- `Skill(skill='finishing-a-development-branch')` — Runs after green integration for cleanup and PR creation
+- `Skill(skill='planning-and-task-breakdown')` — Produces the approved plan with Global Constraints that SDD consumes
+- `Skill(skill='resolving-merge-conflicts')` — Loaded by forge if conflicts occur during parallel worktree integration (step 4 of forge flow)
+- `Skill(skill='forge')` — Orchestrator that hands off to SDD at step 4 ("Work") after plan approval
 
 ## Notes
 
 - The `task-reviewer-prompt.md` references `[BASE_SHA]` as "the integration-branch head the task branched from (never `HEAD~1`)" — this is critical because `HEAD~1` truncates multi-commit task branches.
-- The `implementer-prompt.md` requires the `conventional-commits` and `caveman-commit` skills to be loaded "before writing any commit message" — enforce this in the dispatch.
+- The `implementer-prompt.md` requires the `Skill(skill='conventional-commits')` and `Skill(skill='caveman-commit')` skills to be loaded "before writing any commit message" — enforce this in the dispatch.
 - Fix-round dispatches (rounds 4–5) use a fresh implementer with the framing "A prior implementer attempted this task N times; you own it now. Read the existing commits on this branch for what was tried." — the worktree and branch are reused.
-- The skill does not specify a maximum number of parallel tasks beyond "up to 10 parallel" in the dispatch step; `dispatching-parallel-agents` may have its own limits.
+- The skill does not specify a maximum number of parallel tasks beyond "up to 10 parallel" in the dispatch step; `Skill(skill='dispatching-parallel-agents')` may have its own limits.

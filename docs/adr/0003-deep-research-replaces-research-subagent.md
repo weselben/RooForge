@@ -1,4 +1,4 @@
-# ADR 0003: `deep-research` skill replaces upstream `/research` subagent
+# ADR 0003: `Skill(skill='deep-research')` skill replaces upstream `/research` subagent
 
 Status: Accepted
 Date: 2026-08-08
@@ -17,18 +17,18 @@ workflow.
 
 Two near-identical edit patterns made the replacement mechanical: the
 ticket-type description (line 77) and the chart-the-map step 5
-(line 115). Both were rewritten to reference `deep-research` rather
+(line 115). Both were rewritten to load `Skill(skill='deep-research')` rather
 than `/research`.
 
 ## Decision
 
 Research tickets in wayfinder are resolved by a subagent running the
-**`deep-research`** skill (not `/research`). The substitution is applied
+**`Skill(skill='deep-research')`** skill (not `/research`). The substitution is applied
 wherever wayfinder's body of text describes ticket resolution or the
 map-charting sequence.
 
 Upstream `/research` is **not** vendored. If a future need diverges
-from `deep-research` enough to justify a second research skill, it
+from `Skill(skill='deep-research')` enough to justify a second research skill, it
 should be added under a distinct name rather than reintroducing the
 upstream reference.
 
@@ -36,16 +36,16 @@ upstream reference.
 
 **Positive**
 - One research skill, one set of conventions, one place to maintain.
-- `deep-research` already integrates with `.memory/` and the slash
+- `Skill(skill='deep-research')` already integrates with `.memory/` and the slash
   command flow, so resolution artifacts land where the rest of the
   workflow expects them.
 - Removes an unreviewed dependency on upstream behavior.
 
 **Negative**
-- Wayfinder readers must trust that `deep-research` covers what
+- Wayfinder readers must trust that `Skill(skill='deep-research')` covers what
   `/research` covered; the cross-reference in wayfinder doesn't list
   the protocol.
-- If `deep-research` evolves away from the AFK-ticket semantics
+- If `Skill(skill='deep-research')` evolves away from the AFK-ticket semantics
   wayfinder needs (10+ iteration loop, evidence-based), the fit
   degrades silently.
 

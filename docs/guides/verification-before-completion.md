@@ -27,11 +27,11 @@ Red flags that signal a skipped gate: using "should", "probably", "seems to"; ex
 
 ## See also
 
-- `forge` — Orchestrates the session flow; step 6 (Verify) loads this skill to run the full test suite on the merged feat branch and cross-check subagent claims against `git status`
-- `subagent-driven-development` — Produces the per-task worktrees whose squash commits are verified by this skill in Forge's Verify step
-- `pr-review` / `pr-resolve` — Review and resolve loops that precede the final verification; their findings must be cleared before this skill gives green
+- `Skill(skill='forge')` — Orchestrates the session flow; step 6 (Verify) loads this skill to run the full test suite on the merged feat branch and cross-check subagent claims against `git status`
+- `Skill(skill='subagent-driven-development')` — Produces the per-task worktrees whose squash commits are verified by this skill in Forge's Verify step
+- `Skill(skill='pr-review')` / `Skill(skill='pr-resolve')` — Review and resolve loops that precede the final verification; their findings must be cleared before this skill gives green
 
 ## Notes
 
 - The skill directory contains only `SKILL.md`; no scripts or templates are bundled.
-- The Forge integration (step 6) is described in `skills/forge/SKILL.md:89-92` — "Load `verification-before-completion`. Run the full test suite on the merged feat branch. Check each subagent's claimed state against `git status` and the suite result."
+- The Forge integration (step 6) is described in `skills/forge/SKILL.md:89-92` — "Load `Skill(skill='verification-before-completion')`. Run the full test suite on the merged feat branch. Check each subagent's claimed state against `git status` and the suite result."

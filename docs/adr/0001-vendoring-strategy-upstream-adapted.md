@@ -16,7 +16,7 @@ considered but rejected because the canonical GitHub operations live in
 
 The conflict surfaced in a wayfinder edit where line 25 read:
 
-> For repos tracked on GitHub, load the `git-issue-tracker` skill — it wires the
+> For repos tracked on GitHub, load the `Skill(skill='git-issue-tracker')` skill — it wires the
 > map↔ticket link via GitHub's native sub-issues and blocking via native issue
 > dependencies (`blocked_by`), so both render in the GitHub UI.
 

@@ -7,7 +7,7 @@ Writes size-gated pull request descriptions that manage reviewer attention: orie
 - Trigger phrases (SKILL.md:4): "create a PR", "open a pull request", "update PR description"
 - Pushing a branch with PR intent
 - Forge step 5 (PR) invokes it explicitly — draft mode, AI disclosure — and requires updating the PR description after each squash commit lands (`skills/forge/SKILL.md:106-110`)
-- `pr-review` and `pr-resolve` both load `ste100`, the prose skill this one depends on
+- `Skill(skill='pr-review')` and `Skill(skill='pr-resolve')` both load `Skill(skill='ste100')`, the prose skill this one depends on
 
 ## How it works
 
@@ -20,7 +20,7 @@ Writes size-gated pull request descriptions that manage reviewer attention: orie
 
 3. **Draft the description.** Title is active voice, present tense, full scope, capped at 2 consecutive nouns (`SKILL.md:85-88`). TL;DR is exactly two sentences — first the problem with a concrete number/error/example, then what the PR does (`SKILL.md:90-91`). Only sections that earn their space for this size: Why, How, Reviewer notes, Visual aids, Tests, Follow-up, Links (`SKILL.md:99-110`). The "Cut these every time" list bans file-by-file narration, implementation play-by-play, commit-message archaeology, and diff echoing (`SKILL.md:112-121`).
 
-4. **Load `ste100` before drafting** — a critical rule (`SKILL.md:17`). Its rules govern every sentence.
+4. **Load `Skill(skill='ste100')` before drafting** — a critical rule (`SKILL.md:17`). Its rules govern every sentence.
 
 5. **Post-generation review** (`SKILL.md:58-68`). Re-read the diff; for each sentence cut anything the diff already says, rewrite weak openers ("This PR", "This change"), verify sections earn their space, confirm the AI disclosure closes the body.
 
@@ -37,11 +37,11 @@ Writes size-gated pull request descriptions that manage reviewer attention: orie
 
 ## See also
 
-- `ste100` — Mandatory prose layer; loaded before every draft and governs every sentence (`SKILL.md:17`).
-- `forge` — Orchestrator; invokes this skill in step 5 and mandates PR-description updates after each squash commit.
-- `pr-review` — Reviews the PR this skill produces; posts one caveman-review format review per PR.
-- `pr-resolve` — Consumes `pr-review` findings on the PR and pushes fixes to its head branch.
-- `verification-before-completion` — Forge step 6; runs the full suite on the merged feat branch before review.
+- `Skill(skill='ste100')` — Mandatory prose layer; loaded before every draft and governs every sentence (`SKILL.md:17`).
+- `Skill(skill='forge')` — Orchestrator; invokes this skill in step 5 and mandates PR-description updates after each squash commit.
+- `Skill(skill='pr-review')` — Reviews the PR this skill produces; posts one caveman-review format review per PR.
+- `Skill(skill='pr-resolve')` — Consumes `Skill(skill='pr-review')` findings on the PR and pushes fixes to its head branch.
+- `Skill(skill='verification-before-completion')` — Forge step 6; runs the full suite on the merged feat branch before review.
 
 ## Notes
 

@@ -45,7 +45,7 @@ Any skill that needs a `kimi -p` loop supplies its own prompt template under its
 **No ambiguity.** Every prompt must include **broader context** (why this task exists, where it fits, what's done, what's downstream) AND **task context** (exact paths, exact commands, exact output format). STE100 prose: one meaning per word, short sentences, active voice. The subagent must never need to ask a clarifying question — that signal means the prompt was incomplete.
 
 
-Example wiring (from `pr-review`):
+Example wiring (from `Skill(skill='pr-review')`):
 
 ```
 # inside pr-review skill
@@ -67,6 +67,6 @@ Cross-skill paths are relative to each skill's own SKILL.md — `../loops/script
 
 ## Boundaries
 
-- Does not interpret findings — that is `caveman-review`'s job.
-- Does not manage worktrees — that is `using-git-worktrees`'s job.
-- Does not post to GitHub — that is `pr-review`'s or `pr-resolve`'s job.
+- Does not interpret findings — that is `Skill(skill='caveman-review')`'s job.
+- Does not manage worktrees — that is `Skill(skill='using-git-worktrees')`'s job.
+- Does not post to GitHub — that is `Skill(skill='pr-review')`'s or `Skill(skill='pr-resolve')`'s job.

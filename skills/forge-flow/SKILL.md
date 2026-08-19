@@ -18,7 +18,7 @@ Three cases:
 
 - **Map URL or number provided** — load it. The map defines the scope of the contract.
 - **Map exists in tracker** — query for an open `wayfinder:map` issue. Load it if found.
-- **No map** — hand off to forge step 1, which invokes `wayfinder` chart mode. Goal is written in step 4 with placeholder map reference.
+- **No map** — hand off to forge step 1, which invokes `Skill(skill='wayfinder')` chart mode. Goal is written in step 4 with placeholder map reference.
 
 **Completion criterion:** agent knows whether the map exists, and if so, its URL/number.
 
@@ -32,7 +32,7 @@ Derive the slug from the map name when a map exists, else from the user's first 
 - Map `"Auth JWT refactor"` → `feat/auth-jwt-refactor`
 - No map, user says `"fix cache race"` → `feat/cache-race-fix`
 
-If the map already has an associated `feat/*` branch, reuse it. The lookup follows the `git-issue-tracker` "Branch association" convention: read the map body for a `## Feat branch` heading; else `git branch -a --list "feat/<slug>*"`; else `gh pr list --head "feat/<slug>" --state open`. Otherwise create a new `feat/<slug>`.
+If the map already has an associated `feat/*` branch, reuse it. The lookup follows the `Skill(skill='git-issue-tracker')` "Branch association" convention: read the map body for a `## Feat branch` heading; else `git branch -a --list "feat/<slug>*"`; else `gh pr list --head "feat/<slug>" --state open`. Otherwise create a new `feat/<slug>`.
 
 **Completion criterion:** a valid `feat/<slug>` name is determined, or an existing one is identified.
 
@@ -87,7 +87,7 @@ Tell the agent: "Continue with forge step 1 — load or chart the wayfinder map.
 ## Boundaries
 
 Forge Flow does not:
-- Load `caveman` or `wayfinder` (forge does that)
+- Load `Skill(skill='caveman')` or `Skill(skill='wayfinder')` (forge does that)
 - Chart the map or resolve tickets (forge step 1–2)
 - Plan, work, verify, review, resolve (forge step 3–8)
 

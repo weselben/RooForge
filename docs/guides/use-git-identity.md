@@ -5,8 +5,8 @@ Sets the git author/committer identity (name: `weselben`, email: `bengottwaldi04
 ## When to load
 
 - Before any `git commit`, `git commit --amend`, or interactive rebase
-- When `pr-resolve` dispatches resolver subagents (each loads this skill before its first commit)
-- When `forge-init` checks repo ownership
+- When `Skill(skill='pr-resolve')` dispatches resolver subagents (each loads this skill before its first commit)
+- When `Skill(skill='forge-init')` checks repo ownership
 - When a commit fails with "author identity unknown" — indicates this skill was skipped
 
 ## How it works
@@ -44,11 +44,11 @@ Sets the git author/committer identity (name: `weselben`, email: `bengottwaldi04
 
 ## See also
 
-- `pr-resolve` — Dispatches resolver subagents; each loads `use-git-identity` before its first commit (`skills/pr-resolve/SKILL.md:17`, `skills/pr-resolve/templates/resolve-loop.md:10`)
-- `forge-init` — Loads `use-git-identity` to verify repo ownership matches configured identity (`skills/forge-init/SKILL.md:20`)
-- `forge` — Orchestrator; step 8 (Resolve findings) notes commits happen "under `use-git-identity`" (`skills/forge/SKILL.md:85`)
-- `conventional-commits` — Often loaded alongside; governs commit message format once identity is set
-- `caveman-commit` — Often loaded alongside; governs commit body style
+- `Skill(skill='pr-resolve')` — Dispatches resolver subagents; each loads `Skill(skill='use-git-identity')` before its first commit (`skills/pr-resolve/SKILL.md:17`, `skills/pr-resolve/templates/resolve-loop.md:10`)
+- `Skill(skill='forge-init')` — Loads `Skill(skill='use-git-identity')` to verify repo ownership matches configured identity (`skills/forge-init/SKILL.md:20`)
+- `Skill(skill='forge')` — Orchestrator; step 8 (Resolve findings) notes commits happen "under `Skill(skill='use-git-identity')`" (`skills/forge/SKILL.md:85`)
+- `Skill(skill='conventional-commits')` — Often loaded alongside; governs commit message format once identity is set
+- `Skill(skill='caveman-commit')` — Often loaded alongside; governs commit body style
 
 ## Notes
 

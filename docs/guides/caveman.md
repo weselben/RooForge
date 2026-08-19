@@ -7,7 +7,7 @@ Ultra-compressed communication mode that reduces output tokens by ~65% (measured
 - User explicitly says: "caveman mode", "talk like caveman", "use caveman", "less tokens", "be brief"
 - User invokes `/skill:caveman` slash command
 - Token efficiency is explicitly requested
-- Auto-loads as **caveman(ultra)** on every session start via `forge` (mandatory per forge's invariant rules)
+- Auto-loads as **caveman(ultra)** on every session start via `Skill(skill='forge')` (mandatory per forge's invariant rules)
 
 ## How it works
 
@@ -36,12 +36,12 @@ Ultra-compressed communication mode that reduces output tokens by ~65% (measured
 
 ## See also
 
-- `forge` — Orchestrates session start; auto-loads caveman(ultra) as mandatory invariant (forge/SKILL.md:14, 18, 21)
-- `caveman-commit` — Applies caveman compression to commit messages (separate skill, referenced in forge's git flow)
-- `caveman-review` — Applies caveman compression to PR review format (separate skill, used by forge's pr-review step)
+- `Skill(skill='forge')` — Orchestrates session start; auto-loads caveman(ultra) as mandatory invariant (forge/SKILL.md:14, 18, 21)
+- `Skill(skill='caveman-commit')` — Applies caveman compression to commit messages (separate skill, referenced in forge's git flow)
+- `Skill(skill='caveman-review')` — Applies caveman compression to PR review format (separate skill, used by forge's pr-review step)
 
 ## Notes
 
 - The `source` field in SKILL.md references https://github.com/JuliusBrussee/caveman/tree/main/skills/caveman — external upstream not verified
-- `caveman-commit` and `caveman-review` are referenced in forge's flow but their SKILL.md files were not examined for this guide
+- `Skill(skill='caveman-commit')` and `Skill(skill='caveman-review')` are referenced in forge's flow but their SKILL.md files were not examined for this guide
 - Wenyan modes (classical Chinese) compress by character count (80–90%), not token count — distinct from lite/full/ultra
