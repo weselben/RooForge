@@ -14,6 +14,7 @@ Deep research reports and per-skill sampling artifacts.
 - [determinism-deep-research](determinism-deep-research.md) — mechanical skeleton, semantic round core.
 - [determinism-dispatching-parallel-agents](determinism-dispatching-parallel-agents.md) — already AgentSwarm-native.
 - [determinism-domain-modeling](determinism-domain-modeling.md) — formats scriptable; naming judgment stays.
+- [ADR+PR pipeline design (T2-F #90)](determinism-domain-modeling-adr-pipeline.md) — `forge-mcp` MCP surface for automatic ADR recording on `domain-modeling` (12-step pipeline, 12 typed tools, per-ADR PR default).
 - [determinism-finishing-a-development-branch](determinism-finishing-a-development-branch.md) — dispatcher; plumbing scriptable.
 - [determinism-forge](determinism-forge.md) — orchestrator router; detect-map MCP seam.
 - [determinism-forge-cleanup](determinism-forge-cleanup.md) — most mechanical skill; scan + interactive loop.
