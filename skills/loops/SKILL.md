@@ -21,7 +21,8 @@ scripts/run_loop.sh <prompt.md> [max_iter=10] [workdir]
 ## Steps
 
 1. **START** — `cd` to `[workdir]`. Render `<prompt.md>` through `scripts/cavemanize.sh` (compresses prose; preserves code, identifiers, errors).
-2. **LOOP** — for `i` in `1..max_iter`:
+2. **GATE** — run `scripts/validate.sh` on the template vs the rendered prompt. Errors (lost heading, fence, URL, inline code) BLOCK the loop with `BLOCKED:` and exit 2; warnings log to `.loops/<name>/validate.out` and the loop proceeds.
+3. **LOOP** — for `i` in `1..max_iter`:
    - Run `kimi -p "<rendered>"`, capture output.
    - Check for `DONE:` or `BLOCKED:`.
    - On `DONE:` — write artifact path, exit 0.
@@ -37,6 +38,7 @@ scripts/run_loop.sh <prompt.md> [max_iter=10] [workdir]
 |---|---|
 | `scripts/run_loop.sh` | The framework. Args: `prompt.md [max_iter] [workdir]`. |
 | `scripts/cavemanize.sh` | Compresses prose to caveman form. Reads stdin, writes stdout. |
+| `scripts/validate.sh` | Pre-kimi gate. Compares template vs rendered prompt; errors block, warnings log. |
 
 ## Caller contract
 
