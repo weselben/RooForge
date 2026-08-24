@@ -103,9 +103,19 @@ Approved from T2 (#33) → built in T6. First tool set covers:
 - `forge_mcp.git_diff` / `forge_mcp.git_commit` — commit-message
   pipeline (T2-C).
 - `forge_mcp.run_loop` — template render + `kimi -p` + contract
-  loop (T2-C, T2-J).
-- `forge_mcp.spawn` — AgentSwarm shim with audit + reservation +
-  flow-prefix (T2-E).
+  loop (T2-C, T2-J). Feasible as designed (Node port of `run_loop.sh`
+  inside forge-mcp; job queue + `timeout_ms` + audit all fit).
+- `forge_mcp.spawn` — **headless `kimi -p` fan-out executor** (T2-E
+  amended 2026-08-24). NOT an AgentSwarm shim — MCP cannot wrap
+  AgentSwarm (in-process harness primitive). `spawn({template, items[],
+  work_dir, timeout_ms})` → N parallel child kimi processes through the
+  job queue. Main chat remains master orchestrator. Loses:
+  secondary-model pool, in-process startup, `resume_agent_ids`.
+  Recursion guard: `FORGE_MCP_DEPTH` env marker.
+- AgentSwarm stays harness-native (main chat). For resume/pool cases
+  (SDD fix loops, deep-research refinement), AgentSwarm dispatches stay
+  inside the harness; optional `forge_mcp.session_reserve` /
+  `session_release` sidecars wrap the call for audit.
 - `forge_mcp.lint({text, ruleset})` — generic linter with ruleset
   catalog.
 - `forge_mcp.verify({mode, target})` — single tool with modes

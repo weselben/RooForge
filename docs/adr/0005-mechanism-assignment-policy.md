@@ -58,15 +58,37 @@ not standalone Node wrappers; not separate Python helpers.** Reasons:
   remain in the harness. No MCP surface needed; the harness already
   enforces them.
 
-### Type 2: AgentSwarm builtin
+### Type 2: AgentSwarm builtin (main chat native)
 
 Parallel subagent fan-out uses the harness's native AgentSwarm with
 `{{item}}` templates. **Not a custom dispatcher; not a different
 mechanism.** T1 sampling found AgentSwarm is the canonical fan-out
-across 8 skills (cross-cutting finding #5). Per-skill callers go
-through `forge_mcp.spawn` (T2-E), which is a thin shim over AgentSwarm
-adding audit logging, ticket reservation, and flow-prefix injection —
-the underlying dispatch mechanism stays AgentSwarm.
+across 8 skills (cross-cutting finding #5).
+
+**AgentSwarm stays harness-native.** T2-E (#89) research confirmed MCP
+cannot wrap AgentSwarm — it's an in-process harness primitive with
+`.kimi-code/agents/*.md` tool allowlists, `[subagent]` config, and the
+secondary-model pool (T17 #78). No subprocess, no daemon, no external
+API. An MCP server cannot trigger a swarm dispatch.
+
+**`forge_mcp.spawn` is a different beast** (T2-E amended): a headless
+`kimi -p` fan-out executor — `spawn({template, items[], work_dir,
+timeout_ms})` → N parallel child kimi processes through the job queue.
+The main chat remains the master orchestrator, calling kimi -p sessions
+through MCP. This works because loop templates already carry
+self-contained MANDATORY FIRST blocks. Loses: secondary-model pool,
+in-process startup, `resume_agent_ids`.
+
+For cases needing resume/pool (SDD fix loops, deep-research refinement),
+AgentSwarm stays the dispatch — main-chat tool call, optional
+`forge_mcp.session_reserve`/`session_release` sidecars around the call
+for audit. The dispatch itself never leaves the harness.
+
+The existing shipped work stays harness-side:
+- **T16 (#77)** — custom subagents at `.kimi-code/agents/{explore,
+  pr-review, pr-resolve}.md` loaded via `profile.bind`.
+- **T17 (#78)** — `[secondary_model]` pool in `.kimi-code/local.toml`
+  routing AgentSwarm subagents to cheap models for sweeps.
 
 ### Type 3: Keep-as-model
 

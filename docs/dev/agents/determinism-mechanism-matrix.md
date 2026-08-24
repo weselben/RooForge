@@ -45,7 +45,7 @@
 | deep-research | parallel sub-question dispatch | AgentSwarm | AgentSwarm | — |
 | deep-research | query design; source selection | keep-as-model | keep-as-model | — |
 | dispatching-parallel-agents | identify independent domains | keep-as-model | keep-as-model | (T2-E) |
-| dispatching-parallel-agents | AgentSwarm dispatch | AgentSwarm | AgentSwarm | via `forge_mcp.spawn` shim; main chat = master orchestrator calling kimi -p via MCP (T2-E) |
+| dispatching-parallel-agents | AgentSwarm dispatch | AgentSwarm | AgentSwarm | AgentSwarm stays harness-native (main chat) — MCP cannot wrap it. `forge_mcp.spawn` pivots to **headless `kimi -p` fan-out executor** (parallel child kimi processes via job queue). T16/T17 model pool + custom agents remain harness-side. (T2-E amended) |
 | dispatching-parallel-agents | MANDATORY FIRST block | template | MCP | — |
 | domain-modeling | file locations, formats, lazy-create | shell + template | MCP | `forge_mcp.record_adr` + `forge_mcp.next_adr_number` (T2-F) |
 | domain-modeling | glossary constraint; ADR 3-criteria | linter + Node | MCP | `forge_mcp.lint` + `forge_mcp.adr_offer_test` (T2-F) |
