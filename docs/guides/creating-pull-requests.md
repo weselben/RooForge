@@ -18,7 +18,7 @@ Writes size-gated pull request descriptions that manage reviewer attention: orie
    - Medium (50–200): TL;DR + files table + ≤2 more sections
    - Large (200+): all applicable sections; files table and Reviewer notes mandatory
 
-3. **Draft the description.** Title is a mandatory Conventional Commit: `type(scope): summary` — lowercase scope, imperative summary, no trailing period — because the squash merge turns the PR title into the commit message that release CI parses (`SKILL.md:88-92`). Capped at 2 consecutive nouns. TL;DR is exactly two sentences — first the problem with a concrete number/error/example, then what the PR does (`SKILL.md:98-99`). Only sections that earn their space for this size: Why, How, Reviewer notes, Visual aids, Tests, Follow-up, Links (`SKILL.md:107-118`). The "Cut these every time" list bans file-by-file narration, implementation play-by-play, commit-message archaeology, and diff echoing (`SKILL.md:120-129`).
+3. **Draft the description.** Title is a mandatory Conventional Commit: `type(scope): summary` — lowercase scope, imperative summary, no trailing period — because the squash merge turns the PR title into the commit message that release CI parses (`SKILL.md:79-87`). In this repository the scope is the touched skill name (`SKILL.md:85`). Capped at 2 consecutive nouns. TL;DR is exactly two sentences — first the problem with a concrete number/error/example, then what the PR does (`SKILL.md:89-91`). Only sections that earn their space for this size: Why, How, Reviewer notes, Visual aids, Tests, Follow-up, Links (`SKILL.md:97-107`). The "Cut these every time" list bans file-by-file narration, implementation play-by-play, commit-message archaeology, and diff echoing (`SKILL.md:109-117`).
 
 4. **Load `ste100` before drafting** — a critical rule (`SKILL.md:17`). Its rules govern every sentence.
 
@@ -26,14 +26,14 @@ Writes size-gated pull request descriptions that manage reviewer attention: orie
 
 6. **Apply via file, never inline** (`SKILL.md:70-82`). Write the body to a temp file and use `gh pr create --draft --title "..." --body-file /tmp/pr-body.md` or `gh pr edit <number> --title "..." --body-file /tmp/pr-body.md`. Never pass the body via HEREDOC or `--body`.
 
-7. **Pass the reviewer-friendliness checklist** (`SKILL.md:146-159`): disclosure in place, size gate honored, conventional title, TL;DR concrete, no weak openers, no diff echoing, "start here" marked (medium+), focus area explicit, visual aids only where faster, 6-month test.
+7. **Pass the reviewer-friendliness checklist** (`SKILL.md:131-144`): disclosure in place, size gate honored, conventional title, TL;DR concrete, no weak openers, no diff echoing, "start here" marked (medium+), focus area explicit, visual aids only where faster, 6-month test.
 
-**Critical rules** (`SKILL.md:15-20`): always `--draft` (the user marks ready); PR title is a mandatory Conventional Commit (`type(scope): summary`) so release CI can parse the squash-merge commit; end every body with `---` + `_This PR description was generated with AI assistance._` — generic, no agent/model/tool named; STE100 prose; size gate before drafting.
+**Critical rules** (`SKILL.md:13-17`): always `--draft` (the user marks ready); PR title is a mandatory Conventional Commit (`type(scope): summary`) so release CI can parse the squash-merge commit; end every body with `---` + `_This PR description was generated with [AI assistance](https://raw.githubusercontent.com/tdhopper/dotfiles2.0/master/.claude/skills/creating-pull-requests/SKILL.md)._` — generic, no agent/model/tool named; STE100 prose; size gate before drafting.
 
 ## Files in this skill
 
-- `skills/creating-pull-requests/SKILL.md` — Main definition: critical rules, 4-step flow, size gate, title/TL;DR contracts, section and cut lists, checklist, two worked examples (214 lines).
-- `skills/creating-pull-requests/PR-EXAMPLES.md` — Companion with the complete body template and three worked examples: medium retry-config feature, large Kafka-to-NATS migration, small docs-only PR (202 lines). Load when drafting medium/large PRs per `SKILL.md:219`.
+- `skills/creating-pull-requests/SKILL.md` — Main definition: critical rules, 4-step flow, size gate, title/TL;DR contracts, section and cut lists, checklist, two worked examples (216 lines).
+- `skills/creating-pull-requests/PR-EXAMPLES.md` — Companion with the complete body template and three worked examples: medium retry-config feature, large Kafka-to-NATS migration, small docs-only PR (202 lines). Load when drafting medium/large PRs per `SKILL.md:215-216`.
 
 ## See also
 

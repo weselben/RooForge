@@ -78,7 +78,9 @@ gh pr edit <number> --title "..." --body-file /tmp/pr-body.md
 
 ### Title format
 
-Conventional Commit: `type(scope): summary`. Load `conventional-commits` for the full spec. `type` is one of `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`. `scope` is lowercase, in parentheses. `summary` is imperative, present tense, lowercase, no trailing period. Example: `fix(caching): use exclusive end indices for chunk boundaries`.
+Conventional Commit: `type(scope): summary`. Load `conventional-commits` for the full spec. `type` is one of `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`. `scope` is lowercase, in parentheses. `summary` is imperative, present tense, lowercase except proper nouns (`Bigtable`, `NATS JetStream`), no trailing period. Example: `fix(caching): use exclusive end indices for chunk boundaries`.
+
+In this repository, `scope` is the name of the touched skill (e.g. `fix(creating-pull-requests): ...`). The example scopes in this file (`caching`, `chunking`, `ingestion`) show external-repository usage.
 
 Non-conventional titles break release CI: the squash merge turns the PR title into the commit message, and semantic versioning parses that message. Never ship a PR without a conventional title.
 
