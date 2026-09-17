@@ -13,7 +13,7 @@ A shell framework that drives `kimi -p` review/resolve loops. The calling skill 
 
 1. **Caller provides prompt template** — the calling skill owns a `.md` template under its own `templates/` (e.g. `pr-review/templates/review-loop.md`). The template must include: mandatory first skill loads, no-plan-mode instruction, and the `DONE:`/`BLOCKED:` contract line, plus broader context (why this task exists, where it fits) and task context (exact paths, commands, output format) per the caller contract (`skills/loops/SKILL.md:35-42`).
 
-2. **Render & compress** — `run_loop.sh` changes to `[workdir]`, then pipes the template through `cavemanize.sh` (removes filler words, collapses whitespace, preserves code blocks) to produce `.loops/<name>/prompt.rendered.md` (`scripts/run_loop.sh:18-23`).
+2. **Render & compress** — `run_loop.sh` changes to `[workdir]`, then pipes the template through `cavemanize.sh` (removes filler words, collapses whitespace, preserves code blocks) to produce `.loops/<name>/prompt.rendered.md` (`scripts/run_loop.sh:18-23`). `validate.sh` then compares the template against the rendered prompt; errors block the loop with `BLOCKED:` and exit 2, warnings log to `.loops/<name>/validate.out` and the loop proceeds (`scripts/run_loop.sh:25-32`).
 
 3. **Iterate `kimi -p`** — for `i` in `1..max_iter` (default 10):
    - Run `kimi -p "$(cat prompt.rendered.md)"`, capture output (`run_loop.sh:25-29`).
@@ -29,6 +29,7 @@ A shell framework that drives `kimi -p` review/resolve loops. The calling skill 
 - `skills/loops/SKILL.md` — main skill definition: usage, steps, caller contract, boundaries, and example wiring from `pr-review`
 - `skills/loops/scripts/run_loop.sh` — the loop driver: renders prompt, runs `kimi -p` iterations, checks `DONE:`/`BLOCKED:`, manages `.loops/` logs
 - `skills/loops/scripts/cavemanize.sh` — pre-compression filter: strips filler words, collapses whitespace, preserves fenced code blocks; reads stdin, writes stdout
+- `skills/loops/scripts/validate.sh` — pre-kimi gate: compares the template against the rendered prompt and fails (exit 2, `BLOCKED:`) on lost headings, fences, URLs, or inline codes; logs warnings to `.loops/<name>/validate.out`
 
 ## See also
 
