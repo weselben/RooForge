@@ -11,6 +11,7 @@ A PR description manages a reviewer's attention. Optimize for review speed: orie
 ## Critical rules
 
 - **Draft mode.** Always create PRs with `--draft`. User marks ready.
+- **Conventional title.** PR title is a Conventional Commit: `type(scope): summary` (lowercase scope, imperative summary, no trailing period). The squash merge uses the PR title as the commit message — non-conventional titles break CI release parsing. Load `conventional-commits` for the full spec.
 - **AI disclosure.** End every body with: `---` + `_This PR description was generated with [AI assistance](https://raw.githubusercontent.com/tdhopper/dotfiles2.0/master/.claude/skills/creating-pull-requests/SKILL.md)._` No agent/model/tool named anywhere.
 - **STE100 prose.** Load `ste100` before drafting. Its rules govern every sentence.
 - **Size gate.** Classify by `git diff --stat` before drafting. Lock in the section budget.
@@ -77,7 +78,11 @@ gh pr edit <number> --title "..." --body-file /tmp/pr-body.md
 
 ### Title format
 
-Active voice, present tense, full scope. `<Verb> <what> [in/for/to <context>]`. Verbs: Add, Fix, Update, Remove, Refactor, Improve, Replace, Enable, Disable, Use, Make.
+Conventional Commit: `type(scope): summary`. Load `conventional-commits` for the full spec. `type` is one of `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`. `scope` is lowercase, in parentheses. `summary` is imperative, present tense, lowercase except proper nouns (`Bigtable`, `NATS JetStream`), no trailing period. Example: `fix(caching): use exclusive end indices for chunk boundaries`.
+
+In this repository, `scope` is the name of the touched skill (e.g. `fix(creating-pull-requests): ...`). The example scopes in this file (`caching`, `chunking`, `ingestion`) show external-repository usage.
+
+Non-conventional titles break release CI: the squash merge turns the PR title into the commit message, and semantic versioning parses that message. Never ship a PR without a conventional title.
 
 **Noun stacking cap: 2 consecutive nouns max.** Three+ creates a garden-path — rewrite.
 
@@ -129,7 +134,7 @@ Before submitting:
 
 - [ ] AI disclosure (generic, unbranded)
 - [ ] Size gate honored
-- [ ] Title: full scope, active voice, ≤2 noun stack
+- [ ] Title: Conventional Commit `type(scope): summary`, ≤2 noun stack
 - [ ] TL;DR: symptom + fix, concrete number
 - [ ] No weak openers
 - [ ] No diff echoing
@@ -143,7 +148,7 @@ Before submitting:
 ### Small PR — one-concern bug fix (~20 lines)
 
 ```
-Title: Fix off-by-one in chunk boundary calculation
+Title: fix(chunking): use exclusive end indices for chunk boundaries
 
 ## TL;DR
 
@@ -157,7 +162,7 @@ zero-length trailing chunk. Now uses exclusive end indices.
 ### Medium PR — routing change with visual aid
 
 ```
-Title: Route small converter outputs to Bigtable instead of GCS
+Title: feat(caching): route small converter outputs to Bigtable
 
 ## TL;DR
 

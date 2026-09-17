@@ -59,7 +59,7 @@ _This PR description was generated with AI assistance._
 ### Medium: new feature with config
 
 ```
-Title: Add retry policy configuration to ingestion pipeline
+Title: feat(ingestion): add retry policy configuration
 
 ## TL;DR
 
@@ -111,7 +111,7 @@ exponential backoff, retries `ServiceUnavailable` and `Timeout`.
 ### Large: architectural migration
 
 ```
-Title: Migrate event store from Kafka to NATS JetStream
+Title: refactor(events): migrate event store to NATS JetStream
 
 ## TL;DR
 
@@ -189,7 +189,7 @@ graph LR
 ### Small: docs-only
 
 ```
-Title: Update README with new retry policy config
+Title: docs(readme): document retry policy config
 
 ## TL;DR
 
